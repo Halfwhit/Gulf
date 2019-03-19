@@ -35,7 +35,11 @@ touch_main={
 
 [physics]
 
+2d/physics_engine="GodotPhysics"
+2d/thread_model=2
+2d/sleep_threshold_linear=1.0
 2d/default_gravity_vector=Vector2( 0, 0 )
+3d/default_gravity_vector=Vector3( 0, 0, -1 )
 
 [rendering]
 
