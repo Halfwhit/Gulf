@@ -1,0 +1,11 @@
+[gd_scene load_steps=2 format=2]
+
+[sub_resource type="CircleShape2D" id=1]
+radius = 7.07107
+
+[node name="Hole" type="Area2D"]
+
+[node name="Area" type="CollisionShape2D" parent="."]
+position = Vector2( 25, 25 )
+shape = SubResource( 1 )
+
