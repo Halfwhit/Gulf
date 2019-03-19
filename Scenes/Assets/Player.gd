@@ -17,7 +17,7 @@ func _physics_process(delta):
 	#Update in_motion variable
 	check_motion()
 	
-	if Input.is_action_just_pressed("touch_main"):
+	if in_motion == false and Input.is_action_just_pressed("touch_main"):
 		get_new_vector()
 	
 	hit_ball(delta)
