@@ -1,9 +1,9 @@
 extends Control
 
-var Menu = preload("res://Scenes/Menu.tscn")
+var Menu = preload("res://Scenes/GUI/Menu.tscn")
 
 func _input(event):
-	
+
 	#Skip splash screen on mouse click
 	if event is InputEventMouseButton: 
 		if event.button_index == BUTTON_LEFT and event.pressed:
