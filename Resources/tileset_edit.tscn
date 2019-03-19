@@ -1,0 +1,27 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://Resources/grass.png" type="Texture" id=1]
+[ext_resource path="res://Resources/wall.png" type="Texture" id=2]
+[ext_resource path="res://Resources/hole.png" type="Texture" id=3]
+
+[node name="Node2D" type="Node2D"]
+
+[node name="Grass" type="Sprite" parent="."]
+texture = ExtResource( 1 )
+centered = false
+
+[node name="Wall" type="Sprite" parent="."]
+position = Vector2( 50, 0 )
+texture = ExtResource( 2 )
+centered = false
+
+[node name="StaticBody2D" type="StaticBody2D" parent="Wall"]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Wall/StaticBody2D"]
+polygon = PoolVector2Array( 0, 0, 50, 0, 50, 50, 0, 50 )
+
+[node name="Hole" type="Sprite" parent="."]
+position = Vector2( 100, 0 )
+texture = ExtResource( 3 )
+centered = false
+
