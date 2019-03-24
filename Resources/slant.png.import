@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/ball.png-0c3280ad08e14f6566aaeef4d0612e1c.stex"
+path="res://.import/slant.png-11885bf6a7d04d1b062268be1ec518ff.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Resources/ball.png"
-dest_files=[ "res://.import/ball.png-0c3280ad08e14f6566aaeef4d0612e1c.stex" ]
+source_file="res://Resources/slant.png"
+dest_files=[ "res://.import/slant.png-11885bf6a7d04d1b062268be1ec518ff.stex" ]
 
 [params]
 
@@ -20,7 +20,7 @@ compress/hdr_mode=0
 compress/bptc_ldr=0
 compress/normal_map=0
 flags/repeat=0
-flags/filter=false
+flags/filter=true
 flags/mipmaps=false
 flags/anisotropic=false
 flags/srgb=2
