@@ -1,12 +1,14 @@
 # Gulf
 Minigolf meets esports.
 
-TODO:
-- GUI
-- Menu
+DONE:
 - Collision physics
 - Ball control
 - Tileset
+
+TODO:
+- GUI
+- Menu
 - Scoring
 - Multiplayer
 - Level editor
