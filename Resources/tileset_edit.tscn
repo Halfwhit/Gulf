@@ -20,6 +20,7 @@ texture = ExtResource( 2 )
 centered = false
 
 [node name="StaticBody2D" type="StaticBody2D" parent="Wall"]
+collision_layer = 2
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Wall/StaticBody2D"]
 polygon = PoolVector2Array( 0, 0, 50, 0, 50, 50, 0, 50 )
@@ -35,6 +36,7 @@ texture = ExtResource( 4 )
 centered = false
 
 [node name="StaticBody2D" type="StaticBody2D" parent="Slant"]
+collision_layer = 2
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Slant/StaticBody2D"]
 polygon = PoolVector2Array( 0, 50, 50, 0, 0, 0, 0, 50 )
