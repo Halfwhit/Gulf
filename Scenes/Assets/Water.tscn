@@ -1,0 +1,14 @@
+[gd_scene load_steps=2 format=2]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 25, 25 )
+
+[node name="Water" type="Node2D"]
+
+[node name="WaterArea2D" type="Area2D" parent="."]
+editor/display_folded = true
+collision_layer = 4
+
+[node name="WaterCollisionShape" type="CollisionShape2D" parent="WaterArea2D"]
+shape = SubResource( 1 )
+

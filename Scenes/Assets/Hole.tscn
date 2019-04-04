@@ -1,11 +1,16 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://Scenes/Assets/Hole.gd" type="Script" id=1]
 
 [sub_resource type="CircleShape2D" id=1]
 radius = 7.07107
 
-[node name="Hole" type="Area2D"]
+[node name="Hole" type="Node2D"]
+script = ExtResource( 1 )
 
-[node name="Area" type="CollisionShape2D" parent="."]
-position = Vector2( 25, 25 )
+[node name="HoleArea2D" type="Area2D" parent="."]
+
+[node name="AreaCollisionShape" type="CollisionShape2D" parent="HoleArea2D"]
 shape = SubResource( 1 )
 
+[connection signal="body_entered" from="HoleArea2D" to="." method="_on_HoleArea2D_body_entered"]
