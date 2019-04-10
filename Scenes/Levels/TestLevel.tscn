@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://Scenes/Levels/TestLevel.gd" type="Script" id=1]
 [ext_resource path="res://Resources/tileset.tres" type="TileSet" id=2]
+[ext_resource path="res://Scenes/GUI/GUI.tscn" type="PackedScene" id=3]
 
 [node name="TestLevel" type="Node2D"]
 script = ExtResource( 1 )
@@ -14,4 +15,6 @@ tile_data = PoolIntArray( 0, 1, 0, 1, 1, 0, 2, 1, 0, 3, 1, 0, 4, 1, 0, 5, 1, 0, 
 __meta__ = {
 "_edit_lock_": true
 }
+
+[node name="GUI" parent="." instance=ExtResource( 3 )]
 

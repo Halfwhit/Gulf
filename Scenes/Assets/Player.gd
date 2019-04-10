@@ -9,6 +9,7 @@ var in_yellow
 var friction = 0.98
 var start_point
 var reset_point
+var total_hits = 0
 
 func _ready():
 	start_point = get("position")
@@ -26,6 +27,7 @@ func _physics_process(delta):
 	
 	if in_motion == false and Input.is_action_just_pressed("touch_main"):
 		get_new_vector()
+		total_hits += 1
 	
 	hit_ball(delta)
 	
