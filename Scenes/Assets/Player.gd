@@ -28,6 +28,7 @@ func _physics_process(delta):
 	if in_motion == false and Input.is_action_just_pressed("touch_main"):
 		get_new_vector()
 		total_hits += 1
+		global.total_score += 1
 	
 	hit_ball(delta)
 	
