@@ -1,6 +1,6 @@
 extends KinematicBody2D
 
-var max_force = 500
+var max_force = 5000
 var ball_vector = Vector2()
 var collision
 var in_motion
@@ -16,7 +16,7 @@ func _ready():
 
 func _draw():
 	if in_motion == false:
-		draw_line(Vector2(), get_local_mouse_position().clamped(max_force/2), Color(0.0, 0.0, 0.0), 1.0, false)
+		draw_line(Vector2(), get_local_mouse_position().clamped(max_force/5), Color(0.0, 0.0, 0.0), 1.0, false)
 
 func _process(delta):
 		update()
