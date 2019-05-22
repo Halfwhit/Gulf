@@ -1,5 +1,7 @@
 extends Node
 
+var multi_lobby = preload("res://Scenes/GUI/Lobby.tscn")
+
 var total_score
 var holes_completed = 0
 var hole_test = preload("res://Scenes/Levels/TestLevel.tscn")

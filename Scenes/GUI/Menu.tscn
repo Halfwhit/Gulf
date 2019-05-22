@@ -30,6 +30,15 @@ margin_top = 440.0
 margin_right = 745.0
 margin_bottom = 500.0
 custom_fonts/font = SubResource( 2 )
-text = "Start Game"
+text = "Start Solo Game"
 
-[connection signal="pressed" from="Start" to="." method="_on_Test_pressed"]
+[node name="Multi" type="Button" parent="."]
+margin_left = 540.0
+margin_top = 530.0
+margin_right = 745.0
+margin_bottom = 590.0
+custom_fonts/font = SubResource( 2 )
+text = "Multiplayer Lobby"
+
+[connection signal="pressed" from="Start" to="." method="_on_Start_pressed"]
+[connection signal="pressed" from="Multi" to="." method="_on_Multi_pressed"]

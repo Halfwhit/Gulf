@@ -1,0 +1,28 @@
+[gd_scene format=2]
+
+[node name="Room" type="Panel"]
+margin_left = 650.0
+margin_top = 34.0
+margin_right = 1240.0
+margin_bottom = 734.0
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="ChatInput" type="LineEdit" parent="."]
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 30.0
+margin_top = -80.0
+margin_right = -30.0
+margin_bottom = -30.0
+clear_button_enabled = true
+
+[node name="ChatDisplay" type="TextEdit" parent="."]
+anchor_right = 1.0
+margin_left = 30.0
+margin_top = 30.0
+margin_right = -30.0
+margin_bottom = 590.0
+

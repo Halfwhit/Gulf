@@ -11,29 +11,41 @@ var start_point
 var reset_point
 var total_hits = 0
 
+puppet var slave_position = Vector2()
+var player_id
+
 func _ready():
-	start_point = get("position")
+	start_point = get_parent().get_node("SpawnPoint").position
+	slave_position = position
+	$Label.set_text(str(player_id))
 
 func _draw():
 	if in_motion == false:
 		draw_line(Vector2(), get_local_mouse_position().clamped(max_force/5), Color(0.0, 0.0, 0.0), 1.0, false)
 
+#warning-ignore:unused_argument
 func _process(delta):
 		update()
 
 func _physics_process(delta):
-	#Update in_motion variable
-	check_motion()
-	
-	if in_motion == false and Input.is_action_just_pressed("touch_main"):
-		get_new_vector()
-		total_hits += 1
-		global.total_score += 1
-	
-	hit_ball(delta)
-	
-	#Apply friction
-	ball_vector = ball_vector.linear_interpolate(Vector2(0,0), friction * delta)
+	if is_network_master():
+		
+		#Update in_motion variable
+		check_motion()
+		
+		if in_motion == false and Input.is_action_just_pressed("touch_main"):
+			get_new_vector()
+			total_hits += 1
+			global.total_score += 1
+		
+		hit_ball(delta)
+		
+		#Apply friction
+		ball_vector = ball_vector.linear_interpolate(Vector2(0,0), friction * delta)
+		
+		rset_unreliable("slave_position", position)
+	else:
+		position = slave_position
 
 func get_new_vector():
 	reset_point = get("position")

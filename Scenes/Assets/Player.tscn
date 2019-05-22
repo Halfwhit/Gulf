@@ -26,4 +26,9 @@ shape = SubResource( 1 )
 [node name="TriggerShape" type="CollisionShape2D" parent="TriggerArea"]
 shape = SubResource( 2 )
 
+[node name="Label" type="Label" parent="."]
+visible = false
+margin_right = 40.0
+margin_bottom = 14.0
+
 [connection signal="area_entered" from="TriggerArea" to="." method="_on_Area2D_area_entered"]

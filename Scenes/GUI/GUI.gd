@@ -1,9 +1,8 @@
 extends MarginContainer
 
 var player_score
-var score_total
-var holes_total
 
+#warning-ignore:unused_argument
 func _process(delta):	
 	player_score = get_parent().get_node("Player").total_hits
 	

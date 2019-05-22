@@ -24,8 +24,9 @@ func _ready():
 
 		if name == "Start":
 			print("Spawning Player")
-			var player = PlayerSpawn.instance()
+			var player = Node2D.new()
 			player.position = Vector2( pos.x * size_x + (0.5*size_x), pos.y * size_y + (0.5*size_y))
+			player.set_name("SpawnPoint")
 			add_child(player)
 
 		if name == "Hole":
