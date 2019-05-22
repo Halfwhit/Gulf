@@ -26,7 +26,7 @@ func host_room():
 	var host = NetworkedMultiplayerENet.new()
 	host.create_server(PORT, MAX_USERS)
 	get_tree().set_network_peer(host)
-	$Room/ChatDisplay.add_text("Hosting Room\n")
+	$Room/ChatDisplay.add_text("Hosting Room as " + player_name + "\n")
 	player_list[1] = player_name #register self as host
 	enter_room()
 
@@ -36,11 +36,12 @@ func join_room():
 	var peer = NetworkedMultiplayerENet.new()
 	peer.create_client(ip, PORT)
 	get_tree().set_network_peer(peer)
+	$Room/ChatDisplay.add_text("Joining Room as " + player_name + "\n")
 
 func enter_room():
-	ui_connected(true)
 	var id = get_tree().get_network_unique_id()
 	rpc("register_connected", id, player_name)
+	call_deferred("ui_connected", true)
 
 func leave_room():
 	$Room/ChatDisplay.add_text("Left Room\n")
@@ -48,10 +49,11 @@ func leave_room():
 	ui_connected(false)
 
 func user_entered(id):
-	$Room/ChatDisplay.text += "User joining with an id of " + str(id) + "\n"
+	yield(get_tree().create_timer(0.1), "timeout")
+	$Room/ChatDisplay.text += player_list.get(id) + " entered the room\n"
 
 func user_exited(id):
-	$Room/ChatDisplay.text += player_list[id] + " left the room\n"
+	$Room/ChatDisplay.text += player_list.get(id) + " left the room\n"
 
 func ui_connected(b: bool):
 	if b:
@@ -87,7 +89,7 @@ remotesync func receive_message(id, message):
 	$Room/ChatDisplay.add_text(str(player_list.get(id)) + " :  " + message + "\n")
 
 func _server_disconnected():
-	$Room/ChatDisplay.add_text("Disconnected from Server\n")
+	$Room/ChatDisplay.text += "Disconnected from Server\n"
 	leave_room()
 
 func _on_NameEnter_text_changed(new_text):
