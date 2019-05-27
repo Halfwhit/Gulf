@@ -10,14 +10,32 @@ var friction = 0.98
 var start_point
 var reset_point
 var total_hits = 0
+var turn
+
+signal turn_taken
 
 puppet var slave_position = Vector2()
-var player_id
+var player_name
+
+func toggle_turn():
+	match turn:
+		true:
+			turn = false
+		false:
+			turn = true
+
+func is_a_ball():
+	true
+
+func set_player_name(playerName):
+	player_name = playerName
+	$Label.set_text(str(player_name))
 
 func _ready():
-	start_point = get_parent().get_node("SpawnPoint").position
+	#start_point = get_parent().get_node_or_null("SpawnPoint").position
+	print("Spawned player")
+	turn = false
 	slave_position = position
-	$Label.set_text(str(player_id))
 
 func _draw():
 	if in_motion == false:
@@ -39,6 +57,7 @@ func _physics_process(delta):
 			global.total_score += 1
 		
 		hit_ball(delta)
+		emit_signal("turn_taken")
 		
 		#Apply friction
 		ball_vector = ball_vector.linear_interpolate(Vector2(0,0), friction * delta)

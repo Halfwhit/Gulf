@@ -3,94 +3,97 @@ extends Control
 const PORT = 4242
 const MAX_USERS = 3 #not including host
 
-var player_name
-var player_list = {}
-
 func _ready():
-		$Control/JoinButton.connect("pressed", self, "join_room")
-		$Control/LeaveButton.connect("pressed", self, "leave_room")
-		$Control/HostButton.connect("pressed", self, "host_room")
-
-		get_tree().connect("connected_to_server", self, "enter_room")
-		get_tree().connect("network_peer_disconnected", self, "user_exited")
-		get_tree().connect("server_disconnected", self, "_server_disconnected")
-		get_tree().connect("network_peer_connected", self, "user_entered")
+	$Control/JoinButton.connect("pressed", self, "join_room")
+	$Control/LeaveButton.connect("pressed", self, "leave_room")
+	$Control/HostButton.connect("pressed", self, "host_room")
+	$Control/StartGame.connect("pressed", self, "start_game")
+		
+	multiGlobal.connect("connection_failed", self, "_on_connection_failed")
+	multiGlobal.connect("player_list_changed", self, "refresh_lobby")
+	multiGlobal.connect("game_ended", self, "_on_game_ended")
+	multiGlobal.connect("game_error", self, "_on_game_error")
 
 func _input(event):
 	if event is InputEventKey:
 		if event.pressed and event.scancode == KEY_ENTER:
 			send_message()
 
+func send_message():
+	var message = $Room/ChatInput.text
+	$Room/ChatInput.text = ""
+	var player_name = str(multiGlobal.get_player_name())
+	rpc("receive_message", player_name, message)
+
+remotesync func receive_message(player_name, message):
+	$Room/ChatDisplay.add_text(player_name + " :  " + message + "\n")
+
 func host_room():
-	player_name = $Control/NameEnter.text
-	var host = NetworkedMultiplayerENet.new()
-	host.create_server(PORT, MAX_USERS)
-	get_tree().set_network_peer(host)
-	$Room/ChatDisplay.add_text("Hosting Room as " + player_name + "\n")
-	player_list[1] = player_name #register self as host
-	enter_room()
+	if $Control/NameEnter.text == "":
+		$Room/ChatDisplay.add_text("Invalid name\n")
+		return
+	var player_name = $Control/NameEnter.text
+	$Room/ChatDisplay.add_text("Hosting Room\n")
+	multiGlobal.host_game(player_name)
+	ui_connected(true)
+	refresh_lobby()
 
 func join_room():
-	player_name = $Control/NameEnter.text
+	if $Control/NameEnter.text == "":
+		$Room/ChatDisplay.add_text("Invalid name\n")
+		return
 	var ip = $Control/IpEnter.text
-	var peer = NetworkedMultiplayerENet.new()
-	peer.create_client(ip, PORT)
-	get_tree().set_network_peer(peer)
-	$Room/ChatDisplay.add_text("Joining Room as " + player_name + "\n")
-
-func enter_room():
-	var id = get_tree().get_network_unique_id()
-	rpc("register_connected", id, player_name)
-	call_deferred("ui_connected", true)
+	if not ip.is_valid_ip_address():
+		$Room/ChatDisplay.add_text("Invalid IPv4 address\n")
+		return
+	ui_connected(true)
+	var player_name = $Control/NameEnter.text
+	multiGlobal.join_game(ip, player_name)
 
 func leave_room():
 	$Room/ChatDisplay.add_text("Left Room\n")
 	get_tree().set_network_peer(null)
 	ui_connected(false)
+	refresh_lobby()
+	$Control/PlayerList.clear()
 
-func user_entered(id):
-	yield(get_tree().create_timer(0.1), "timeout")
-	$Room/ChatDisplay.text += player_list.get(id) + " entered the room\n"
+func start_game():
+	multiGlobal.begin_game()
 
-func user_exited(id):
-	$Room/ChatDisplay.text += player_list.get(id) + " left the room\n"
+func refresh_lobby():
+	var players = multiGlobal.get_player_list()
+	players.sort()
+	$Control/PlayerList.clear()
+	$Control/PlayerList.add_item(multiGlobal.get_player_name() + " (You)")
+	for p in players:
+		if p != multiGlobal.get_player_name():
+			$Control/PlayerList.add_item(p)
 
-func ui_connected(b: bool):
-	if b:
+	$Control/StartGame.disabled = not get_tree().is_network_server()
+
+func ui_connected(connected: bool):
+	if connected:
 		$Control/LeaveButton.show()
 		$Control/JoinButton.hide()
 		$Control/HostButton.hide()
 		$Control/IpEnter.hide()
 		$Control/NameEnter.hide()
+		$Control/StartGame.disabled=true
+		$Room/ChatInput.editable=true
+		if get_tree().is_network_server():
+			$Control/StartGame.disabled=false
 	else:
 		$Control/LeaveButton.hide()
 		$Control/JoinButton.show()
 		$Control/HostButton.show()
 		$Control/IpEnter.show()
 		$Control/NameEnter.show()
+		$Control/StartGame.disabled=true
+		$Room/ChatInput.editable=false
 
-remote func register_connected(id, player_name):
-	print("Registering " + str(id) + " as " + player_name)
-	player_list[id] = player_name
-	if get_tree().is_network_server():
-		print("Server doing registering stuff")
-		rpc_id(id, "register_connected", 1, player_name)
-		for peer_id in player_list:
-			print("Sending " + str(id) + " information about " + str(peer_id))
-			rpc_id(id, "register_connected", peer_id, (player_list[peer_id]));
+func _on_connection_failed():
+	$Room/ChatDisplay.add_text("Connection failed\n")
 
-func send_message():
-	var message = $Room/ChatInput.text
-	$Room/ChatInput.text = ""
-	var id = get_tree().get_network_unique_id()
-	rpc("receive_message", id, message)
-
-remotesync func receive_message(id, message):
-	$Room/ChatDisplay.add_text(str(player_list.get(id)) + " :  " + message + "\n")
-
-func _server_disconnected():
-	$Room/ChatDisplay.text += "Disconnected from Server\n"
-	leave_room()
-
-func _on_NameEnter_text_changed(new_text):
-	player_name = new_text
+func _on_game_ended():
+	refresh_lobby()
+	show()

@@ -15,9 +15,13 @@ func _ready():
 	get_next_level()
 
 func get_next_level():
-	if holes_completed == 0:
-		next_hole = hole_1
-	if holes_completed == 1:
-		next_hole = hole_2
-	if holes_completed >= 2:
-		next_hole = hole_test
+	match holes_completed:
+		0:
+			next_hole = hole_1
+		1:
+			next_hole = hole_2
+		2:
+			next_hole = hole_test
+		3:
+			holes_completed = 0
+			multiGlobal.end_game()

@@ -12,6 +12,7 @@ radius = 15.0
 
 [node name="Player" type="KinematicBody2D"]
 scale = Vector2( 0.25, 0.25 )
+collision_layer = 0
 collision_mask = 7
 script = ExtResource( 1 )
 
@@ -27,8 +28,16 @@ shape = SubResource( 1 )
 shape = SubResource( 2 )
 
 [node name="Label" type="Label" parent="."]
-visible = false
-margin_right = 40.0
-margin_bottom = 14.0
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -19.9075
+margin_top = -6.74271
+margin_right = 20.0925
+margin_bottom = 7.25729
+text = "Name"
+align = 1
+valign = 1
 
 [connection signal="area_entered" from="TriggerArea" to="." method="_on_Area2D_area_entered"]

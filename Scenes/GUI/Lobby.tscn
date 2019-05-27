@@ -24,6 +24,7 @@ margin_left = 30.0
 margin_top = -80.0
 margin_right = -30.0
 margin_bottom = -30.0
+editable = false
 clear_button_enabled = true
 
 [node name="ChatDisplay" type="RichTextLabel" parent="Room"]
@@ -32,6 +33,7 @@ margin_left = 30.0
 margin_top = 30.0
 margin_right = -30.0
 margin_bottom = 590.0
+meta_underlined = false
 
 [node name="Control" type="Control" parent="."]
 margin_left = 40.0
@@ -40,45 +42,55 @@ margin_right = 630.0
 margin_bottom = 734.0
 
 [node name="JoinButton" type="Button" parent="Control"]
-margin_top = 636.0
-margin_right = 168.0
-margin_bottom = 660.0
+margin_left = 190.0
+margin_top = 606.0
+margin_right = 588.0
+margin_bottom = 656.0
 text = "Join"
 
 [node name="LeaveButton" type="Button" parent="Control"]
-visible = false
-margin_top = 680.0
+margin_top = 666.0
 margin_right = 168.0
-margin_bottom = 704.0
+margin_bottom = 722.0
 text = "Leave"
 
 [node name="HostButton" type="Button" parent="Control"]
 anchor_top = 1.0
 anchor_bottom = 1.0
-margin_top = -20.0
-margin_right = 42.0
-margin_bottom = 4.0
+margin_left = 190.0
+margin_top = -34.0
+margin_right = 590.0
+margin_bottom = 22.0
 rect_pivot_offset = Vector2( 92, -183 )
 text = "Host"
 
 [node name="IpEnter" type="LineEdit" parent="Control"]
 anchor_top = 1.0
 anchor_bottom = 1.0
-margin_left = 48.0
-margin_top = -20.0
+margin_top = -64.0
 margin_right = 168.0
-margin_bottom = 4.0
+margin_bottom = -40.0
 rect_pivot_offset = Vector2( 44, -183 )
 text = "127.0.0.1"
 
 [node name="NameEnter" type="LineEdit" parent="Control"]
 anchor_top = 1.0
 anchor_bottom = 1.0
-margin_top = -104.0
+margin_top = -94.0
 margin_right = 168.0
-margin_bottom = -80.0
+margin_bottom = -70.0
 rect_pivot_offset = Vector2( 44, -183 )
 text = "Default Username"
 align = 1
 
-[connection signal="text_changed" from="Control/NameEnter" to="." method="_on_NameEnter_text_changed"]
+[node name="StartGame" type="Button" parent="Control"]
+margin_top = 526.0
+margin_right = 588.0
+margin_bottom = 596.0
+disabled = true
+text = "Start Game"
+
+[node name="PlayerList" type="ItemList" parent="Control"]
+margin_right = 590.0
+margin_bottom = 506.0
+
