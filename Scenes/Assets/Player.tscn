@@ -1,7 +1,8 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://Scenes/Assets/Player.gd" type="Script" id=1]
 [ext_resource path="res://Resources/ball.png" type="Texture" id=2]
+[ext_resource path="res://Fonts/title.tres" type="DynamicFont" id=3]
 
 [sub_resource type="CircleShape2D" id=1]
 radius = 25.0
@@ -12,7 +13,6 @@ radius = 15.0
 
 [node name="Player" type="KinematicBody2D"]
 scale = Vector2( 0.25, 0.25 )
-collision_layer = 0
 collision_mask = 7
 script = ExtResource( 1 )
 
@@ -32,10 +32,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -19.9075
-margin_top = -6.74271
-margin_right = 20.0925
-margin_bottom = 7.25729
+margin_right = 85.0
+margin_bottom = 38.0
+size_flags_stretch_ratio = 0.0
+custom_fonts/font = ExtResource( 3 )
 text = "Name"
 align = 1
 valign = 1

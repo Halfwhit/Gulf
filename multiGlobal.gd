@@ -53,7 +53,7 @@ func _connected_fail():
 
 # Lobby management functions
 remote func register_player(id, new_player_name):
-	print("Adding " + new_player_name + " with an id of: " + str(id))
+	players[id] = new_player_name
 	if get_tree().is_network_server():
 		# If we are the server, let everyone know about the new player
 		rpc_id(id, "register_player", 1, player_name) # Send myself to new dude
@@ -61,7 +61,7 @@ remote func register_player(id, new_player_name):
 			rpc_id(id, "register_player", p_id, players[p_id]) # Send player to new dude
 			rpc_id(p_id, "register_player", id, new_player_name) # Send new dude to player
 
-	players[id] = new_player_name
+	print("Adding " + new_player_name + " with an id of: " + str(id))
 	emit_signal("player_list_changed")
 
 remote func unregister_player(id):
@@ -117,7 +117,7 @@ func host_game(new_player_name):
 	var host = NetworkedMultiplayerENet.new()
 	host.create_server(DEFAULT_PORT, MAX_PEERS)
 	get_tree().set_network_peer(host)
-	#players[1] = player_name
+	register_player(get_tree().get_network_unique_id(), player_name)
 
 func join_game(ip, new_player_name):
 	player_name = new_player_name
@@ -136,12 +136,8 @@ func get_player_name_by_id(id):
 
 func begin_game():
 	assert(get_tree().is_network_server())
-	if players.size() == 0:
-		players[1] = player_name
-		print("Riding solo")
-	for p in players:
-		rpc_id(p, "pre_start_game")
-
+	for p_id in players:
+		rpc_id(p_id, "pre_start_game")
 	pre_start_game()
 
 func end_game():
@@ -159,7 +155,9 @@ func player_scored():
 	players_finished += 1
 	if players_finished == players.size():
 		global.holes_completed += 1
+		print("Holes completed: " + str(global.holes_completed))
 		global.get_next_level()
+		players_finished = 0
 		end_game()
 
 func _ready():
