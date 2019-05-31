@@ -18,6 +18,7 @@ func _ready():
 	var tileSet = tileMap.get_tileset()
 	var usedCells = tileMap.get_used_cells()
 
+	#Setup tilemap
 	for pos in usedCells :
 		var id = tileMap.get_cell(pos.x, pos.y)
 		var name = tileSet.tile_get_name(id)
