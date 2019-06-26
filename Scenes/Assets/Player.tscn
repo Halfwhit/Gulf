@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://Scenes/Assets/Player.gd" type="Script" id=1]
 [ext_resource path="res://Resources/Sprites/Ball.png" type="Texture" id=2]
@@ -11,6 +11,25 @@ radius = 16.0
 [sub_resource type="CircleShape2D" id=2]
 custom_solver_bias = 1.0
 radius = 8.0
+
+[sub_resource type="GDScript" id=3]
+script/source = "extends Camera2D
+
+var zoom_increment = 1.1
+
+func _input(event):
+	if event.is_action(\"scroll_up\"):
+		zoom(\"in\")
+	if event.is_action(\"scroll_down\"):
+		zoom(\"out\")
+
+func zoom(direction):
+	var current_zoom = get_zoom()
+	match direction:
+		\"in\":
+			set_zoom(current_zoom * (1/zoom_increment))
+		\"out\":
+			set_zoom(current_zoom * zoom_increment)"
 
 [node name="Player" type="KinematicBody2D" groups=[
 "Player",
@@ -33,5 +52,11 @@ one_way_collision_margin = 0.0
 
 [node name="TriggerShape" type="CollisionShape2D" parent="TriggerArea"]
 shape = SubResource( 2 )
+
+[node name="Camera2D" type="Camera2D" parent="."]
+current = true
+drag_margin_h_enabled = false
+drag_margin_v_enabled = false
+script = SubResource( 3 )
 
 [connection signal="area_entered" from="TriggerArea" to="." method="_on_Area2D_area_entered"]
