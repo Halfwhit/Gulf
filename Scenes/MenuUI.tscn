@@ -10,7 +10,6 @@ default_font = ExtResource( 1 )
 [sub_resource type="GDScript" id=2]
 script/source = "extends HBoxContainer
 
-signal start_solo
 signal start_editor
 
 func _ready():
@@ -19,10 +18,11 @@ func _ready():
 	$Options.hide()
 
 func _on_Solo_pressed():
-	emit_signal(\"start_solo\")
-
+	#warning-ignore:return_value_discarded
+	get_tree().change_scene(\"res://Scenes/Levels/TestLevel.tscn\")
 
 func _on_Multi_pressed():
+	#warning-ignore:return_value_discarded
 	get_tree().change_scene(\"res://Scenes/Lobby.tscn\")
 
 
@@ -129,7 +129,9 @@ script/source = "extends ConfirmationDialog
 
 # Connect quit and cancel
 func _ready():
+	#warning-ignore:return_value_discarded
 	connect(\"confirmed\", self, \"quit\")
+	#warning-ignore:return_value_discarded
 	get_cancel().connect(\"pressed\", self, \"cancel\")
 
 func quit():
@@ -153,7 +155,6 @@ alignment = 1
 script = SubResource( 2 )
 
 [node name="MainMenu" type="VBoxContainer" parent="."]
-editor/display_folded = true
 visible = false
 margin_right = 452.0
 margin_bottom = 768.0
@@ -218,6 +219,7 @@ size_flags_horizontal = 3
 text = "Quit"
 
 [node name="Options" type="VBoxContainer" parent="."]
+editor/display_folded = true
 margin_left = 205.0
 margin_top = 23.0
 margin_right = 818.0

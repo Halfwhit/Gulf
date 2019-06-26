@@ -11,6 +11,12 @@ script/source = "extends MarginContainer
 
 signal player_left
 
+func _ready():
+	#warning-ignore:return_value_discarded
+	Multiplayer.connect(\"player_list_updated\", self, \"all_players_ready\")
+	#warning-ignore:return_value_discarded
+	get_tree().connect(\"server_disconnected\", self, \"leave_room\")
+
 func message_entered(new_text):
 	if not new_text == \"\":
 		$HBoxContainer/RightPanel/ChatBox/VBoxContainer/RichTextLabel.add_text(new_text + \"\\n\")
@@ -44,7 +50,14 @@ func leave_room():
 	$HBoxContainer/RightPanel/ChatBox/VBoxContainer/LineEdit.set(\"editable\", false)
 	emit_signal(\"player_left\", p_id)
 	Multiplayer.players.clear()
+	Multiplayer.emit_signal(\"player_list_updated\")
 	get_tree().set_network_peer(null)
+
+func all_players_ready():
+	if Multiplayer.players_ready.size() == Multiplayer.players.size():
+		$HBoxContainer/LeftPanel/VBoxContainer/LobbyControl/Host/Start.disabled = false
+	else:
+		$HBoxContainer/LeftPanel/VBoxContainer/LobbyControl/Host/Start.disabled = true
 
 func _on_Ready_pressed():
 	Multiplayer.rpc(\"player_ready\", get_tree().get_network_unique_id())
@@ -68,7 +81,8 @@ func _ready():
 remote func update_player_list():
 	# Call on all players
 	if get_tree().is_network_server():
-		rset(\"Multiplayer.players\", Multiplayer.players)
+#		rset(\"Multiplayer.players\", Multiplayer.players)
+#		rset(\"Multiplayer.players_ready\", Multiplayer.players_ready)
 		rpc(\"update_player_list\")
 
 	print(\"Clearing playerlist\")
@@ -81,12 +95,12 @@ remote func update_player_list():
 	for p_id in Multiplayer.players:
 		var player_label = Label.new()
 		var status_label = Label.new()
-		
+
 		player_label.text = Multiplayer.players.get(p_id)
 		player_label.align = Label.ALIGN_CENTER
 		player_label.name = str(p_id)
 		$PanelContainer/HBoxContainer/Names/Players.add_child(player_label)
-		
+
 		if Multiplayer.players_ready.has(p_id):
 			status_label.text = READY
 			status_label.add_color_override(\"font_color\", Color(0, 1, 0))
@@ -407,6 +421,7 @@ margin_right = 448.0
 margin_bottom = 106.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
+disabled = true
 text = "Start"
 
 [node name="Peer" type="HBoxContainer" parent="HBoxContainer/LeftPanel/VBoxContainer/LobbyControl"]

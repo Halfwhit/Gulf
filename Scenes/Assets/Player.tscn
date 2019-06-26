@@ -1,28 +1,31 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://Scenes/Assets/Player.gd" type="Script" id=1]
-[ext_resource path="res://Resources/ball.png" type="Texture" id=2]
-[ext_resource path="res://Fonts/title.tres" type="DynamicFont" id=3]
+[ext_resource path="res://Resources/Sprites/Ball.png" type="Texture" id=2]
 
 [sub_resource type="CircleShape2D" id=1]
 resource_local_to_scene = true
 resource_name = "BallCollision"
-radius = 25.0
+radius = 16.0
 
 [sub_resource type="CircleShape2D" id=2]
 custom_solver_bias = 1.0
-radius = 15.0
+radius = 8.0
 
-[node name="Player" type="KinematicBody2D"]
+[node name="Player" type="KinematicBody2D" groups=[
+"Player",
+]]
 pause_mode = 1
 scale = Vector2( 0.25, 0.25 )
 collision_mask = 2
 script = ExtResource( 1 )
 
 [node name="Sprite" type="Sprite" parent="."]
+scale = Vector2( 0.25, 0.25 )
 texture = ExtResource( 2 )
 
 [node name="BallCollision" type="CollisionShape2D" parent="."]
+visible = false
 shape = SubResource( 1 )
 one_way_collision_margin = 0.0
 
@@ -30,18 +33,5 @@ one_way_collision_margin = 0.0
 
 [node name="TriggerShape" type="CollisionShape2D" parent="TriggerArea"]
 shape = SubResource( 2 )
-
-[node name="Label" type="Label" parent="."]
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_right = 85.0
-margin_bottom = 38.0
-size_flags_stretch_ratio = 0.0
-custom_fonts/font = ExtResource( 3 )
-text = "Name"
-align = 1
-valign = 1
 
 [connection signal="area_entered" from="TriggerArea" to="." method="_on_Area2D_area_entered"]
