@@ -571,7 +571,6 @@ window_title = ""
 dialog_text = "   Are you sure?"
 dialog_hide_on_ok = false
 script = SubResource( 9 )
-
 [connection signal="pressed" from="MainMenu/Solo" to="." method="_on_Solo_pressed"]
 [connection signal="pressed" from="MainMenu/Multi" to="." method="_on_Multi_pressed"]
 [connection signal="pressed" from="MainMenu/Options" to="." method="_on_Options_pressed"]
