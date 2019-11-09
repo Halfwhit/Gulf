@@ -1,6 +1,6 @@
 extends KinematicBody2D
 
-var max_force = 500
+var max_force = 5000
 var ball_vector = Vector2()
 var collision
 var in_motion
@@ -9,13 +9,14 @@ var in_yellow
 var friction = 0.98
 var start_point
 var reset_point
+var total_hits = 0
 
 func _ready():
 	start_point = get("position")
 
 func _draw():
 	if in_motion == false:
-		draw_line(Vector2(), get_local_mouse_position().clamped(max_force/2), Color(0.0, 0.0, 0.0), 1.0, false)
+		draw_line(Vector2(), get_local_mouse_position().clamped(max_force/5), Color(0.0, 0.0, 0.0), 1.0, false)
 
 func _process(delta):
 		update()
@@ -26,6 +27,8 @@ func _physics_process(delta):
 	
 	if in_motion == false and Input.is_action_just_pressed("touch_main"):
 		get_new_vector()
+		total_hits += 1
+		global.total_score += 1
 	
 	hit_ball(delta)
 	

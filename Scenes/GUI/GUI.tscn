@@ -1,0 +1,53 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://Scenes/GUI/GUI.gd" type="Script" id=1]
+
+[node name="GUI" type="MarginContainer"]
+anchor_right = 1.0
+margin_left = 10.0
+margin_top = 10.0
+margin_right = -10.0
+margin_bottom = -10.0
+script = ExtResource( 1 )
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+margin_right = 980.0
+margin_bottom = 50.0
+
+[node name="Text" type="VBoxContainer" parent="HBoxContainer"]
+margin_right = 115.0
+margin_bottom = 50.0
+
+[node name="Score" type="Label" parent="HBoxContainer/Text"]
+margin_right = 115.0
+margin_bottom = 14.0
+text = "Score:"
+
+[node name="TotalScore" type="Label" parent="HBoxContainer/Text"]
+margin_top = 18.0
+margin_right = 115.0
+margin_bottom = 32.0
+text = "Total Score:"
+
+[node name="Holes" type="Label" parent="HBoxContainer/Text"]
+margin_top = 36.0
+margin_right = 115.0
+margin_bottom = 50.0
+text = "Holes Completed:"
+
+[node name="Values" type="VBoxContainer" parent="HBoxContainer"]
+margin_left = 119.0
+margin_right = 119.0
+margin_bottom = 50.0
+
+[node name="ScoreValue" type="Label" parent="HBoxContainer/Values"]
+margin_bottom = 14.0
+
+[node name="ScoreTotal" type="Label" parent="HBoxContainer/Values"]
+margin_top = 18.0
+margin_bottom = 32.0
+
+[node name="HolesTotal" type="Label" parent="HBoxContainer/Values"]
+margin_top = 36.0
+margin_bottom = 50.0
+
