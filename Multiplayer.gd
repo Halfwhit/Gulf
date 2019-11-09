@@ -71,3 +71,36 @@ sync func player_ready(p_id):
 	else:
 		players_ready.append(p_id)
 	emit_signal("player_list_updated")
+
+remotesync func preconfigure():
+	# Load world
+	print("Setting up world with " + str(players.size()) + " players.")
+	var world = load("res://Scenes/Levels/TestLevel.tscn").instance()
+	var players_node = Node2D.new()
+	players_node.set_name("players")
+	get_tree().get_root().add_child(players_node)
+	get_tree().get_root().add_child(world)
+	get_tree().get_root().get_node("Lobby").hide()
+	var player_scene = preload("res://Scenes/Assets/Player.tscn")
+
+	# Load players
+	for p in Multiplayer.players:
+		var player = player_scene.instance()
+		player.set_name(str(p))
+		player.set_player_name(players[p])
+		player.position = world.get_node("SpawnPoint").position
+		player.set_network_master(p)
+		print("Adding " + player.player_name + " to the world")
+		get_node("/root/players").add_child(player)
+
+	rpc_id(1, "done_preconfiguring", get_tree().get_network_unique_id())
+
+var players_loaded = []
+remotesync func done_preconfiguring(p_id):
+	if get_tree().is_network_server():
+		players_loaded.append(p_id)
+		if players_loaded.size() == Multiplayer.players.size():
+			rpc("post_configure_game")
+
+remotesync func post_configure_game():
+	get_tree().set_pause(false)

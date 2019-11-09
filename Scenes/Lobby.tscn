@@ -64,7 +64,11 @@ func _on_Ready_pressed():
 
 sync func send_message(message_string):
 	$HBoxContainer/RightPanel/ChatBox/VBoxContainer/RichTextLabel.add_text(message_string)
-	$HBoxContainer/RightPanel/ChatBox/VBoxContainer/RichTextLabel.newline()"
+	$HBoxContainer/RightPanel/ChatBox/VBoxContainer/RichTextLabel.newline()
+
+func _on_Start_pressed():
+	print(\"Start pressed\")
+	Multiplayer.rpc(\"preconfigure\")"
 
 [sub_resource type="GDScript" id=3]
 script/source = "extends MarginContainer
@@ -185,6 +189,7 @@ margin_bottom = 713.0
 custom_constants/separation = 12
 
 [node name="PlayerList" type="MarginContainer" parent="HBoxContainer/LeftPanel/VBoxContainer"]
+editor/display_folded = true
 margin_right = 472.0
 margin_bottom = 260.0
 size_flags_horizontal = 3
@@ -336,6 +341,7 @@ align = 1
 placeholder_text = "Enter server address"
 
 [node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/LeftPanel/VBoxContainer/LobbyControl/Connecting"]
+editor/display_folded = true
 margin_top = 59.0
 margin_right = 448.0
 margin_bottom = 106.0
@@ -496,12 +502,12 @@ size_flags_horizontal = 3
 custom_fonts/font = ExtResource( 1 )
 editable = false
 placeholder_text = "Enter message"
-
 [connection signal="pressed" from="HBoxContainer/LeftPanel/VBoxContainer/LobbyControl/Connecting/HBoxContainer/Back" to="." method="_on_Back_pressed"]
 [connection signal="pressed" from="HBoxContainer/LeftPanel/VBoxContainer/LobbyControl/Connecting/HBoxContainer/Host" to="." method="host_room"]
 [connection signal="pressed" from="HBoxContainer/LeftPanel/VBoxContainer/LobbyControl/Connecting/HBoxContainer/Join" to="." method="join_room"]
 [connection signal="pressed" from="HBoxContainer/LeftPanel/VBoxContainer/LobbyControl/Host/Disconnect" to="." method="leave_room"]
 [connection signal="pressed" from="HBoxContainer/LeftPanel/VBoxContainer/LobbyControl/Host/Ready" to="." method="_on_Ready_pressed"]
+[connection signal="pressed" from="HBoxContainer/LeftPanel/VBoxContainer/LobbyControl/Host/Start" to="." method="_on_Start_pressed"]
 [connection signal="pressed" from="HBoxContainer/LeftPanel/VBoxContainer/LobbyControl/Peer/Leave" to="." method="leave_room"]
 [connection signal="pressed" from="HBoxContainer/LeftPanel/VBoxContainer/LobbyControl/Peer/Ready" to="." method="_on_Ready_pressed"]
 [connection signal="text_entered" from="HBoxContainer/RightPanel/ChatBox/VBoxContainer/LineEdit" to="HBoxContainer/RightPanel/ChatBox" method="_on_LineEdit_text_entered"]

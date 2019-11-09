@@ -1,6 +1,7 @@
 extends Node2D
 
 #var GUI = preload("res://Scenes/GUI/GUI.tscn")
+var Player = preload("res://Scenes/Assets/Player.tscn")
 var HoleSpawn = preload("res://Scenes/Assets/Hole.tscn")
 var WaterSpawn = preload("res://Scenes/Assets/Water.tscn")
 var YellowSpawn = preload("res://Scenes/Assets/Yellow.tscn")
@@ -49,6 +50,15 @@ func _ready():
 			add_child(yellow)
 			
 	emit_signal("level_loaded")
+
+remotesync func spawn_player(id):
+	var player = Player.instance()
+
+	player.position = $SpawnPoint.position
+	player.name = String(id)
+	player.set_network_master(id)
+	
+	get_node("players").add_child(player)
 
 func get_turn():
 	pass
