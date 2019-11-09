@@ -16,37 +16,52 @@ var total_hits = 0 # Score?
 var player_name # TODO: add labels
 signal turn_taken # TODO: turns
 
-func set_player_name(player_name):
-	#$Label.set_text(str(player_name))
-	pass
+func set_player_name(setName):
+	player_name = setName
+	$Label.set_text(str(player_name))
 
 func _ready():
 	slave_position = position
 
 func _draw():
-	if in_motion == false:
+	if in_motion == false: # TODO: turns
 		draw_line(Vector2(), get_local_mouse_position().clamped(max_force/5), Color(0.0, 0.0, 0.0), 1.0, false)
 
 func _process(_delta):
-		update() #calls _draw()
+		update() #calls _draw() away from physics thread
 
 func _physics_process(delta):
-	#if is_network_master(): #if owner take turn
+	if is_network_master(): #if owner take turn
 		
 		#Update in_motion variable
 		check_motion()
+		# TODO: move this out of physics thread
 		if in_motion == false and Input.is_action_just_pressed("touch_main"): #then set vector for shot and update score
 			get_new_vector()
 			total_hits += 1
 			emit_signal("turn_taken")
+			set_collision_mask_bit(0, 1)
 		
-		hit_ball(delta)
+		#hit_ball(delta) # Apply new vector or just continue moving (I think that's how it works?)
 		#Apply friction
+		var collision = move_and_collide(ball_vector * delta)
+		if collision:
+			if collision.collider.is_class("Player.gd"):
+				collision.collider.move_and_collide(ball_vector*0.5, delta)
+				ball_vector = ball_vector.bounce(collision.normal)*0.5
+				move_and_collide(ball_vector * delta)
+			else:
+				ball_vector = ball_vector.bounce(collision.normal)
 		ball_vector = ball_vector.linear_interpolate(Vector2(0,0), friction * delta)
 		
-	#	rset_unreliable("slave_position", position) #update this players slave position with its actual position, so that it renders for other players
-	#else: #update my location for other players
-	#	position = slave_position
+		rset_unreliable("slave_position", position) #update this players slave position with its actual position, so that it renders for other players
+	else: #update my location for other players
+		position = slave_position
+
+func ball_collide(new_vector, delta):
+	reset_point = get("position")
+	ball_vector = new_vector
+	hit_ball(delta)
 
 func get_new_vector():
 	reset_point = get("position")
@@ -66,9 +81,6 @@ func check_motion():
 		in_motion = true
 
 func hit_ball(delta):
-	var collision = move_and_collide(ball_vector * delta)
-	if collision:
-			ball_vector = ball_vector.bounce(collision.normal)
 			#warning-ignore:return_value_discarded
 			move_and_collide(ball_vector * delta)
 
