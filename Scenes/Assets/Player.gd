@@ -47,8 +47,8 @@ func _physics_process(delta):
 		var collision = move_and_collide(ball_vector * delta)
 		if collision:
 			if collision.collider.is_class("Player.gd"):
-				collision.collider.move_and_collide(ball_vector*0.5, delta)
-				ball_vector = ball_vector.bounce(collision.normal)*0.5
+				rpc_id(collision.collider.get_network_master(), "ball_collide", collision.remaining/2, delta)
+				ball_vector = ball_vector.bounce(collision.remaining)/2
 				move_and_collide(ball_vector * delta)
 			else:
 				ball_vector = ball_vector.bounce(collision.normal)
@@ -58,13 +58,12 @@ func _physics_process(delta):
 	else: #update my location for other players
 		position = slave_position
 
-func ball_collide(new_vector, delta):
+remote func ball_collide(new_vector, delta):
 	reset_point = get("position")
 	ball_vector = new_vector
-	hit_ball(delta)
+	move_and_collide(ball_vector * delta)
 
 func get_new_vector():
-	reset_point = get("position")
 	ball_vector = -get_local_mouse_position().clamped(max_force)
 
 func check_motion():
@@ -77,6 +76,7 @@ func check_motion():
 		if in_yellow:
 			position = start_point
 			in_yellow = false
+		reset_point = get("position")
 	else:
 		in_motion = true
 
