@@ -60,13 +60,11 @@ func _physics_process(delta):
 		position = slave_position
 
 remote func ball_collide(new_vector, delta):
-	print("collision")
 	reset_point = get("position")
 	ball_vector = new_vector
 	move_and_collide(ball_vector * delta)
 
 func get_new_vector():
-	reset_point = get("position")
 	ball_vector = -get_local_mouse_position().clamped(max_force)
 
 func check_motion():
@@ -79,6 +77,7 @@ func check_motion():
 		if in_yellow:
 			position = start_point
 			in_yellow = false
+		reset_point = get("position")
 	else:
 		in_motion = true
 
