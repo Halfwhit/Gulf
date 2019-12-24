@@ -1,16 +1,17 @@
 extends Node2D
 
-var GUI = preload("res://Scenes/GUI/GUI.tscn")
-var PlayerSpawn = preload("res://Scenes/Assets/Player.tscn")
+#var GUI = preload("res://Scenes/GUI/GUI.tscn")
+var Player = preload("res://Scenes/Assets/Player.tscn")
 var HoleSpawn = preload("res://Scenes/Assets/Hole.tscn")
 var WaterSpawn = preload("res://Scenes/Assets/Water.tscn")
 var YellowSpawn = preload("res://Scenes/Assets/Yellow.tscn")
-var startPos
-var pos
 
-func _ready():
-	var interface = GUI.instance()
-	add_child(interface)
+signal level_loaded
+
+func _ready():	
+	get_node(".").set_name("world")
+	#var interface = GUI.instance()
+	#add_child(interface)
 	
 	var tileMap = get_node("TileMap")
 	var size_x = tileMap.get_cell_size().x
@@ -18,15 +19,17 @@ func _ready():
 	var tileSet = tileMap.get_tileset()
 	var usedCells = tileMap.get_used_cells()
 
+	#Setup tilemap
 	for pos in usedCells :
 		var id = tileMap.get_cell(pos.x, pos.y)
 		var name = tileSet.tile_get_name(id)
 
 		if name == "Start":
-			print("Spawning Player")
-			var player = PlayerSpawn.instance()
-			player.position = Vector2( pos.x * size_x + (0.5*size_x), pos.y * size_y + (0.5*size_y))
-			add_child(player)
+			print("Spawning SpawnPoint")
+			var spawn_point = Node2D.new()
+			spawn_point.position = Vector2( pos.x * size_x + (0.5*size_x), pos.y * size_y + (0.5*size_y))
+			spawn_point.set_name("SpawnPoint")
+			add_child(spawn_point)
 
 		if name == "Hole":
 			print("Spawning Hole")
@@ -45,3 +48,20 @@ func _ready():
 			var yellow = YellowSpawn.instance()
 			yellow.position = Vector2( pos.x * size_x + (0.5*size_x), pos.y * size_y + (0.5*size_y))
 			add_child(yellow)
+			
+	emit_signal("level_loaded")
+
+remotesync func spawn_player(id):
+	var player = Player.instance()
+
+	player.position = $SpawnPoint.position
+	player.name = String(id)
+	player.set_network_master(id)
+	
+	get_node("players").add_child(player)
+
+func get_turn():
+	pass
+
+func next_turn():
+	pass
