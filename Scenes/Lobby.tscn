@@ -1,7 +1,8 @@
 [gd_scene load_steps=12 format=2]
 
-[ext_resource path="res://Resources/Fonts/Font14.tres" type="DynamicFont" id=1]
-[ext_resource path="res://Resources/Fonts/Font24.tres" type="DynamicFont" id=2]
+[ext_resource path="res://resources/Fonts/Font14.tres" type="DynamicFont" id=1]
+[ext_resource path="res://resources/Fonts/Font24.tres" type="DynamicFont" id=2]
+
 
 [sub_resource type="Theme" id=1]
 default_font = ExtResource( 1 )

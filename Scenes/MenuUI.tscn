@@ -1,8 +1,8 @@
 [gd_scene load_steps=13 format=2]
 
-[ext_resource path="res://Resources/Fonts/Font24.tres" type="DynamicFont" id=1]
-[ext_resource path="res://Resources/Fonts/Font128.tres" type="DynamicFont" id=2]
-[ext_resource path="res://Resources/Sprites/Ball.png" type="Texture" id=3]
+[ext_resource path="res://resources/Fonts/Font24.tres" type="DynamicFont" id=1]
+[ext_resource path="res://resources/Fonts/Font128.tres" type="DynamicFont" id=2]
+[ext_resource path="res://resources/Sprites/ball.png" type="Texture" id=3]
 
 [sub_resource type="Theme" id=1]
 default_font = ExtResource( 1 )
@@ -19,7 +19,7 @@ func _ready():
 
 func _on_Solo_pressed():
 	#warning-ignore:return_value_discarded
-	get_tree().change_scene(\"res://Scenes/Levels/TestLevel.tscn\")
+	get_tree().change_scene(\"res://Scenes/Levels/Solo/Hole1.tscn\")
 
 func _on_Multi_pressed():
 	#warning-ignore:return_value_discarded
@@ -220,10 +220,10 @@ text = "Quit"
 
 [node name="Options" type="VBoxContainer" parent="."]
 editor/display_folded = true
-margin_left = 205.0
-margin_top = 23.0
-margin_right = 818.0
-margin_bottom = 744.0
+margin_left = 653.0
+margin_top = 211.0
+margin_right = 1266.0
+margin_bottom = 868.0
 size_flags_horizontal = 4
 size_flags_vertical = 4
 custom_constants/separation = 20
@@ -298,22 +298,22 @@ script = SubResource( 5 )
 [node name="PlayerColor" type="HBoxContainer" parent="Options"]
 margin_top = 272.0
 margin_right = 613.0
-margin_bottom = 414.0
+margin_bottom = 350.0
 size_flags_vertical = 3
 custom_constants/separation = 10
 
 [node name="PanelContainer" type="PanelContainer" parent="Options/PlayerColor"]
 editor/display_folded = true
 margin_right = 188.0
-margin_bottom = 142.0
+margin_bottom = 78.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="Label" type="Label" parent="Options/PlayerColor/PanelContainer"]
 margin_left = 7.0
-margin_top = 56.0
+margin_top = 24.0
 margin_right = 181.0
-margin_bottom = 85.0
+margin_bottom = 53.0
 text = "Ball Colour:"
 align = 1
 valign = 1
@@ -321,12 +321,12 @@ valign = 1
 [node name="VSeparator" type="VSeparator" parent="Options/PlayerColor"]
 margin_left = 198.0
 margin_right = 202.0
-margin_bottom = 142.0
+margin_bottom = 78.0
 
 [node name="ColorPickerButton" type="ColorPickerButton" parent="Options/PlayerColor"]
 margin_left = 212.0
 margin_right = 400.0
-margin_bottom = 142.0
+margin_bottom = 78.0
 size_flags_horizontal = 3
 color = Color( 0.666667, 0.666667, 0.666667, 1 )
 edit_alpha = false
@@ -334,30 +334,30 @@ edit_alpha = false
 [node name="VSeparator2" type="VSeparator" parent="Options/PlayerColor"]
 margin_left = 410.0
 margin_right = 414.0
-margin_bottom = 142.0
+margin_bottom = 78.0
 
 [node name="PanelContainer2" type="PanelContainer" parent="Options/PlayerColor"]
 editor/display_folded = true
 margin_left = 424.0
 margin_right = 613.0
-margin_bottom = 142.0
+margin_bottom = 78.0
 size_flags_horizontal = 3
 
 [node name="TextureRect" type="TextureRect" parent="Options/PlayerColor/PanelContainer2"]
 modulate = Color( 0.67, 0.67, 0.67, 0.5 )
-margin_left = 30.0
+margin_left = 62.0
 margin_top = 7.0
-margin_right = 158.0
-margin_bottom = 135.0
+margin_right = 126.0
+margin_bottom = 71.0
 size_flags_horizontal = 4
 size_flags_vertical = 4
 texture = ExtResource( 3 )
 script = SubResource( 6 )
 
 [node name="WindowType" type="HBoxContainer" parent="Options"]
-margin_top = 434.0
+margin_top = 370.0
 margin_right = 613.0
-margin_bottom = 477.0
+margin_bottom = 413.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 custom_constants/separation = 10
@@ -393,9 +393,9 @@ script = SubResource( 7 )
 
 [node name="Resolution" type="HBoxContainer" parent="Options"]
 editor/display_folded = true
-margin_top = 497.0
+margin_top = 433.0
 margin_right = 613.0
-margin_bottom = 540.0
+margin_bottom = 476.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 custom_constants/separation = 10
@@ -433,9 +433,9 @@ script = SubResource( 8 )
 
 [node name="SoundVolume" type="HBoxContainer" parent="Options"]
 editor/display_folded = true
-margin_top = 560.0
+margin_top = 496.0
 margin_right = 613.0
-margin_bottom = 603.0
+margin_bottom = 539.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 custom_constants/separation = 10
@@ -482,9 +482,9 @@ ticks_on_borders = true
 
 [node name="MusicVolume" type="HBoxContainer" parent="Options"]
 editor/display_folded = true
-margin_top = 623.0
+margin_top = 559.0
 margin_right = 613.0
-margin_bottom = 666.0
+margin_bottom = 602.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 custom_constants/separation = 10
@@ -530,9 +530,9 @@ tick_count = 50
 ticks_on_borders = true
 
 [node name="SaveChanges" type="HBoxContainer" parent="Options"]
-margin_top = 686.0
+margin_top = 622.0
 margin_right = 613.0
-margin_bottom = 721.0
+margin_bottom = 657.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 custom_constants/separation = 10
