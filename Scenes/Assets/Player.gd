@@ -24,48 +24,40 @@ func _ready():
 	slave_position = position
 
 func _draw():
-	if in_motion == false: # TODO: turns
+	if is_network_master() and in_motion == false: # TODO: turns
 		draw_line(Vector2(), get_local_mouse_position().clamped(max_force/5), Color(0.0, 0.0, 0.0), 1.0, false)
 
 func _process(_delta):
 		update() #calls _draw() away from physics thread
+		check_motion()
 
 func _physics_process(delta):
 	if is_network_master(): #if owner take turn
-		#Update in_motion variable
-		check_motion()
-		# TODO: move this out of physics thread
-		if in_motion == false and Input.is_action_just_pressed("touch_main"): #then set vector for shot and update score
-			get_new_vector()
-			total_hits += 1
-			emit_signal("turn_taken") #TODO: probably not here
-			set_collision_mask_bit(0, 1)
-		
-		#hit_ball(delta) # Apply new vector or just continue moving (I think that's how it works?)
-		
-		var collision = move_and_collide(ball_vector * delta)
-		if collision:
-			if collision.collider.is_class("Player.gd"):
-				rpc_id(collision.collider.get_network_master(), "ball_collide", collision.remainder/2, delta)
-				ball_vector = ball_vector.bounce(collision.remainder)/2
-				move_and_collide(ball_vector * delta)
+		if in_motion == false and Input.is_action_just_pressed("touch_main"):
+			ball_vector = -get_local_mouse_position().clamped(max_force)
+			take_turn()
+		var collision_info = move_and_collide(ball_vector * delta)
+		if collision_info:
+			var collider = collision_info.collider
+			if collider.is_in_group("Player"):
+				collider.rpc_unreliable("ball_collide", ball_vector/2)
+				ball_vector = ball_vector.bounce(collision_info.normal)/2
 			else:
-				ball_vector = ball_vector.bounce(collision.normal)
-				move_and_collide(ball_vector * delta)
-		
+				ball_vector = ball_vector.bounce(collision_info.normal)
 		#Apply friction
 		ball_vector = ball_vector.linear_interpolate(Vector2(0,0), friction * delta)
 		rset_unreliable("slave_position", position) #update this players slave position with its actual position, so that it renders for other players
 	else: #update my location for other players
 		position = slave_position
 
-remote func ball_collide(new_vector, delta):
-	reset_point = get("position")
-	ball_vector = new_vector
-	move_and_collide(ball_vector * delta)
+func take_turn():
+	if total_hits == 0:
+		yield(get_tree().create_timer(0.5), "timeout")
+		set_collision_mask_bit(0, 1)
+	total_hits += 1
 
-func get_new_vector():
-	ball_vector = -get_local_mouse_position().clamped(max_force)
+remote func ball_collide(new_vector):
+	ball_vector = ball_vector + new_vector
 
 func check_motion():
 	if ball_vector.length() <= 1: #if ball has nearly or has stopped moving
@@ -80,10 +72,6 @@ func check_motion():
 		reset_point = get("position")
 	else:
 		in_motion = true
-
-func hit_ball(delta):
-			#warning-ignore:return_value_discarded
-			move_and_collide(ball_vector * delta)
 
 func is_in_water():
 	in_water = true
