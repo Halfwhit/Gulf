@@ -68,10 +68,3 @@ remotesync func turn_taken(pid):
 	else:
 		current_player_index = 0
 		get_node("/root/players").get_child(current_player_index).rset("turn", true)
-#remotesync func spawn_player(id):
-#	var player = Player.instance()
-#	player.position = $SpawnPoint.position
-#	player.name = String(id)
-#	player.set_network_master(id)
-#	
-#	get_node("players").add_child(player)

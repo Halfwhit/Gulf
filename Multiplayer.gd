@@ -95,7 +95,7 @@ remotesync func preconfigure():
 		player.set_player_name(players[p])
 		player.position = world.get_node("SpawnPoint").position
 		player.set_network_master(p)
-		player.connect("turn_taken", self, "turn_taken")
+		#player.connect("turn_taken", self, "turn_taken")
 		print("Adding " + player.player_name + " to the world")
 		get_node("/root/players").add_child(player)
 		
@@ -112,8 +112,3 @@ remotesync func post_configure_game():
 	get_tree().set_pause(false)
 	get_node("/root/players/1").turn = true
 	emit_signal("level_start")
-
-func turn_taken(p_id):
-	for p in players:
-		var p_node = get_node("/root/players").get_node(p_id)
-		p_node.get_node("/root/world/GUI/GameUI").rpc("update_score")
