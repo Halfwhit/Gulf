@@ -1,18 +1,20 @@
 extends Node2D
 
-#var GUI = preload("res://Scenes/GUI/GUI.tscn")
 var Player = preload("res://Scenes/Assets/Player.tscn")
 var HoleSpawn = preload("res://Scenes/Assets/Hole.tscn")
 var WaterSpawn = preload("res://Scenes/Assets/Water.tscn")
 var YellowSpawn = preload("res://Scenes/Assets/Yellow.tscn")
 
+var player_count
+var current_player_index = 0 #Start with player 1
+
 signal level_loaded
 
 func _ready():	
 	get_node(".").set_name("world")
-	#var interface = GUI.instance()
-	#add_child(interface)
-	
+# warning-ignore:return_value_discarded
+	Multiplayer.connect("level_start", self, "level_start")
+		
 	var tileMap = get_node("TileMap")
 	var size_x = tileMap.get_cell_size().x
 	var size_y = tileMap.get_cell_size().y
@@ -51,17 +53,25 @@ func _ready():
 			
 	emit_signal("level_loaded")
 
-remotesync func spawn_player(id):
-	var player = Player.instance()
+func level_start():
+	player_count = get_node("/root/players").get_child_count()
 
-	player.position = $SpawnPoint.position
-	player.name = String(id)
-	player.set_network_master(id)
+remotesync func turn_taken(pid):
+	current_player_index += 1
 	
-	get_node("players").add_child(player)
-
-func get_turn():
-	pass
-
-func next_turn():
-	pass
+	var node_name = String(pid)
+	print(node_name + " just took a turn")
+	get_node("/root/players").get_node(node_name).rset("turn", false)
+	
+	if current_player_index < player_count:
+		get_node("/root/players").get_child(current_player_index).rset("turn", true)
+	else:
+		current_player_index = 0
+		get_node("/root/players").get_child(current_player_index).rset("turn", true)
+#remotesync func spawn_player(id):
+#	var player = Player.instance()
+#	player.position = $SpawnPoint.position
+#	player.name = String(id)
+#	player.set_network_master(id)
+#	
+#	get_node("players").add_child(player)

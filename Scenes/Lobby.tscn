@@ -3,7 +3,6 @@
 [ext_resource path="res://resources/Fonts/Font14.tres" type="DynamicFont" id=1]
 [ext_resource path="res://resources/Fonts/Font24.tres" type="DynamicFont" id=2]
 
-
 [sub_resource type="Theme" id=1]
 default_font = ExtResource( 1 )
 
@@ -69,7 +68,8 @@ sync func send_message(message_string):
 
 func _on_Start_pressed():
 	print(\"Start pressed\")
-	Multiplayer.rpc(\"preconfigure\")"
+	Multiplayer.rpc(\"preconfigure\")
+"
 
 [sub_resource type="GDScript" id=3]
 script/source = "extends MarginContainer
@@ -81,6 +81,7 @@ onready var player_list = $PanelContainer/HBoxContainer/Names/Players
 onready var status_list = $PanelContainer/HBoxContainer/Status/Players
 
 func _ready():
+# warning-ignore:return_value_discarded
 		Multiplayer.connect(\"player_list_updated\", self, \"update_player_list\")
 
 remote func update_player_list():
@@ -114,7 +115,8 @@ remote func update_player_list():
 			status_label.add_color_override(\"font_color\", Color(1, 0, 0))
 		status_label.align = Label.ALIGN_CENTER
 		status_label.name = str(p_id)
-		$PanelContainer/HBoxContainer/Status/Players.add_child(status_label)"
+		$PanelContainer/HBoxContainer/Status/Players.add_child(status_label)
+"
 
 [sub_resource type="StyleBoxFlat" id=4]
 bg_color = Color( 0, 0, 0, 0.3 )
@@ -190,7 +192,6 @@ margin_bottom = 713.0
 custom_constants/separation = 12
 
 [node name="PlayerList" type="MarginContainer" parent="HBoxContainer/LeftPanel/VBoxContainer"]
-editor/display_folded = true
 margin_right = 472.0
 margin_bottom = 260.0
 size_flags_horizontal = 3
@@ -216,7 +217,6 @@ margin_bottom = 236.0
 theme = SubResource( 5 )
 
 [node name="Names" type="VBoxContainer" parent="HBoxContainer/LeftPanel/VBoxContainer/PlayerList/PanelContainer/HBoxContainer"]
-editor/display_folded = true
 margin_right = 218.0
 margin_bottom = 236.0
 size_flags_horizontal = 3
@@ -277,7 +277,6 @@ margin_right = 472.0
 margin_bottom = 276.0
 
 [node name="GameSettings" type="MarginContainer" parent="HBoxContainer/LeftPanel/VBoxContainer"]
-editor/display_folded = true
 margin_top = 288.0
 margin_right = 472.0
 margin_bottom = 548.0
@@ -342,7 +341,6 @@ align = 1
 placeholder_text = "Enter server address"
 
 [node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/LeftPanel/VBoxContainer/LobbyControl/Connecting"]
-editor/display_folded = true
 margin_top = 59.0
 margin_right = 448.0
 margin_bottom = 106.0
@@ -432,7 +430,6 @@ disabled = true
 text = "Start"
 
 [node name="Peer" type="HBoxContainer" parent="HBoxContainer/LeftPanel/VBoxContainer/LobbyControl"]
-editor/display_folded = true
 visible = false
 margin_left = 12.0
 margin_top = 12.0
@@ -462,7 +459,6 @@ size_flags_vertical = 3
 text = "Ready"
 
 [node name="RightPanel" type="PanelContainer" parent="HBoxContainer"]
-editor/display_folded = true
 margin_left = 490.0
 margin_right = 976.0
 margin_bottom = 720.0

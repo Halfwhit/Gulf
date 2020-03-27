@@ -90,7 +90,8 @@ func _on_Save_pressed():
 	# Broadcast the chosen settings and hide the node
 	hide()
 	Multiplayer.my_name = chosen_name
-	Multiplayer.my_color = chosen_color"
+	Multiplayer.my_colour = chosen_color
+"
 
 [sub_resource type="GDScript" id=5]
 script/source = "extends LineEdit
@@ -153,6 +154,9 @@ theme = SubResource( 1 )
 custom_constants/separation = 100
 alignment = 1
 script = SubResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="MainMenu" type="VBoxContainer" parent="."]
 visible = false
@@ -165,7 +169,6 @@ alignment = 1
 script = SubResource( 3 )
 
 [node name="PanelContainer" type="PanelContainer" parent="MainMenu"]
-editor/display_folded = true
 margin_top = 114.0
 margin_right = 452.0
 margin_bottom = 279.0
@@ -219,11 +222,10 @@ size_flags_horizontal = 3
 text = "Quit"
 
 [node name="Options" type="VBoxContainer" parent="."]
-editor/display_folded = true
-margin_left = 653.0
-margin_top = 211.0
-margin_right = 1266.0
-margin_bottom = 868.0
+margin_left = 205.0
+margin_top = 55.0
+margin_right = 818.0
+margin_bottom = 712.0
 size_flags_horizontal = 4
 size_flags_vertical = 4
 custom_constants/separation = 20
@@ -231,7 +233,6 @@ alignment = 1
 script = SubResource( 4 )
 
 [node name="PanelContainer" type="PanelContainer" parent="Options"]
-editor/display_folded = true
 margin_right = 613.0
 margin_bottom = 165.0
 size_flags_horizontal = 4
@@ -261,7 +262,6 @@ size_flags_vertical = 3
 custom_constants/separation = 10
 
 [node name="PanelContainer" type="PanelContainer" parent="Options/PlayerName"]
-editor/display_folded = true
 margin_right = 294.0
 margin_bottom = 43.0
 size_flags_horizontal = 3
@@ -303,7 +303,6 @@ size_flags_vertical = 3
 custom_constants/separation = 10
 
 [node name="PanelContainer" type="PanelContainer" parent="Options/PlayerColor"]
-editor/display_folded = true
 margin_right = 188.0
 margin_bottom = 78.0
 size_flags_horizontal = 3
@@ -337,7 +336,6 @@ margin_right = 414.0
 margin_bottom = 78.0
 
 [node name="PanelContainer2" type="PanelContainer" parent="Options/PlayerColor"]
-editor/display_folded = true
 margin_left = 424.0
 margin_right = 613.0
 margin_bottom = 78.0
@@ -392,7 +390,6 @@ align = 1
 script = SubResource( 7 )
 
 [node name="Resolution" type="HBoxContainer" parent="Options"]
-editor/display_folded = true
 margin_top = 433.0
 margin_right = 613.0
 margin_bottom = 476.0
@@ -432,7 +429,6 @@ align = 1
 script = SubResource( 8 )
 
 [node name="SoundVolume" type="HBoxContainer" parent="Options"]
-editor/display_folded = true
 margin_top = 496.0
 margin_right = 613.0
 margin_bottom = 539.0
@@ -481,7 +477,6 @@ tick_count = 50
 ticks_on_borders = true
 
 [node name="MusicVolume" type="HBoxContainer" parent="Options"]
-editor/display_folded = true
 margin_top = 559.0
 margin_right = 613.0
 margin_bottom = 602.0
