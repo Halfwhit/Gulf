@@ -62,6 +62,7 @@ remotesync func turn_taken(pid):
 	var node_name = String(pid)
 	print(node_name + " just took a turn")
 	get_node("/root/players").get_node(node_name).rset("turn", false)
+	$GUI/GameUI.rpc_id(1, "update_score")
 	
 	if current_player_index < player_count:
 		get_node("/root/players").get_child(current_player_index).rset("turn", true)
