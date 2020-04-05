@@ -1,0 +1,421 @@
+[gd_scene load_steps=11 format=2]
+
+[ext_resource path="res://Main.gd" type="Script" id=1]
+[ext_resource path="res://resources/fonts/default_16.tres" type="DynamicFont" id=2]
+[ext_resource path="res://resources/fonts/default_24.tres" type="DynamicFont" id=3]
+[ext_resource path="res://resources/fonts/default_14.tres" type="DynamicFont" id=4]
+
+[sub_resource type="StyleBoxFlat" id=1]
+bg_color = Color( 0, 0, 0, 0.301961 )
+
+[sub_resource type="StyleBoxFlat" id=2]
+bg_color = Color( 0, 0, 0, 0.301961 )
+
+[sub_resource type="StyleBoxFlat" id=3]
+bg_color = Color( 0, 0, 0, 0.301961 )
+
+[sub_resource type="StyleBoxFlat" id=4]
+bg_color = Color( 0, 0, 0, 0.301961 )
+
+[sub_resource type="StyleBoxFlat" id=5]
+bg_color = Color( 0, 0, 0, 0.301961 )
+
+[sub_resource type="StyleBoxFlat" id=6]
+bg_color = Color( 0, 0, 0, 0.301961 )
+
+[node name="Main" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 10.0
+margin_top = 10.0
+margin_right = -10.0
+margin_bottom = -10.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="PanelContainer" type="PanelContainer" parent="MarginContainer"]
+margin_right = 1004.0
+margin_bottom = 580.0
+
+[node name="MainContainer" type="HBoxContainer" parent="MarginContainer/PanelContainer"]
+margin_left = 7.0
+margin_top = 7.0
+margin_right = 997.0
+margin_bottom = 573.0
+
+[node name="LeftMargin" type="MarginContainer" parent="MarginContainer/PanelContainer/MainContainer"]
+margin_right = 489.0
+margin_bottom = 566.0
+size_flags_horizontal = 3
+custom_constants/margin_right = 10
+custom_constants/margin_top = 10
+custom_constants/margin_left = 10
+custom_constants/margin_bottom = 10
+
+[node name="LeftContainer" type="VBoxContainer" parent="MarginContainer/PanelContainer/MainContainer/LeftMargin"]
+margin_left = 10.0
+margin_top = 10.0
+margin_right = 479.0
+margin_bottom = 556.0
+custom_constants/separation = 10
+
+[node name="PlayerPanel" type="PanelContainer" parent="MarginContainer/PanelContainer/MainContainer/LeftMargin/LeftContainer"]
+margin_right = 469.0
+margin_bottom = 175.0
+size_flags_vertical = 3
+custom_styles/panel = SubResource( 1 )
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/PanelContainer/MainContainer/LeftMargin/LeftContainer/PlayerPanel"]
+margin_right = 469.0
+margin_bottom = 175.0
+custom_constants/margin_right = 10
+custom_constants/margin_top = 10
+custom_constants/margin_left = 10
+custom_constants/margin_bottom = 10
+
+[node name="PlayerContainer" type="HBoxContainer" parent="MarginContainer/PanelContainer/MainContainer/LeftMargin/LeftContainer/PlayerPanel/MarginContainer"]
+margin_left = 10.0
+margin_top = 10.0
+margin_right = 459.0
+margin_bottom = 165.0
+
+[node name="PlayerNames" type="VBoxContainer" parent="MarginContainer/PanelContainer/MainContainer/LeftMargin/LeftContainer/PlayerPanel/MarginContainer/PlayerContainer"]
+margin_right = 218.0
+margin_bottom = 155.0
+size_flags_horizontal = 3
+custom_constants/separation = 5
+
+[node name="NameLabel" type="Label" parent="MarginContainer/PanelContainer/MainContainer/LeftMargin/LeftContainer/PlayerPanel/MarginContainer/PlayerContainer/PlayerNames"]
+margin_right = 218.0
+margin_bottom = 19.0
+custom_fonts/font = ExtResource( 2 )
+text = "Player Name"
+align = 1
+valign = 2
+
+[node name="HSeparator" type="HSeparator" parent="MarginContainer/PanelContainer/MainContainer/LeftMargin/LeftContainer/PlayerPanel/MarginContainer/PlayerContainer/PlayerNames"]
+margin_top = 24.0
+margin_right = 218.0
+margin_bottom = 28.0
+
+[node name="VSeparator" type="VSeparator" parent="MarginContainer/PanelContainer/MainContainer/LeftMargin/LeftContainer/PlayerPanel/MarginContainer/PlayerContainer"]
+margin_left = 222.0
+margin_right = 226.0
+margin_bottom = 155.0
+
+[node name="PlayerStatus" type="VBoxContainer" parent="MarginContainer/PanelContainer/MainContainer/LeftMargin/LeftContainer/PlayerPanel/MarginContainer/PlayerContainer"]
+margin_left = 230.0
+margin_right = 449.0
+margin_bottom = 155.0
+size_flags_horizontal = 3
+custom_constants/separation = 5
+
+[node name="StatusLabel" type="Label" parent="MarginContainer/PanelContainer/MainContainer/LeftMargin/LeftContainer/PlayerPanel/MarginContainer/PlayerContainer/PlayerStatus"]
+margin_right = 219.0
+margin_bottom = 19.0
+custom_fonts/font = ExtResource( 2 )
+text = "Player Status"
+align = 1
+valign = 2
+
+[node name="HSeparator" type="HSeparator" parent="MarginContainer/PanelContainer/MainContainer/LeftMargin/LeftContainer/PlayerPanel/MarginContainer/PlayerContainer/PlayerStatus"]
+margin_top = 24.0
+margin_right = 219.0
+margin_bottom = 28.0
+
+[node name="HSeparator" type="HSeparator" parent="MarginContainer/PanelContainer/MainContainer/LeftMargin/LeftContainer"]
+margin_top = 185.0
+margin_right = 469.0
+margin_bottom = 189.0
+
+[node name="GameinfoPanel" type="PanelContainer" parent="MarginContainer/PanelContainer/MainContainer/LeftMargin/LeftContainer"]
+margin_top = 199.0
+margin_right = 469.0
+margin_bottom = 374.0
+size_flags_vertical = 3
+custom_styles/panel = SubResource( 2 )
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/PanelContainer/MainContainer/LeftMargin/LeftContainer/GameinfoPanel"]
+margin_right = 469.0
+margin_bottom = 175.0
+custom_constants/margin_right = 10
+custom_constants/margin_top = 10
+custom_constants/margin_left = 10
+custom_constants/margin_bottom = 10
+
+[node name="GameinfoContainer" type="VBoxContainer" parent="MarginContainer/PanelContainer/MainContainer/LeftMargin/LeftContainer/GameinfoPanel/MarginContainer"]
+margin_left = 10.0
+margin_top = 10.0
+margin_right = 459.0
+margin_bottom = 165.0
+custom_constants/separation = 5
+
+[node name="ConnectionStatus" type="Label" parent="MarginContainer/PanelContainer/MainContainer/LeftMargin/LeftContainer/GameinfoPanel/MarginContainer/GameinfoContainer"]
+margin_right = 449.0
+margin_bottom = 17.0
+custom_fonts/font = ExtResource( 4 )
+align = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/PanelContainer/MainContainer/LeftMargin/LeftContainer/GameinfoPanel/MarginContainer/GameinfoContainer"]
+margin_top = 22.0
+margin_right = 449.0
+margin_bottom = 39.0
+alignment = 1
+
+[node name="Label" type="Label" parent="MarginContainer/PanelContainer/MainContainer/LeftMargin/LeftContainer/GameinfoPanel/MarginContainer/GameinfoContainer/HBoxContainer"]
+margin_left = 190.0
+margin_right = 221.0
+margin_bottom = 17.0
+custom_fonts/font = ExtResource( 4 )
+text = "Map:"
+
+[node name="Map" type="Label" parent="MarginContainer/PanelContainer/MainContainer/LeftMargin/LeftContainer/GameinfoPanel/MarginContainer/GameinfoContainer/HBoxContainer"]
+margin_left = 225.0
+margin_right = 258.0
+margin_bottom = 17.0
+custom_fonts/font = ExtResource( 4 )
+text = "None"
+
+[node name="HSeparator2" type="HSeparator" parent="MarginContainer/PanelContainer/MainContainer/LeftMargin/LeftContainer"]
+margin_top = 384.0
+margin_right = 469.0
+margin_bottom = 388.0
+
+[node name="SetupPanel" type="PanelContainer" parent="MarginContainer/PanelContainer/MainContainer/LeftMargin/LeftContainer"]
+margin_top = 398.0
+margin_right = 469.0
+margin_bottom = 467.0
+custom_styles/panel = SubResource( 3 )
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/PanelContainer/MainContainer/LeftMargin/LeftContainer/SetupPanel"]
+margin_right = 469.0
+margin_bottom = 69.0
+custom_constants/margin_right = 10
+custom_constants/margin_top = 10
+custom_constants/margin_left = 10
+custom_constants/margin_bottom = 10
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/PanelContainer/MainContainer/LeftMargin/LeftContainer/SetupPanel/MarginContainer"]
+margin_left = 10.0
+margin_top = 10.0
+margin_right = 459.0
+margin_bottom = 59.0
+custom_constants/separation = 10
+
+[node name="NameContainer" type="HBoxContainer" parent="MarginContainer/PanelContainer/MainContainer/LeftMargin/LeftContainer/SetupPanel/MarginContainer/VBoxContainer"]
+margin_right = 449.0
+margin_bottom = 19.0
+
+[node name="NameLabel" type="Label" parent="MarginContainer/PanelContainer/MainContainer/LeftMargin/LeftContainer/SetupPanel/MarginContainer/VBoxContainer/NameContainer"]
+margin_right = 218.0
+margin_bottom = 19.0
+size_flags_horizontal = 3
+custom_fonts/font = ExtResource( 2 )
+text = "Player Name:"
+align = 2
+
+[node name="VSeparator" type="VSeparator" parent="MarginContainer/PanelContainer/MainContainer/LeftMargin/LeftContainer/SetupPanel/MarginContainer/VBoxContainer/NameContainer"]
+margin_left = 222.0
+margin_right = 226.0
+margin_bottom = 19.0
+
+[node name="PlayerName" type="LineEdit" parent="MarginContainer/PanelContainer/MainContainer/LeftMargin/LeftContainer/SetupPanel/MarginContainer/VBoxContainer/NameContainer"]
+margin_left = 230.0
+margin_right = 449.0
+margin_bottom = 19.0
+size_flags_horizontal = 3
+custom_styles/normal = SubResource( 4 )
+custom_fonts/font = ExtResource( 4 )
+text = "Gulfer"
+align = 1
+expand_to_text_length = true
+clear_button_enabled = true
+
+[node name="ColourContainer" type="HBoxContainer" parent="MarginContainer/PanelContainer/MainContainer/LeftMargin/LeftContainer/SetupPanel/MarginContainer/VBoxContainer"]
+margin_top = 29.0
+margin_right = 449.0
+margin_bottom = 49.0
+
+[node name="ColourLabel" type="Label" parent="MarginContainer/PanelContainer/MainContainer/LeftMargin/LeftContainer/SetupPanel/MarginContainer/VBoxContainer/ColourContainer"]
+margin_right = 218.0
+margin_bottom = 19.0
+size_flags_horizontal = 3
+custom_fonts/font = ExtResource( 2 )
+text = "Player Colour:"
+align = 2
+
+[node name="VSeparator" type="VSeparator" parent="MarginContainer/PanelContainer/MainContainer/LeftMargin/LeftContainer/SetupPanel/MarginContainer/VBoxContainer/ColourContainer"]
+margin_left = 222.0
+margin_right = 226.0
+margin_bottom = 20.0
+
+[node name="PlayerColour" type="ColorPickerButton" parent="MarginContainer/PanelContainer/MainContainer/LeftMargin/LeftContainer/SetupPanel/MarginContainer/VBoxContainer/ColourContainer"]
+margin_left = 230.0
+margin_right = 449.0
+margin_bottom = 20.0
+size_flags_horizontal = 3
+color = Color( 0.67, 0.67, 0.67, 1 )
+edit_alpha = false
+
+[node name="HSeparator3" type="HSeparator" parent="MarginContainer/PanelContainer/MainContainer/LeftMargin/LeftContainer"]
+margin_top = 477.0
+margin_right = 469.0
+margin_bottom = 481.0
+
+[node name="ButtonPanel" type="PanelContainer" parent="MarginContainer/PanelContainer/MainContainer/LeftMargin/LeftContainer"]
+margin_top = 491.0
+margin_right = 469.0
+margin_bottom = 546.0
+custom_styles/panel = SubResource( 5 )
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/PanelContainer/MainContainer/LeftMargin/LeftContainer/ButtonPanel"]
+margin_right = 469.0
+margin_bottom = 55.0
+custom_constants/margin_right = 10
+custom_constants/margin_top = 10
+custom_constants/margin_left = 10
+custom_constants/margin_bottom = 10
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/PanelContainer/MainContainer/LeftMargin/LeftContainer/ButtonPanel/MarginContainer"]
+margin_left = 10.0
+margin_top = 10.0
+margin_right = 459.0
+margin_bottom = 45.0
+
+[node name="Quit" type="Button" parent="MarginContainer/PanelContainer/MainContainer/LeftMargin/LeftContainer/ButtonPanel/MarginContainer/HBoxContainer"]
+margin_right = 218.0
+margin_bottom = 35.0
+size_flags_horizontal = 3
+custom_fonts/font = ExtResource( 3 )
+text = "Quit"
+
+[node name="VSeparator" type="VSeparator" parent="MarginContainer/PanelContainer/MainContainer/LeftMargin/LeftContainer/ButtonPanel/MarginContainer/HBoxContainer"]
+margin_left = 222.0
+margin_right = 226.0
+margin_bottom = 35.0
+
+[node name="Join" type="Button" parent="MarginContainer/PanelContainer/MainContainer/LeftMargin/LeftContainer/ButtonPanel/MarginContainer/HBoxContainer"]
+margin_left = 230.0
+margin_right = 449.0
+margin_bottom = 35.0
+size_flags_horizontal = 3
+custom_fonts/font = ExtResource( 3 )
+text = "Start"
+
+[node name="CentreVSeparator" type="VSeparator" parent="MarginContainer/PanelContainer/MainContainer"]
+margin_left = 493.0
+margin_right = 497.0
+margin_bottom = 566.0
+
+[node name="RightMargin" type="MarginContainer" parent="MarginContainer/PanelContainer/MainContainer"]
+margin_left = 501.0
+margin_right = 990.0
+margin_bottom = 566.0
+size_flags_horizontal = 3
+custom_constants/margin_right = 10
+custom_constants/margin_top = 10
+custom_constants/margin_left = 10
+custom_constants/margin_bottom = 10
+
+[node name="RightContainer" type="VBoxContainer" parent="MarginContainer/PanelContainer/MainContainer/RightMargin"]
+margin_left = 10.0
+margin_top = 10.0
+margin_right = 479.0
+margin_bottom = 556.0
+custom_constants/separation = 10
+
+[node name="PanelContainer" type="PanelContainer" parent="MarginContainer/PanelContainer/MainContainer/RightMargin/RightContainer"]
+margin_right = 469.0
+margin_bottom = 495.0
+size_flags_vertical = 3
+custom_styles/panel = SubResource( 6 )
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/PanelContainer/MainContainer/RightMargin/RightContainer/PanelContainer"]
+margin_right = 469.0
+margin_bottom = 495.0
+custom_constants/margin_right = 10
+custom_constants/margin_top = 10
+custom_constants/margin_left = 10
+custom_constants/margin_bottom = 10
+
+[node name="Chatbox" type="RichTextLabel" parent="MarginContainer/PanelContainer/MainContainer/RightMargin/RightContainer/PanelContainer/MarginContainer"]
+margin_left = 10.0
+margin_top = 10.0
+margin_right = 459.0
+margin_bottom = 485.0
+size_flags_vertical = 3
+custom_fonts/normal_font = ExtResource( 4 )
+custom_constants/line_separation = 5
+scroll_following = true
+
+[node name="HSeparator" type="HSeparator" parent="MarginContainer/PanelContainer/MainContainer/RightMargin/RightContainer"]
+margin_top = 505.0
+margin_right = 469.0
+margin_bottom = 509.0
+
+[node name="Message" type="LineEdit" parent="MarginContainer/PanelContainer/MainContainer/RightMargin/RightContainer"]
+margin_top = 519.0
+margin_right = 469.0
+margin_bottom = 546.0
+custom_fonts/font = ExtResource( 4 )
+
+[node name="VBox" type="VBoxContainer" parent="."]
+visible = false
+margin_left = 403.958
+margin_top = 108.679
+margin_right = 511.958
+margin_bottom = 366.679
+custom_constants/separation = 100
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Title" type="Label" parent="VBox"]
+margin_right = 108.0
+margin_bottom = 14.0
+text = "Client"
+align = 1
+valign = 1
+
+[node name="HBox" type="HBoxContainer" parent="VBox"]
+margin_top = 114.0
+margin_right = 108.0
+margin_bottom = 138.0
+
+[node name="NameLabel" type="Label" parent="VBox/HBox"]
+margin_top = 5.0
+margin_right = 46.0
+margin_bottom = 19.0
+text = "Name: "
+
+[node name="LineEdit" type="LineEdit" parent="VBox/HBox"]
+margin_left = 50.0
+margin_right = 108.0
+margin_bottom = 24.0
+text = "Player"
+
+[node name="JoinButton" type="Button" parent="VBox"]
+margin_left = 36.0
+margin_top = 238.0
+margin_right = 71.0
+margin_bottom = 258.0
+size_flags_horizontal = 4
+text = "Join"
+
+[node name="Status" type="Label" parent="VBox"]
+margin_top = 358.0
+margin_right = 108.0
+margin_bottom = 372.0
+[connection signal="text_changed" from="MarginContainer/PanelContainer/MainContainer/LeftMargin/LeftContainer/SetupPanel/MarginContainer/VBoxContainer/NameContainer/PlayerName" to="." method="_on_PlayerName_changed"]
+[connection signal="pressed" from="MarginContainer/PanelContainer/MainContainer/LeftMargin/LeftContainer/ButtonPanel/MarginContainer/HBoxContainer/Quit" to="." method="_on_Quit_pressed" flags=3]
+[connection signal="pressed" from="MarginContainer/PanelContainer/MainContainer/LeftMargin/LeftContainer/ButtonPanel/MarginContainer/HBoxContainer/Join" to="." method="_on_Join_pressed"]
+[connection signal="text_entered" from="MarginContainer/PanelContainer/MainContainer/RightMargin/RightContainer/Message" to="." method="_on_Message_text_entered"]
