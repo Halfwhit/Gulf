@@ -14,7 +14,16 @@ func _ready():
 	get_tree().connect("network_peer_connected", self, "_player_connected")
 	get_tree().connect("network_peer_disconnected", self,"_player_disconnected")
 	
+	get_tree().create_timer(30.0).connect("timeout", self, "_server_timeout")
+	
 	create_server()
+
+
+func _server_timeout():
+	if get_tree().get_network_connected_peers().size() > 0:
+		get_tree().create_timer(30.0).connect("timeout", self, "_server_timeout")
+	else:
+		get_tree().quit()
 
 
 func create_server():
@@ -35,6 +44,9 @@ func _player_disconnected(id):
 		get_node("/root/World").rpc("remove_player", id)
 	
 	print("Client ", id, " disconnected")
+	
+	if players.empty():
+		get_tree().quit()
 
 
 # Player management functions

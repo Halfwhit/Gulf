@@ -8,6 +8,7 @@ const DEFAULT_PORT = 44444
 signal connection_failed()
 signal connection_succeeded()
 signal server_disconnected()
+signal players_updated
 
 var my_name = "Gulfer"
 
@@ -19,10 +20,6 @@ func _ready():
 	get_tree().connect("connected_to_server", self, "_connected_ok")
 	get_tree().connect("connection_failed", self, "_connected_fail")
 	get_tree().connect("server_disconnected", self, "_server_disconnected")
-	
-	# Try to connect right away
-	connect_to_server()
-
 
 
 func connect_to_server():
@@ -39,29 +36,27 @@ func _connected_ok():
 # Callback from SceneTree, called when server disconnect
 func _server_disconnected():
 	players.clear()
-	get_node("/root/World").queue_free()
+	var world_node = get_node_or_null("/root/World")
+	if world_node != null:
+		world_node.queue_free()
 	get_node("/root/Main").show()
 	emit_signal("server_disconnected")
-	
-	# Try to connect again
-	connect_to_server()
 
 
 # Callback from SceneTree, called when unabled to connect to server
 func _connected_fail():
 	get_tree().set_network_peer(null) # Remove peer
 	emit_signal("connection_failed")
-	
-	# Try to connect again
-	connect_to_server()
 
 
 puppet func register_player(id, new_player_data):
 	players[id] = new_player_data
+	emit_signal("players_updated")
 
 
 puppet func unregister_player(id):
 	players.erase(id)
+	emit_signal("players_updated")
 
 
 # Returns list of player names

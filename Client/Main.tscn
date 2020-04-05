@@ -163,6 +163,7 @@ custom_constants/separation = 5
 margin_right = 449.0
 margin_bottom = 17.0
 custom_fonts/font = ExtResource( 4 )
+text = "Awaiting connection"
 align = 1
 
 [node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/PanelContainer/MainContainer/LeftMargin/LeftContainer/GameinfoPanel/MarginContainer/GameinfoContainer"]
@@ -292,24 +293,37 @@ margin_right = 459.0
 margin_bottom = 45.0
 
 [node name="Quit" type="Button" parent="MarginContainer/PanelContainer/MainContainer/LeftMargin/LeftContainer/ButtonPanel/MarginContainer/HBoxContainer"]
-margin_right = 218.0
+margin_right = 141.0
 margin_bottom = 35.0
 size_flags_horizontal = 3
 custom_fonts/font = ExtResource( 3 )
 text = "Quit"
 
 [node name="VSeparator" type="VSeparator" parent="MarginContainer/PanelContainer/MainContainer/LeftMargin/LeftContainer/ButtonPanel/MarginContainer/HBoxContainer"]
-margin_left = 222.0
-margin_right = 226.0
+margin_left = 145.0
+margin_right = 149.0
+margin_bottom = 35.0
+
+[node name="Host" type="Button" parent="MarginContainer/PanelContainer/MainContainer/LeftMargin/LeftContainer/ButtonPanel/MarginContainer/HBoxContainer"]
+margin_left = 153.0
+margin_right = 294.0
+margin_bottom = 35.0
+size_flags_horizontal = 3
+custom_fonts/font = ExtResource( 3 )
+text = "Host"
+
+[node name="VSeparator2" type="VSeparator" parent="MarginContainer/PanelContainer/MainContainer/LeftMargin/LeftContainer/ButtonPanel/MarginContainer/HBoxContainer"]
+margin_left = 298.0
+margin_right = 302.0
 margin_bottom = 35.0
 
 [node name="Join" type="Button" parent="MarginContainer/PanelContainer/MainContainer/LeftMargin/LeftContainer/ButtonPanel/MarginContainer/HBoxContainer"]
-margin_left = 230.0
+margin_left = 306.0
 margin_right = 449.0
 margin_bottom = 35.0
 size_flags_horizontal = 3
 custom_fonts/font = ExtResource( 3 )
-text = "Start"
+text = "Join"
 
 [node name="CentreVSeparator" type="VSeparator" parent="MarginContainer/PanelContainer/MainContainer"]
 margin_left = 493.0
@@ -417,5 +431,6 @@ margin_right = 108.0
 margin_bottom = 372.0
 [connection signal="text_changed" from="MarginContainer/PanelContainer/MainContainer/LeftMargin/LeftContainer/SetupPanel/MarginContainer/VBoxContainer/NameContainer/PlayerName" to="." method="_on_PlayerName_changed"]
 [connection signal="pressed" from="MarginContainer/PanelContainer/MainContainer/LeftMargin/LeftContainer/ButtonPanel/MarginContainer/HBoxContainer/Quit" to="." method="_on_Quit_pressed" flags=3]
+[connection signal="pressed" from="MarginContainer/PanelContainer/MainContainer/LeftMargin/LeftContainer/ButtonPanel/MarginContainer/HBoxContainer/Host" to="." method="_on_Host_pressed"]
 [connection signal="pressed" from="MarginContainer/PanelContainer/MainContainer/LeftMargin/LeftContainer/ButtonPanel/MarginContainer/HBoxContainer/Join" to="." method="_on_Join_pressed"]
 [connection signal="text_entered" from="MarginContainer/PanelContainer/MainContainer/RightMargin/RightContainer/Message" to="." method="_on_Message_text_entered"]

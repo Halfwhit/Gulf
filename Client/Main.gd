@@ -16,15 +16,14 @@ func _ready():
 	
 	join_button.disabled = true
 	message_edit.editable = false
-	connection_status.text = "Connecting..."
-	connection_status.modulate = Color.yellow
-
 
 func _on_Quit_pressed():
 	get_tree().quit()
 
 
 func _on_Join_pressed():
+	connection_status.text = "Connecting..."
+	connection_status.modulate = Color.yellow
 	gamestate.pre_start_game()
 
 
@@ -38,14 +37,14 @@ func _on_connection_success():
 func _on_connection_failed():
 	join_button.disabled = true
 	message_edit.editable = false
-	connection_status.text = "Connection Failed, trying again"
+	connection_status.text = "Connection Failed"
 	connection_status.modulate = Color.red
 
 
 func _on_server_disconnect():
 	join_button.disabled = true
 	message_edit.editable = false
-	connection_status.text = "Server Disconnected, trying to connect..."
+	connection_status.text = "Server Disconnected"
 	connection_status.modulate = Color.red
 
 
@@ -63,3 +62,10 @@ func _on_PlayerName_changed(new_text):
 		gamestate.my_name = "Gulfer"
 	else:
 		gamestate.my_name = new_text
+
+
+func _on_Host_pressed():
+	connection_status.text = "Connecting..."
+	connection_status.modulate = Color.yellow
+	OS.execute("../Server/Headless.64", ["--path", "../Server/"], false)
+	gamestate.connect_to_server()
