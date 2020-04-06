@@ -1,11 +1,12 @@
 extends Control
 
 onready var connection_status = get_node("MarginContainer/PanelContainer/MainContainer/LeftMargin/LeftContainer/GameinfoPanel/MarginContainer/GameinfoContainer/ConnectionStatus")
-onready var join_button = get_node("MarginContainer/PanelContainer/MainContainer/LeftMargin/LeftContainer/ButtonPanel/MarginContainer/HBoxContainer/Join")
+onready var join_button = get_node("MarginContainer/PanelContainer/MainContainer/LeftMargin/LeftContainer/ButtonPanel/MarginContainer/VBoxContainer/HBoxContainer/Join")
 onready var player_name = get_node("MarginContainer/PanelContainer/MainContainer/LeftMargin/LeftContainer/SetupPanel/MarginContainer/VBoxContainer/NameContainer/PlayerName")
 onready var player_colour = get_node("MarginContainer/PanelContainer/MainContainer/LeftMargin/LeftContainer/SetupPanel/MarginContainer/VBoxContainer/ColourContainer/PlayerColour")
 onready var chatbox = get_node("MarginContainer/PanelContainer/MainContainer/RightMargin/RightContainer/PanelContainer/MarginContainer/Chatbox")
 onready var message_edit = get_node("MarginContainer/PanelContainer/MainContainer/RightMargin/RightContainer/Message")
+onready var ip_edit = get_node("MarginContainer/PanelContainer/MainContainer/LeftMargin/LeftContainer/ButtonPanel/MarginContainer/VBoxContainer/IP")
 
 
 func _ready():
@@ -22,6 +23,7 @@ func _on_Quit_pressed():
 
 
 func _on_Join_pressed():
+	gamestate.ip = ip_edit.text
 	connection_status.text = "Connecting..."
 	connection_status.modulate = Color.yellow
 	gamestate.pre_start_game()
@@ -67,5 +69,13 @@ func _on_PlayerName_changed(new_text):
 func _on_Host_pressed():
 	connection_status.text = "Connecting..."
 	connection_status.modulate = Color.yellow
-	OS.execute("../Server/Headless.64", ["--path", "../Server/"], false)
+	match OS.get_name():
+		"Windows":
+			# TODO: Make this work. Will be able to use "--headless" flag in Godot 4.0
+			OS.execute("../Server/Windows.exe", ["--path", "../Server/", "--quiet", "--nowindow"], false) # TODO: Tidy this up. Will be able to use "--headless" flag in Godot 4.0
+		"X11": #Linux, this works perfectly using godot's headless build
+			OS.execute("../Server/Headless.64", ["--path", "../Server/"], false)
+		_: # Default case
+			print("Unable to start server")
+	
 	gamestate.connect_to_server()
