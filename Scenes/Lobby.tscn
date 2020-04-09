@@ -116,11 +116,22 @@ margin_top = 27.0
 margin_right = 218.0
 margin_bottom = 31.0
 
-[node name="Players" type="VBoxContainer" parent="HBoxContainer/LeftPanel/VBoxContainer/PlayerList/PanelContainer/HBoxContainer/Names"]
+[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/LeftPanel/VBoxContainer/PlayerList/PanelContainer/HBoxContainer/Names"]
 margin_top = 41.0
 margin_right = 218.0
 margin_bottom = 41.0
+size_flags_horizontal = 3
 alignment = 1
+
+[node name="Avatars" type="VBoxContainer" parent="HBoxContainer/LeftPanel/VBoxContainer/PlayerList/PanelContainer/HBoxContainer/Names/HBoxContainer"]
+alignment = 1
+
+[node name="Players" type="VBoxContainer" parent="HBoxContainer/LeftPanel/VBoxContainer/PlayerList/PanelContainer/HBoxContainer/Names/HBoxContainer"]
+margin_left = 4.0
+margin_right = 218.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+alignment = 2
 
 [node name="VSeparator" type="VSeparator" parent="HBoxContainer/LeftPanel/VBoxContainer/PlayerList/PanelContainer/HBoxContainer"]
 margin_left = 222.0
