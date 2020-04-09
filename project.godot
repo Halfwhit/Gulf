@@ -16,12 +16,12 @@ _global_script_class_icons={
 [application]
 
 config/name="Gulf"
-run/main_scene="res://Scenes/MenuUI.tscn"
+run/main_scene="res://Main.tscn"
 config/icon="res://icon.png"
 
 [autoload]
 
-Multiplayer="*res://Multiplayer.gd"
+Steamworks="*res://steamworks.gd"
 
 [display]
 

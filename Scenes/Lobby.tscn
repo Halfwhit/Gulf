@@ -1,127 +1,17 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://resources/Fonts/Font14.tres" type="DynamicFont" id=1]
 [ext_resource path="res://resources/Fonts/Font24.tres" type="DynamicFont" id=2]
+[ext_resource path="res://scenes/Lobby.gd" type="Script" id=3]
+[ext_resource path="res://resources/Fonts/Font36.tres" type="DynamicFont" id=4]
 
 [sub_resource type="Theme" id=1]
 default_font = ExtResource( 1 )
 
-[sub_resource type="GDScript" id=2]
-script/source = "extends MarginContainer
-
-signal player_left
-
-func _ready():
-	#warning-ignore:return_value_discarded
-	Multiplayer.connect(\"player_list_updated\", self, \"all_players_ready\")
-	#warning-ignore:return_value_discarded
-	get_tree().connect(\"server_disconnected\", self, \"leave_room\")
-
-func message_entered(new_text):
-	if not new_text == \"\":
-		$HBoxContainer/RightPanel/ChatBox/VBoxContainer/RichTextLabel.add_text(new_text + \"\\n\")
-		$HBoxContainer/RightPanel/ChatBox/VBoxContainer/LineEdit.clear()
-
-func _on_Back_pressed():
-#warning-ignore:return_value_discarded
-	get_tree().change_scene(\"res://Scenes/MenuUI.tscn\")
-
-func host_room():
-	send_message(\"Hosting room as \" + Multiplayer.my_name)
-	Multiplayer.host_server()
-	$HBoxContainer/LeftPanel/VBoxContainer/LobbyControl/Connecting.hide()
-	$HBoxContainer/LeftPanel/VBoxContainer/LobbyControl/Host.show()
-	$HBoxContainer/RightPanel/ChatBox/VBoxContainer/LineEdit.set(\"editable\", true)
-
-func join_room():
-	var ip = $HBoxContainer/LeftPanel/VBoxContainer/LobbyControl/Connecting/IP.text
-	Multiplayer.connect_to_server(ip)
-	$HBoxContainer/LeftPanel/VBoxContainer/LobbyControl/Connecting.hide()
-	$HBoxContainer/LeftPanel/VBoxContainer/LobbyControl/Peer.show()
-	$HBoxContainer/RightPanel/ChatBox/VBoxContainer/LineEdit.set(\"editable\", true)
-	send_message(\"Connecting to server: \" + str(ip) + \" as \" + Multiplayer.my_name)
-
-func leave_room():
-	var p_id = get_tree().get_network_unique_id()
-	send_message(\"Disconnected from lobby\")
-	$HBoxContainer/LeftPanel/VBoxContainer/LobbyControl/Host.hide()
-	$HBoxContainer/LeftPanel/VBoxContainer/LobbyControl/Peer.hide()
-	$HBoxContainer/LeftPanel/VBoxContainer/LobbyControl/Connecting.show()
-	$HBoxContainer/RightPanel/ChatBox/VBoxContainer/LineEdit.set(\"editable\", false)
-	emit_signal(\"player_left\", p_id)
-	Multiplayer.players.clear()
-	Multiplayer.emit_signal(\"player_list_updated\")
-	get_tree().set_network_peer(null)
-
-func all_players_ready():
-	if Multiplayer.players_ready.size() == Multiplayer.players.size():
-		$HBoxContainer/LeftPanel/VBoxContainer/LobbyControl/Host/Start.disabled = false
-	else:
-		$HBoxContainer/LeftPanel/VBoxContainer/LobbyControl/Host/Start.disabled = true
-
-func _on_Ready_pressed():
-	Multiplayer.rpc(\"player_ready\", get_tree().get_network_unique_id())
-
-sync func send_message(message_string):
-	$HBoxContainer/RightPanel/ChatBox/VBoxContainer/RichTextLabel.add_text(message_string)
-	$HBoxContainer/RightPanel/ChatBox/VBoxContainer/RichTextLabel.newline()
-
-func _on_Start_pressed():
-	print(\"Start pressed\")
-	Multiplayer.rpc(\"preconfigure\")
-"
-
-[sub_resource type="GDScript" id=3]
-script/source = "extends MarginContainer
-
-const READY = \"Ready\"
-const NOT_READY = \"Not ready\"
-
-onready var player_list = $PanelContainer/HBoxContainer/Names/Players
-onready var status_list = $PanelContainer/HBoxContainer/Status/Players
-
-func _ready():
-# warning-ignore:return_value_discarded
-		Multiplayer.connect(\"player_list_updated\", self, \"update_player_list\")
-
-remote func update_player_list():
-	# Call on all players
-	if get_tree().is_network_server():
-#		rset(\"Multiplayer.players\", Multiplayer.players)
-#		rset(\"Multiplayer.players_ready\", Multiplayer.players_ready)
-		rpc(\"update_player_list\")
-
-	print(\"Clearing playerlist\")
-	for player_label in player_list.get_children():
-		player_label.free()
-	for status_label in status_list.get_children():
-		status_label.free()
-
-	print(\"Populating playerlist\")
-	for p_id in Multiplayer.players:
-		var player_label = Label.new()
-		var status_label = Label.new()
-
-		player_label.text = Multiplayer.players.get(p_id)
-		player_label.align = Label.ALIGN_CENTER
-		player_label.name = str(p_id)
-		$PanelContainer/HBoxContainer/Names/Players.add_child(player_label)
-
-		if Multiplayer.players_ready.has(p_id):
-			status_label.text = READY
-			status_label.add_color_override(\"font_color\", Color(0, 1, 0))
-		else:
-			status_label.text = NOT_READY
-			status_label.add_color_override(\"font_color\", Color(1, 0, 0))
-		status_label.align = Label.ALIGN_CENTER
-		status_label.name = str(p_id)
-		$PanelContainer/HBoxContainer/Status/Players.add_child(status_label)
-"
-
-[sub_resource type="StyleBoxFlat" id=4]
+[sub_resource type="StyleBoxFlat" id=2]
 bg_color = Color( 0, 0, 0, 0.3 )
 
-[sub_resource type="Theme" id=5]
+[sub_resource type="Theme" id=3]
 Label/colors/font_color = Color( 1, 1, 1, 1 )
 Label/colors/font_color_shadow = Color( 0, 0, 0, 0 )
 Label/colors/font_outline_modulate = Color( 1, 1, 1, 1 )
@@ -132,24 +22,13 @@ Label/constants/shadow_offset_y = 1
 Label/fonts/font = null
 Label/styles/normal = null
 
-[sub_resource type="StyleBoxFlat" id=6]
+[sub_resource type="StyleBoxFlat" id=4]
 bg_color = Color( 0, 0, 0, 0.3 )
 
-[sub_resource type="Theme" id=7]
+[sub_resource type="Theme" id=5]
 default_font = ExtResource( 2 )
 
-[sub_resource type="GDScript" id=8]
-script/source = "extends MarginContainer
-
-func _on_LineEdit_text_entered(new_text):
-	var message = Multiplayer.my_name + \": \" + new_text + \"\\n\"
-	$VBoxContainer/LineEdit.clear()
-	rpc(\"send_message\", message)
-
-sync func send_message(message_text):
-	$VBoxContainer/RichTextLabel.add_text(message_text)"
-
-[sub_resource type="StyleBoxFlat" id=9]
+[sub_resource type="StyleBoxFlat" id=6]
 bg_color = Color( 0, 0, 0, 0.25 )
 
 [node name="Lobby" type="MarginContainer"]
@@ -158,9 +37,9 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 margin_left = -512.0
-margin_top = -384.0
+margin_top = -382.0
 margin_right = 512.0
-margin_bottom = 384.0
+margin_bottom = 386.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 theme = SubResource( 1 )
@@ -168,7 +47,10 @@ custom_constants/margin_right = 24
 custom_constants/margin_top = 24
 custom_constants/margin_left = 24
 custom_constants/margin_bottom = 24
-script = SubResource( 2 )
+script = ExtResource( 3 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="HBoxContainer" type="HBoxContainer" parent="."]
 margin_left = 24.0
@@ -200,7 +82,6 @@ custom_constants/margin_right = 12
 custom_constants/margin_top = 12
 custom_constants/margin_left = 12
 custom_constants/margin_bottom = 12
-script = SubResource( 3 )
 
 [node name="PanelContainer" type="PanelContainer" parent="HBoxContainer/LeftPanel/VBoxContainer/PlayerList"]
 margin_left = 12.0
@@ -209,12 +90,12 @@ margin_right = 460.0
 margin_bottom = 248.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
-custom_styles/panel = SubResource( 4 )
+custom_styles/panel = SubResource( 2 )
 
 [node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/LeftPanel/VBoxContainer/PlayerList/PanelContainer"]
 margin_right = 448.0
 margin_bottom = 236.0
-theme = SubResource( 5 )
+theme = SubResource( 3 )
 
 [node name="Names" type="VBoxContainer" parent="HBoxContainer/LeftPanel/VBoxContainer/PlayerList/PanelContainer/HBoxContainer"]
 margin_right = 218.0
@@ -294,7 +175,7 @@ margin_right = 460.0
 margin_bottom = 248.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
-custom_styles/panel = SubResource( 6 )
+custom_styles/panel = SubResource( 4 )
 
 [node name="Label" type="Label" parent="HBoxContainer/LeftPanel/VBoxContainer/GameSettings/PanelContainer2"]
 margin_top = 109.0
@@ -315,7 +196,7 @@ margin_bottom = 706.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 size_flags_stretch_ratio = 0.5
-theme = SubResource( 7 )
+theme = SubResource( 5 )
 custom_constants/margin_right = 12
 custom_constants/margin_top = 12
 custom_constants/margin_left = 12
@@ -330,15 +211,13 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 custom_constants/separation = 12
 
-[node name="IP" type="LineEdit" parent="HBoxContainer/LeftPanel/VBoxContainer/LobbyControl/Connecting"]
+[node name="LobbySearch" type="Button" parent="HBoxContainer/LeftPanel/VBoxContainer/LobbyControl/Connecting"]
 margin_right = 448.0
 margin_bottom = 47.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 custom_fonts/font = ExtResource( 2 )
-text = "127.0.0.1"
-align = 1
-placeholder_text = "Enter server address"
+text = "Find a lobby"
 
 [node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/LeftPanel/VBoxContainer/LobbyControl/Connecting"]
 margin_top = 59.0
@@ -348,41 +227,40 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 custom_constants/separation = 12
 
-[node name="Back" type="Button" parent="HBoxContainer/LeftPanel/VBoxContainer/LobbyControl/Connecting/HBoxContainer"]
-margin_right = 130.0
+[node name="Quit" type="Button" parent="HBoxContainer/LeftPanel/VBoxContainer/LobbyControl/Connecting/HBoxContainer"]
+margin_right = 56.0
 margin_bottom = 47.0
-size_flags_horizontal = 3
 size_flags_vertical = 3
 custom_fonts/font = ExtResource( 2 )
-text = "Back"
+text = "Quit"
 
 [node name="VSeparator" type="VSeparator" parent="HBoxContainer/LeftPanel/VBoxContainer/LobbyControl/Connecting/HBoxContainer"]
-margin_left = 142.0
-margin_right = 146.0
+margin_left = 68.0
+margin_right = 72.0
 margin_bottom = 47.0
 
-[node name="Host" type="Button" parent="HBoxContainer/LeftPanel/VBoxContainer/LobbyControl/Connecting/HBoxContainer"]
-margin_left = 158.0
-margin_right = 288.0
+[node name="Public" type="Button" parent="HBoxContainer/LeftPanel/VBoxContainer/LobbyControl/Connecting/HBoxContainer"]
+margin_left = 84.0
+margin_right = 252.0
 margin_bottom = 47.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 custom_fonts/font = ExtResource( 2 )
-text = "Host"
+text = "Host Public"
 
 [node name="VSeparator2" type="VSeparator" parent="HBoxContainer/LeftPanel/VBoxContainer/LobbyControl/Connecting/HBoxContainer"]
-margin_left = 300.0
-margin_right = 304.0
+margin_left = 264.0
+margin_right = 268.0
 margin_bottom = 47.0
 
-[node name="Join" type="Button" parent="HBoxContainer/LeftPanel/VBoxContainer/LobbyControl/Connecting/HBoxContainer"]
-margin_left = 316.0
+[node name="Friends" type="Button" parent="HBoxContainer/LeftPanel/VBoxContainer/LobbyControl/Connecting/HBoxContainer"]
+margin_left = 280.0
 margin_right = 448.0
 margin_bottom = 47.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 custom_fonts/font = ExtResource( 2 )
-text = "Join"
+text = "Host Friends"
 
 [node name="Host" type="HBoxContainer" parent="HBoxContainer/LeftPanel/VBoxContainer/LobbyControl"]
 visible = false
@@ -474,7 +352,6 @@ custom_constants/margin_right = 12
 custom_constants/margin_top = 12
 custom_constants/margin_left = 12
 custom_constants/margin_bottom = 12
-script = SubResource( 8 )
 
 [node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer/RightPanel/ChatBox"]
 margin_left = 12.0
@@ -483,28 +360,81 @@ margin_right = 460.0
 margin_bottom = 694.0
 custom_constants/separation = 24
 
-[node name="RichTextLabel" type="RichTextLabel" parent="HBoxContainer/RightPanel/ChatBox/VBoxContainer"]
+[node name="Chatlog" type="RichTextLabel" parent="HBoxContainer/RightPanel/ChatBox/VBoxContainer"]
 margin_right = 448.0
 margin_bottom = 631.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
-custom_styles/normal = SubResource( 9 )
+custom_styles/normal = SubResource( 6 )
 scroll_following = true
 
-[node name="LineEdit" type="LineEdit" parent="HBoxContainer/RightPanel/ChatBox/VBoxContainer"]
+[node name="Message" type="LineEdit" parent="HBoxContainer/RightPanel/ChatBox/VBoxContainer"]
 margin_top = 655.0
 margin_right = 448.0
 margin_bottom = 682.0
 size_flags_horizontal = 3
 custom_fonts/font = ExtResource( 1 )
-editable = false
 placeholder_text = "Enter message"
-[connection signal="pressed" from="HBoxContainer/LeftPanel/VBoxContainer/LobbyControl/Connecting/HBoxContainer/Back" to="." method="_on_Back_pressed"]
-[connection signal="pressed" from="HBoxContainer/LeftPanel/VBoxContainer/LobbyControl/Connecting/HBoxContainer/Host" to="." method="host_room"]
-[connection signal="pressed" from="HBoxContainer/LeftPanel/VBoxContainer/LobbyControl/Connecting/HBoxContainer/Join" to="." method="join_room"]
+
+[node name="LobbyPanel" type="PopupPanel" parent="."]
+margin_left = 24.0
+margin_top = 24.0
+margin_right = 1000.0
+margin_bottom = 744.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="LobbyPanel"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="LobbyPanel/VBoxContainer"]
+margin_right = 976.0
+margin_bottom = 43.0
+custom_fonts/font = ExtResource( 4 )
+text = "LOBBIES"
+align = 1
+
+[node name="ScrollContainer" type="ScrollContainer" parent="LobbyPanel/VBoxContainer"]
+margin_top = 47.0
+margin_right = 976.0
+margin_bottom = 681.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="LobbyList" type="VBoxContainer" parent="LobbyPanel/VBoxContainer/ScrollContainer"]
+margin_right = 976.0
+margin_bottom = 634.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+alignment = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="CloseLobbySearch" type="Button" parent="LobbyPanel/VBoxContainer"]
+margin_top = 685.0
+margin_right = 976.0
+margin_bottom = 720.0
+size_flags_horizontal = 9
+size_flags_vertical = 8
+custom_fonts/font = ExtResource( 2 )
+text = "Back"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+[connection signal="pressed" from="HBoxContainer/LeftPanel/VBoxContainer/LobbyControl/Connecting/LobbySearch" to="." method="_on_LobbySearch_pressed"]
+[connection signal="pressed" from="HBoxContainer/LeftPanel/VBoxContainer/LobbyControl/Connecting/HBoxContainer/Quit" to="." method="_on_Quit_pressed"]
+[connection signal="pressed" from="HBoxContainer/LeftPanel/VBoxContainer/LobbyControl/Connecting/HBoxContainer/Public" to="." method="_on_Public_pressed"]
+[connection signal="pressed" from="HBoxContainer/LeftPanel/VBoxContainer/LobbyControl/Connecting/HBoxContainer/Friends" to="." method="_on_Friends_pressed"]
 [connection signal="pressed" from="HBoxContainer/LeftPanel/VBoxContainer/LobbyControl/Host/Disconnect" to="." method="leave_room"]
 [connection signal="pressed" from="HBoxContainer/LeftPanel/VBoxContainer/LobbyControl/Host/Ready" to="." method="_on_Ready_pressed"]
 [connection signal="pressed" from="HBoxContainer/LeftPanel/VBoxContainer/LobbyControl/Host/Start" to="." method="_on_Start_pressed"]
 [connection signal="pressed" from="HBoxContainer/LeftPanel/VBoxContainer/LobbyControl/Peer/Leave" to="." method="leave_room"]
 [connection signal="pressed" from="HBoxContainer/LeftPanel/VBoxContainer/LobbyControl/Peer/Ready" to="." method="_on_Ready_pressed"]
-[connection signal="text_entered" from="HBoxContainer/RightPanel/ChatBox/VBoxContainer/LineEdit" to="HBoxContainer/RightPanel/ChatBox" method="_on_LineEdit_text_entered"]
+[connection signal="text_entered" from="HBoxContainer/RightPanel/ChatBox/VBoxContainer/Message" to="." method="_on_Message_text_entered"]
+[connection signal="pressed" from="LobbyPanel/VBoxContainer/CloseLobbySearch" to="." method="_on_CloseLobbySearch_pressed"]
