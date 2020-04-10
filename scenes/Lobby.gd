@@ -4,12 +4,16 @@ var STEAM_LOBBY_ID = 0
 var LOBBY_MEMBERS = []
 var DATA
 var LOBBY_INVITE_ARG = false
+var player_data = {}
 
-onready var name_list = get_node("HBoxContainer/LeftPanel/VBoxContainer/PlayerList/PanelContainer/HBoxContainer/Names/Players")
-onready var status_list = get_node("HBoxContainer/LeftPanel/VBoxContainer/PlayerList/PanelContainer/HBoxContainer/Status/Players")
+
+onready var name_list = get_node("HBoxContainer/LeftPanel/VBoxContainer/PlayerList/PanelContainer/MarginContainer/HBoxContainer/Names/Players")
+onready var status_list = get_node("HBoxContainer/LeftPanel/VBoxContainer/PlayerList/PanelContainer/MarginContainer/HBoxContainer/Status/Players")
 
 func _on_Quit_pressed():
 	get_tree().quit()
+
+
 
 func _ready():
 	Steam.connect("lobby_created", self, "_on_Lobby_Created")
@@ -50,7 +54,7 @@ func loaded_avatar(id, size, buffer):
 	AVATAR_TEXTURE.create_from_image(AVATAR)
 
 	# For our purposes, set a sprite with the avatar texture
-	var node_path = NodePath("HBoxContainer/LeftPanel/VBoxContainer/PlayerList/PanelContainer/HBoxContainer/Names/Players/" + str(id))
+	var node_path = NodePath("HBoxContainer/LeftPanel/VBoxContainer/PlayerList/PanelContainer/MarginContainer/HBoxContainer/Names/Players/" + str(id))
 	get_node(node_path).get_node("player_icon").set_texture(AVATAR_TEXTURE)
 	
 
@@ -97,6 +101,7 @@ func _on_Lobby_Created(connect, lobbyID):
 		# Set some lobby data
 		var lobby_name = "Lobby hosted by: " + Steamworks.STEAM_USERNAME
 		print(lobby_name)
+		_append_Message(lobby_name)
 		Steam.setLobbyData(lobbyID, "name", lobby_name)
 		Steam.setLobbyData(lobbyID, "mode", "Gulf")
 

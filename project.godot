@@ -21,7 +21,7 @@ config/icon="res://icon.png"
 
 [autoload]
 
-Steamworks="*res://steamworks.gd"
+Steamworks="*res://Steamworks.gd"
 
 [display]
 

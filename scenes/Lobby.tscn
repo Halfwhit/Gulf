@@ -92,65 +92,75 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 custom_styles/panel = SubResource( 2 )
 
-[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/LeftPanel/VBoxContainer/PlayerList/PanelContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="HBoxContainer/LeftPanel/VBoxContainer/PlayerList/PanelContainer"]
 margin_right = 448.0
 margin_bottom = 236.0
+custom_constants/margin_right = 10
+custom_constants/margin_top = 10
+custom_constants/margin_left = 10
+custom_constants/margin_bottom = 10
+
+[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/LeftPanel/VBoxContainer/PlayerList/PanelContainer/MarginContainer"]
+margin_left = 10.0
+margin_top = 10.0
+margin_right = 438.0
+margin_bottom = 226.0
 theme = SubResource( 3 )
 
-[node name="Names" type="VBoxContainer" parent="HBoxContainer/LeftPanel/VBoxContainer/PlayerList/PanelContainer/HBoxContainer"]
-margin_right = 218.0
-margin_bottom = 236.0
+[node name="Names" type="VBoxContainer" parent="HBoxContainer/LeftPanel/VBoxContainer/PlayerList/PanelContainer/MarginContainer/HBoxContainer"]
+margin_right = 208.0
+margin_bottom = 216.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 custom_constants/separation = 10
 
-[node name="NameHeader" type="Label" parent="HBoxContainer/LeftPanel/VBoxContainer/PlayerList/PanelContainer/HBoxContainer/Names"]
-margin_right = 218.0
+[node name="NameHeader" type="Label" parent="HBoxContainer/LeftPanel/VBoxContainer/PlayerList/PanelContainer/MarginContainer/HBoxContainer/Names"]
+margin_right = 208.0
 margin_bottom = 17.0
 text = "Player Name"
 align = 1
 valign = 1
 
-[node name="HSeparator" type="HSeparator" parent="HBoxContainer/LeftPanel/VBoxContainer/PlayerList/PanelContainer/HBoxContainer/Names"]
+[node name="HSeparator" type="HSeparator" parent="HBoxContainer/LeftPanel/VBoxContainer/PlayerList/PanelContainer/MarginContainer/HBoxContainer/Names"]
 margin_top = 27.0
-margin_right = 218.0
+margin_right = 208.0
 margin_bottom = 31.0
 
-[node name="Players" type="VBoxContainer" parent="HBoxContainer/LeftPanel/VBoxContainer/PlayerList/PanelContainer/HBoxContainer/Names"]
+[node name="Players" type="VBoxContainer" parent="HBoxContainer/LeftPanel/VBoxContainer/PlayerList/PanelContainer/MarginContainer/HBoxContainer/Names"]
 margin_top = 41.0
-margin_right = 218.0
-margin_bottom = 236.0
+margin_right = 208.0
+margin_bottom = 216.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="VSeparator" type="VSeparator" parent="HBoxContainer/LeftPanel/VBoxContainer/PlayerList/PanelContainer/HBoxContainer"]
-margin_left = 222.0
-margin_right = 226.0
-margin_bottom = 236.0
+[node name="VSeparator" type="VSeparator" parent="HBoxContainer/LeftPanel/VBoxContainer/PlayerList/PanelContainer/MarginContainer/HBoxContainer"]
+margin_left = 212.0
+margin_right = 216.0
+margin_bottom = 216.0
 
-[node name="Status" type="VBoxContainer" parent="HBoxContainer/LeftPanel/VBoxContainer/PlayerList/PanelContainer/HBoxContainer"]
-margin_left = 230.0
-margin_right = 448.0
-margin_bottom = 236.0
+[node name="Status" type="VBoxContainer" parent="HBoxContainer/LeftPanel/VBoxContainer/PlayerList/PanelContainer/MarginContainer/HBoxContainer"]
+margin_left = 220.0
+margin_right = 428.0
+margin_bottom = 216.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 custom_constants/separation = 10
 
-[node name="StatusHeader" type="Label" parent="HBoxContainer/LeftPanel/VBoxContainer/PlayerList/PanelContainer/HBoxContainer/Status"]
-margin_right = 218.0
+[node name="StatusHeader" type="Label" parent="HBoxContainer/LeftPanel/VBoxContainer/PlayerList/PanelContainer/MarginContainer/HBoxContainer/Status"]
+margin_right = 208.0
 margin_bottom = 17.0
 text = "Player Status"
 align = 1
 valign = 1
 
-[node name="HSeparator" type="HSeparator" parent="HBoxContainer/LeftPanel/VBoxContainer/PlayerList/PanelContainer/HBoxContainer/Status"]
+[node name="HSeparator" type="HSeparator" parent="HBoxContainer/LeftPanel/VBoxContainer/PlayerList/PanelContainer/MarginContainer/HBoxContainer/Status"]
 margin_top = 27.0
-margin_right = 218.0
+margin_right = 208.0
 margin_bottom = 31.0
 
-[node name="Players" type="VBoxContainer" parent="HBoxContainer/LeftPanel/VBoxContainer/PlayerList/PanelContainer/HBoxContainer/Status"]
+[node name="Players" type="VBoxContainer" parent="HBoxContainer/LeftPanel/VBoxContainer/PlayerList/PanelContainer/MarginContainer/HBoxContainer/Status"]
 margin_top = 41.0
-margin_right = 218.0
+margin_right = 208.0
 margin_bottom = 41.0
 
 [node name="HSeparator" type="HSeparator" parent="HBoxContainer/LeftPanel/VBoxContainer"]
@@ -178,9 +188,18 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 custom_styles/panel = SubResource( 4 )
 
-[node name="Label" type="Label" parent="HBoxContainer/LeftPanel/VBoxContainer/GameSettings/PanelContainer2"]
-margin_top = 109.0
+[node name="MarginContainer" type="MarginContainer" parent="HBoxContainer/LeftPanel/VBoxContainer/GameSettings/PanelContainer2"]
 margin_right = 448.0
+margin_bottom = 236.0
+custom_constants/margin_right = 10
+custom_constants/margin_top = 10
+custom_constants/margin_left = 10
+custom_constants/margin_bottom = 10
+
+[node name="Label" type="Label" parent="HBoxContainer/LeftPanel/VBoxContainer/GameSettings/PanelContainer2/MarginContainer"]
+margin_left = 10.0
+margin_top = 109.0
+margin_right = 438.0
 margin_bottom = 126.0
 text = "Game Info"
 align = 1
