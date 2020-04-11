@@ -73,8 +73,10 @@ func _on_Lobby_Created(connect, lobbyID):
 		# Set the lobby ID
 		STEAM_LOBBY_ID = lobbyID
 		# Set some lobby data
-		var lobby_details = "Lobby hosted by: " + Steamworks.STEAM_USERNAME
-		_append_Message(lobby_details)
+		var lobby_details = "\nLobby hosted by: " + Steamworks.STEAM_USERNAME + "\n"
+		_append_Message("---------------------------------------------------------------------------------\n" +
+						"Lobby hosted by: " + Steamworks.STEAM_USERNAME +
+						"\n---------------------------------------------------------------------------------")
 		Steam.setLobbyData(lobbyID, "name", lobby_details)
 		Steam.setLobbyData(lobbyID, "mode", "Gulf")
 		# Allow P2P connections to fallback to being relayed through Steam if needed
@@ -149,16 +151,18 @@ func _on_Lobby_Joined(lobbyID, permissions, locked, response):
 func _on_Lobby_Chat_Update(lobbyID, changedID, makingChangeID, chatState):
 	# Get the user who has made the lobby change
 	var CHANGER = Steam.getFriendPersonaName(makingChangeID)
+	var message
 	# If a player has joined the lobby
 	if chatState == 1:
-		print(str(CHANGER)+" has joined the lobby.")
+		message = str(CHANGER) + " has joined the lobby."
 	# Else if a player has left the lobby
 	elif chatState == 2:
-		print(str(CHANGER)+" has left the lobby.")
+		message = str(CHANGER) + " has left the lobby."
 	else:
-		print(str(CHANGER)+" did... something.")
+		message = str(CHANGER)+" did... something... -> " + str(chatState)
 	# Update the lobby now that a change has occurred
 	_get_Lobby_Members()
+	_append_Message(message)
 
 
 func _clear_playerlist():
@@ -288,7 +292,9 @@ func _leave_Lobby():
 		# Send leave request to Steam
 		Steam.leaveLobby(STEAM_LOBBY_ID)
 		# Wipe the Steam lobby ID then display the default lobby ID and player list title
-		_append_Message("Disconnected from LobbyID: " + str(STEAM_LOBBY_ID))
+		_append_Message("---------------------------------------------------------------------------------\n" + 
+						"Disconnected from LobbyID: " + str(STEAM_LOBBY_ID) + 
+						"\n---------------------------------------------------------------------------------")
 		STEAM_LOBBY_ID = 0
 		_clear_playerlist()
 		# Close session with all users
@@ -300,6 +306,8 @@ func _leave_Lobby():
 		$HBoxContainer/LeftPanel/VBoxContainer/LobbyControl/Connecting.show()
 		$HBoxContainer/LeftPanel/VBoxContainer/LobbyControl/Host.hide()
 		$HBoxContainer/LeftPanel/VBoxContainer/LobbyControl/Peer.hide()
+		$HBoxContainer/LeftPanel/VBoxContainer/LobbyControl/Host/Ready.pressed = false
+		$HBoxContainer/LeftPanel/VBoxContainer/LobbyControl/Peer/Ready.pressed = false
 
 
 func _make_P2P_Handshake():
@@ -308,3 +316,38 @@ func _make_P2P_Handshake():
 	DATA.append(256)
 	DATA.append_array(var2bytes({"message":"handshake", "from":Steamworks.STEAM_ID}))
 	#_send_P2P_Packet(DATA, 2, 0)
+
+
+func _on_P2P_Session_Request(remoteID):	
+	# Get the requester's name
+	var REQUESTER = Steam.getFriendPersonaName(remoteID)
+	# Accept the P2P session; can apply logic to deny this request if needed
+	Steam.acceptP2PSessionWithUser(remoteID)
+	# Make the initial handshake
+	_make_P2P_Handshake()
+
+
+func _send_P2P_Packet(data, send_type, channel):
+	# If there is more than one user, send packets
+	if LOBBY_MEMBERS.size() > 1:
+		# Loop through all members that aren't you
+		for MEMBER in LOBBY_MEMBERS:
+			if MEMBER['steam_id'] != Steamworks.STEAM_ID:
+				Steam.sendP2PPacket(MEMBER['steam_id'], data, send_type, channel)
+
+
+func _read_P2P_Packet():
+	var PACKET_SIZE = Steam.getAvailableP2PPacketSize(0)
+	# There is a packet
+	if PACKET_SIZE > 0:
+		var PACKET = Steam.readP2PPacket(PACKET_SIZE, 0)
+		if PACKET.empty():
+			print("WARNING: read an empty packet with non-zero size!")
+		# Get the remote user's ID
+		var PACKET_ID = str(PACKET.steamIDRemote)
+		var PACKET_CODE = str(PACKET.data[0])
+		# Make the packet data readable
+		var READABLE = bytes2var(PACKET.data.subarray(1, PACKET_SIZE - 1))
+		# Print the packet to output
+		print("Packet: "+str(READABLE))
+		# Append logic here to deal with packet data

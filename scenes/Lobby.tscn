@@ -311,6 +311,7 @@ margin_right = 290.0
 margin_bottom = 106.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
+toggle_mode = true
 text = "Ready"
 
 [node name="VSeparator3" type="VSeparator" parent="HBoxContainer/LeftPanel/VBoxContainer/LobbyControl/Host"]
@@ -354,6 +355,7 @@ margin_right = 448.0
 margin_bottom = 106.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
+toggle_mode = true
 text = "Ready"
 
 [node name="RightPanel" type="PanelContainer" parent="HBoxContainer"]
@@ -458,5 +460,6 @@ __meta__ = {
 [connection signal="pressed" from="HBoxContainer/LeftPanel/VBoxContainer/LobbyControl/Host/Disconnect" to="." method="_leave_Lobby"]
 [connection signal="pressed" from="HBoxContainer/LeftPanel/VBoxContainer/LobbyControl/Host/Ready" to="." method="_on_Ready_pressed"]
 [connection signal="pressed" from="HBoxContainer/LeftPanel/VBoxContainer/LobbyControl/Peer/Leave" to="." method="_leave_Lobby"]
+[connection signal="pressed" from="HBoxContainer/LeftPanel/VBoxContainer/LobbyControl/Peer/Ready" to="." method="_on_Ready_pressed"]
 [connection signal="text_entered" from="HBoxContainer/RightPanel/ChatBox/VBoxContainer/Message" to="." method="_on_Message_text_entered"]
 [connection signal="pressed" from="LobbyPanel/VBoxContainer/CloseLobbySearch" to="." method="_on_CloseLobbySearch_pressed"]
