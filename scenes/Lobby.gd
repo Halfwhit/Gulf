@@ -5,12 +5,16 @@ var LOBBY_MEMBERS = []
 var DATA
 var LOBBY_INVITE_ARG = false
 var player_data = {}
+var players_ready = []
 
 
 onready var name_list = get_node("HBoxContainer/LeftPanel/VBoxContainer/PlayerList/PanelContainer/MarginContainer/HBoxContainer/Names/Players")
 onready var status_list = get_node("HBoxContainer/LeftPanel/VBoxContainer/PlayerList/PanelContainer/MarginContainer/HBoxContainer/Status/Players")
 
 
+enum PacketType {
+	READY_PACKET
+}
 func _ready():
 	Steam.connect("lobby_created", self, "_on_Lobby_Created")
 	Steam.connect("lobby_match_list", self, "_on_Lobby_Match_List")
@@ -130,6 +134,7 @@ func _on_Lobby_Join_Requested(lobbyID, friendID):
 func _on_Lobby_Joined(lobbyID, permissions, locked, response):
 	# Set this lobby ID as your lobby ID
 	STEAM_LOBBY_ID = lobbyID
+	Steam.setLobbyMemberData(lobbyID, "status", "Not ready")
 	# Get the lobby members
 	_get_Lobby_Members()
 	# Make the initial handshake
@@ -139,6 +144,21 @@ func _on_Lobby_Joined(lobbyID, permissions, locked, response):
 		$HBoxContainer/LeftPanel/VBoxContainer/LobbyControl/Host.show()
 	else:
 		$HBoxContainer/LeftPanel/VBoxContainer/LobbyControl/Peer.show()
+
+
+func _on_Lobby_Chat_Update(lobbyID, changedID, makingChangeID, chatState):
+	# Get the user who has made the lobby change
+	var CHANGER = Steam.getFriendPersonaName(makingChangeID)
+	# If a player has joined the lobby
+	if chatState == 1:
+		print(str(CHANGER)+" has joined the lobby.")
+	# Else if a player has left the lobby
+	elif chatState == 2:
+		print(str(CHANGER)+" has left the lobby.")
+	else:
+		print(str(CHANGER)+" did... something.")
+	# Update the lobby now that a change has occurred
+	_get_Lobby_Members()
 
 
 func _clear_playerlist():
@@ -151,6 +171,7 @@ func _clear_playerlist():
 func _get_Lobby_Members():
 	# Clear your previous lobby list
 	LOBBY_MEMBERS.clear()
+	_clear_playerlist()
 	# Get the number of members from this lobby from Steam
 	var MEMBERS = Steam.getNumLobbyMembers(STEAM_LOBBY_ID)
 	# Get the data of these players from Steam
@@ -179,10 +200,14 @@ func _get_Lobby_Members():
 		name_list.get_node(node_path).add_child(member_name)
 		# Status
 		var member_status = Label.new()
-		member_status.name = "player_status"
-		member_status.text = "Not ready"
+		member_status.name = str(MEMBER_STEAM_ID)
+		var lobby_member_data = Steam.getLobbyMemberData(STEAM_LOBBY_ID, MEMBER_STEAM_ID, "status")
 		member_status.align = Label.ALIGN_CENTER
-		member_status.add_color_override("font_color", Color.red)
+		if lobby_member_data == "Ready":
+			member_status.add_color_override("font_color", Color.green)
+		if lobby_member_data == "Not ready":
+			member_status.add_color_override("font_color", Color.red)
+			member_status.text = lobby_member_data
 		status_list.add_child(member_status)
 		# Now request the avatar
 		var MEMBER_AVATAR = Steam.getPlayerAvatar(Steam.AVATAR_SMALL)
@@ -197,7 +222,6 @@ func loaded_avatar(id, size, buffer):
 	var AVATAR = Image.new()
 	var AVATAR_TEXTURE = ImageTexture.new()
 	AVATAR.create(size, size, false, Image.FORMAT_RGBAF)
-
 	# Lock the image and fill the pixels from the data buffer
 	AVATAR.lock()
 	for y in range(0, size):
@@ -209,17 +233,31 @@ func loaded_avatar(id, size, buffer):
 			var a = float(buffer[pixel+3]) / 255
 			AVATAR.set_pixel(x, y, Color(r, g, b, a))
 	AVATAR.unlock()
-
 	# Now apply the texture
 	AVATAR_TEXTURE.create_from_image(AVATAR)
-
-	# For our purposes, set a sprite with the avatar texture
 	var node_path = NodePath("HBoxContainer/LeftPanel/VBoxContainer/PlayerList/PanelContainer/MarginContainer/HBoxContainer/Names/Players/" + str(id))
 	get_node(node_path).get_node("player_icon").set_texture(AVATAR_TEXTURE)
 
 
 func _on_Lobby_Data_Update(success, lobbyID, memberID, key):
 	print("Success: "+str(success)+", Lobby ID: "+str(lobbyID)+", Member ID: "+str(memberID)+", Key: "+str(key))
+	if lobbyID == memberID:
+		pass
+	else:
+		var node_path = NodePath("HBoxContainer/LeftPanel/VBoxContainer/PlayerList/PanelContainer/MarginContainer/HBoxContainer/Status/Players/" + str(memberID))
+		var lobby_member_data = Steam.getLobbyMemberData(STEAM_LOBBY_ID, memberID, "status")
+		if lobby_member_data == "Ready":
+			get_node(node_path).add_color_override("font_color", Color.green)
+		if lobby_member_data == "Not ready":
+			get_node(node_path).add_color_override("font_color", Color.red)
+		get_node(node_path).set_text(lobby_member_data)
+
+
+func _on_Ready_pressed():
+	if Steam.getLobbyMemberData(STEAM_LOBBY_ID, Steamworks.STEAM_ID, "status") == "Not ready":
+		Steam.setLobbyMemberData(STEAM_LOBBY_ID, "status", "Ready")
+	else:
+		Steam.setLobbyMemberData(STEAM_LOBBY_ID, "status", "Not ready")
 
 
 func _on_Lobby_Message(result, user, message, type):
