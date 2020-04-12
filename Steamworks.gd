@@ -24,7 +24,7 @@ func _ready():
 	# Check if account owns the game
 	if OWNED == false:
 		print("User does not own this game")
-		get_tree().quit()
+	#	get_tree().quit()
 
 func _process(delta):
 	Steam.run_callbacks()
