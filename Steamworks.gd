@@ -26,5 +26,6 @@ func _ready():
 		print("User does not own this game")
 	#	get_tree().quit()
 
+# warning-ignore:unused_argument
 func _process(delta):
 	Steam.run_callbacks()
