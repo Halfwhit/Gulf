@@ -129,9 +129,7 @@ margin_bottom = 31.0
 [node name="Players" type="VBoxContainer" parent="HBoxContainer/LeftPanel/VBoxContainer/PlayerList/PanelContainer/MarginContainer/HBoxContainer/Names"]
 margin_top = 41.0
 margin_right = 208.0
-margin_bottom = 216.0
-size_flags_horizontal = 3
-size_flags_vertical = 3
+margin_bottom = 41.0
 
 [node name="VSeparator" type="VSeparator" parent="HBoxContainer/LeftPanel/VBoxContainer/PlayerList/PanelContainer/MarginContainer/HBoxContainer"]
 margin_left = 212.0
@@ -385,10 +383,13 @@ custom_constants/separation = 24
 [node name="Chatlog" type="RichTextLabel" parent="HBoxContainer/RightPanel/ChatBox/VBoxContainer"]
 margin_right = 448.0
 margin_bottom = 631.0
+focus_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 custom_styles/normal = SubResource( 6 )
+bbcode_enabled = true
 scroll_following = true
+selection_enabled = true
 
 [node name="Message" type="LineEdit" parent="HBoxContainer/RightPanel/ChatBox/VBoxContainer"]
 margin_top = 655.0
@@ -396,6 +397,7 @@ margin_right = 448.0
 margin_bottom = 682.0
 size_flags_horizontal = 3
 custom_fonts/font = ExtResource( 1 )
+clear_button_enabled = true
 placeholder_text = "Enter message"
 
 [node name="LobbyPanel" type="PopupPanel" parent="."]

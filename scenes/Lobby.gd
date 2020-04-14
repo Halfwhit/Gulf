@@ -165,17 +165,9 @@ func _on_Lobby_Chat_Update(lobbyID, changedID, makingChangeID, chatState):
 	_append_Message(message)
 
 
-func _clear_playerlist():
-	for node in name_list.get_children():
-		node.queue_free()
-	for node in status_list.get_children():
-		node.queue_free()
-
-
 func _get_Lobby_Members():
 	# Clear your previous lobby list
 	LOBBY_MEMBERS.clear()
-	_clear_playerlist()
 	# Get the number of members from this lobby from Steam
 	var MEMBERS = Steam.getNumLobbyMembers(STEAM_LOBBY_ID)
 	# Get the data of these players from Steam
@@ -183,64 +175,15 @@ func _get_Lobby_Members():
 		# Get the member's Steam ID and Steam Name
 		var MEMBER_STEAM_ID = Steam.getLobbyMemberByIndex(STEAM_LOBBY_ID, MEMBER)
 		var MEMBER_STEAM_NAME = Steam.getFriendPersonaName(MEMBER_STEAM_ID)
-		# Setup nodes for the GUI
-		var container = HBoxContainer.new()
-		container.name = str(MEMBER_STEAM_ID)
-		container.size_flags_horizontal = 3
-		container.size_flags_vertical = 1
-		name_list.add_child(container)
-		# Avatar
-		var player_icon = TextureRect.new()
-		player_icon.name = "player_icon"
-		var node_path = NodePath(str(MEMBER_STEAM_ID))
-		name_list.get_node(node_path).add_child(player_icon)
-		# Name
-		var member_name = Label.new()
-		member_name.name = "player_name"
-		member_name.text = MEMBER_STEAM_NAME
-		member_name.align = Label.ALIGN_CENTER
-		member_name.valign = 1
-		member_name.size_flags_vertical = 3
-		name_list.get_node(node_path).add_child(member_name)
-		# Status
-		var member_status = Label.new()
-		member_status.name = str(MEMBER_STEAM_ID)
-		var lobby_member_data = Steam.getLobbyMemberData(STEAM_LOBBY_ID, MEMBER_STEAM_ID, "status")
-		member_status.align = Label.ALIGN_CENTER
-		if lobby_member_data == "Ready":
-			member_status.add_color_override("font_color", Color.green)
-		if lobby_member_data == "Not ready":
-			member_status.add_color_override("font_color", Color.red)
-			member_status.text = lobby_member_data
-		status_list.add_child(member_status)
-		# Now request the avatar
-		var MEMBER_AVATAR = Steam.getPlayerAvatar(Steam.AVATAR_SMALL)
-		# Finally add them to the list
+		# Add them to the list
 		LOBBY_MEMBERS.append({"steam_id":MEMBER_STEAM_ID, "steam_name":MEMBER_STEAM_NAME})
 
 
-func loaded_avatar(id, size, buffer):
-	print("Avatar for user: "+str(id))
-	print("Size: "+str(size))
-	# Create a new image and texture to fill out
-	var AVATAR = Image.new()
-	var AVATAR_TEXTURE = ImageTexture.new()
-	AVATAR.create(size, size, false, Image.FORMAT_RGBAF)
-	# Lock the image and fill the pixels from the data buffer
-	AVATAR.lock()
-	for y in range(0, size):
-		for x in range(0, size):
-			var pixel = 4 * (x + y * size)
-			var r = float(buffer[pixel]) / 255
-			var g = float(buffer[pixel+1]) / 255
-			var b = float(buffer[pixel+2]) / 255
-			var a = float(buffer[pixel+3]) / 255
-			AVATAR.set_pixel(x, y, Color(r, g, b, a))
-	AVATAR.unlock()
-	# Now apply the texture
-	AVATAR_TEXTURE.create_from_image(AVATAR)
-	var node_path = NodePath("HBoxContainer/LeftPanel/VBoxContainer/PlayerList/PanelContainer/MarginContainer/HBoxContainer/Names/Players/" + str(id))
-	get_node(node_path).get_node("player_icon").set_texture(AVATAR_TEXTURE)
+func _clear_playerlist():
+	for node in name_list.get_children():
+		node.queue_free()
+	for node in status_list.get_children():
+		node.queue_free()
 
 
 func _on_Lobby_Data_Update(success, lobbyID, memberID, key):
@@ -248,13 +191,27 @@ func _on_Lobby_Data_Update(success, lobbyID, memberID, key):
 	if lobbyID == memberID:
 		pass
 	else:
-		var node_path = NodePath("HBoxContainer/LeftPanel/VBoxContainer/PlayerList/PanelContainer/MarginContainer/HBoxContainer/Status/Players/" + str(memberID))
-		var lobby_member_data = Steam.getLobbyMemberData(STEAM_LOBBY_ID, memberID, "status")
-		if lobby_member_data == "Ready":
-			get_node(node_path).add_color_override("font_color", Color.green)
-		if lobby_member_data == "Not ready":
-			get_node(node_path).add_color_override("font_color", Color.red)
-		get_node(node_path).set_text(lobby_member_data)
+		_clear_playerlist()
+		for MEMBER in LOBBY_MEMBERS:
+			# Handle name node in player list
+			var MEMBER_STEAM_ID = MEMBER.get("steam_id")
+			var MEMBER_STEAM_NAME = MEMBER.get("steam_name")
+			var member_name = Label.new()
+			member_name.name = "player_name"
+			member_name.text = MEMBER_STEAM_NAME
+			member_name.align = Label.ALIGN_CENTER
+			name_list.add_child(member_name)
+			#Handle status node in player list
+			var lobby_member_data = Steam.getLobbyMemberData(STEAM_LOBBY_ID, memberID, "status")
+			var member_status = Label.new()
+			member_status.name = str(MEMBER_STEAM_ID)
+			member_status.text = lobby_member_data
+			member_status.align = Label.ALIGN_CENTER
+			if lobby_member_data == "Ready":
+				member_status.add_color_override("font_color", Color.green)
+			if lobby_member_data == "Not ready":
+				member_status.add_color_override("font_color", Color.red)
+			status_list.add_child(member_status)
 
 
 func _on_Ready_pressed():
