@@ -12,9 +12,6 @@ onready var name_list = get_node("HBoxContainer/LeftPanel/VBoxContainer/PlayerLi
 onready var status_list = get_node("HBoxContainer/LeftPanel/VBoxContainer/PlayerList/PanelContainer/MarginContainer/HBoxContainer/Status/Players")
 
 
-enum PacketType {
-	READY_PACKET
-}
 func _ready():
 	Steam.connect("lobby_created", self, "_on_Lobby_Created")
 	Steam.connect("lobby_match_list", self, "_on_Lobby_Match_List")
@@ -26,7 +23,6 @@ func _ready():
 	Steam.connect("join_requested", self, "_on_Lobby_Join_Requested")
 	Steam.connect("p2p_session_request", self, "_on_P2P_Session_Request")
 	Steam.connect("p2p_session_connect_fail", self, "_on_P2P_Session_Connect_Fail")
-	Steam.connect("avatar_loaded", self, "loaded_avatar")
 	# Check for command line arguments
 	_check_Command_Line()
 
@@ -52,8 +48,7 @@ func _check_Command_Line():
 
 
 func _process(delta):
-	#_read_P2P_Packet()
-	pass
+	_read_P2P_Packet()
 
 
 func _on_Public_pressed():
@@ -78,7 +73,7 @@ func _on_Lobby_Created(connect, lobbyID):
 						"Lobby hosted by: " + Steamworks.STEAM_USERNAME +
 						"\n---------------------------------------------------------------------------------")
 		Steam.setLobbyData(lobbyID, "name", lobby_details)
-		Steam.setLobbyData(lobbyID, "mode", "Gulf")
+		Steam.setLobbyData(lobbyID, "host", str(Steamworks.STEAM_ID))
 		# Allow P2P connections to fallback to being relayed through Steam if needed
 		var RELAY = Steam.allowP2PPacketRelay(true)
 		print("Allowing Steam to be relay backup: "+str(RELAY))
@@ -117,6 +112,8 @@ func _on_Lobby_Match_List(lobbies):
 
 
 func _join_Lobby(lobbyID):
+	if $LobbyPanel.visible:
+		$LobbyPanel.hide()
 	print("Attempting to join lobby "+str(lobbyID)+"...")
 	# Clear any previous lobby members lists, if you were in a previous lobby
 	LOBBY_MEMBERS.clear()
@@ -125,7 +122,8 @@ func _join_Lobby(lobbyID):
 
 
 # Called when a friend tries to join a running game
-func _on_Lobby_Join_Requested(lobbyID, friendID):	
+func _on_Lobby_Join_Requested(lobbyID, friendID):
+	get_tree().get_root().get_node("Main/TitleScreen").start()
 	# Get the lobby owner's name
 	var OWNER_NAME = Steam.getFriendPersonaName(friendID)
 	print("Joining "+str(OWNER_NAME)+"'s lobby...")
@@ -142,10 +140,12 @@ func _on_Lobby_Joined(lobbyID, permissions, locked, response):
 	# Make the initial handshake
 	_make_P2P_Handshake()
 	$HBoxContainer/LeftPanel/VBoxContainer/LobbyControl/Connecting.hide()
-	if Steam.getLobbyOwner(lobbyID) == Steamworks.STEAM_ID:
+	if Steam.getLobbyData(lobbyID, "host") == str(Steamworks.STEAM_ID):
 		$HBoxContainer/LeftPanel/VBoxContainer/LobbyControl/Host.show()
+		$HBoxContainer/LeftPanel/VBoxContainer/LobbyControl/Peer.hide()
 	else:
 		$HBoxContainer/LeftPanel/VBoxContainer/LobbyControl/Peer.show()
+		$HBoxContainer/LeftPanel/VBoxContainer/LobbyControl/Host.hide()
 
 
 func _on_Lobby_Chat_Update(lobbyID, changedID, makingChangeID, chatState):
@@ -177,6 +177,7 @@ func _get_Lobby_Members():
 		var MEMBER_STEAM_NAME = Steam.getFriendPersonaName(MEMBER_STEAM_ID)
 		# Add them to the list
 		LOBBY_MEMBERS.append({"steam_id":MEMBER_STEAM_ID, "steam_name":MEMBER_STEAM_NAME})
+		update_playerlist()
 
 
 func _clear_playerlist():
@@ -186,32 +187,32 @@ func _clear_playerlist():
 		node.queue_free()
 
 
+func update_playerlist():
+	_clear_playerlist()
+	for MEMBER in LOBBY_MEMBERS:
+		# Handle name node in player list
+		var MEMBER_STEAM_ID = MEMBER.get("steam_id")
+		var MEMBER_STEAM_NAME = MEMBER.get("steam_name")
+		var member_name = Label.new()
+		member_name.name = "player_name"
+		member_name.text = MEMBER_STEAM_NAME
+		member_name.align = Label.ALIGN_CENTER
+		name_list.add_child(member_name)
+		#Handle status node in player list
+		var lobby_member_data = Steam.getLobbyMemberData(STEAM_LOBBY_ID, MEMBER_STEAM_ID, "status")
+		var member_status = Label.new()
+		member_status.name = str(MEMBER_STEAM_ID)
+		member_status.text = lobby_member_data
+		member_status.align = Label.ALIGN_CENTER
+		if lobby_member_data == "Ready":
+			member_status.add_color_override("font_color", Color.green)
+		if lobby_member_data == "Not ready":
+			member_status.add_color_override("font_color", Color.red)
+		status_list.add_child(member_status)
+
 func _on_Lobby_Data_Update(success, lobbyID, memberID, key):
 	print("Success: "+str(success)+", Lobby ID: "+str(lobbyID)+", Member ID: "+str(memberID)+", Key: "+str(key))
-	if lobbyID == memberID:
-		pass
-	else:
-		_clear_playerlist()
-		for MEMBER in LOBBY_MEMBERS:
-			# Handle name node in player list
-			var MEMBER_STEAM_ID = MEMBER.get("steam_id")
-			var MEMBER_STEAM_NAME = MEMBER.get("steam_name")
-			var member_name = Label.new()
-			member_name.name = "player_name"
-			member_name.text = MEMBER_STEAM_NAME
-			member_name.align = Label.ALIGN_CENTER
-			name_list.add_child(member_name)
-			#Handle status node in player list
-			var lobby_member_data = Steam.getLobbyMemberData(STEAM_LOBBY_ID, memberID, "status")
-			var member_status = Label.new()
-			member_status.name = str(MEMBER_STEAM_ID)
-			member_status.text = lobby_member_data
-			member_status.align = Label.ALIGN_CENTER
-			if lobby_member_data == "Ready":
-				member_status.add_color_override("font_color", Color.green)
-			if lobby_member_data == "Not ready":
-				member_status.add_color_override("font_color", Color.red)
-			status_list.add_child(member_status)
+	update_playerlist()
 
 
 func _on_Ready_pressed():
@@ -272,7 +273,7 @@ func _make_P2P_Handshake():
 	var DATA = PoolByteArray()
 	DATA.append(256)
 	DATA.append_array(var2bytes({"message":"handshake", "from":Steamworks.STEAM_ID}))
-	#_send_P2P_Packet(DATA, 2, 0)
+	_send_P2P_Packet(DATA, 2, 0)
 
 
 func _on_P2P_Session_Request(remoteID):	

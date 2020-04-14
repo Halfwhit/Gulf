@@ -5,7 +5,7 @@
 [ext_resource path="res://scenes/Lobby.tscn" type="PackedScene" id=3]
 [ext_resource path="res://TitleScreen.gd" type="Script" id=4]
 
-[sub_resource type="DynamicFont" id=2]
+[sub_resource type="DynamicFont" id=1]
 size = 240
 use_filter = true
 font_data = ExtResource( 2 )
@@ -35,7 +35,7 @@ alignment = 1
 [node name="Title" type="Label" parent="TitleScreen/VBoxContainer"]
 margin_right = 581.0
 margin_bottom = 282.0
-custom_fonts/font = SubResource( 2 )
+custom_fonts/font = SubResource( 1 )
 text = "GULF"
 align = 1
 max_lines_visible = 2
@@ -55,4 +55,4 @@ __meta__ = {
 
 [node name="Lobby" parent="." instance=ExtResource( 3 )]
 visible = false
-[connection signal="pressed" from="TitleScreen/VBoxContainer/Start" to="TitleScreen" method="_on_Start_pressed"]
+[connection signal="pressed" from="TitleScreen/VBoxContainer/Start" to="TitleScreen" method="start"]
