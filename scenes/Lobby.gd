@@ -12,6 +12,13 @@ onready var name_list = get_node("HBoxContainer/LeftPanel/VBoxContainer/PlayerLi
 onready var status_list = get_node("HBoxContainer/LeftPanel/VBoxContainer/PlayerList/PanelContainer/MarginContainer/HBoxContainer/Status/Players")
 
 
+enum Packet {
+	HANDSHAKE
+	LEVEL_START
+	PACKET_TYPE_2
+}
+
+
 func _ready():
 	Steam.connect("lobby_created", self, "_on_Lobby_Created")
 	Steam.connect("lobby_match_list", self, "_on_Lobby_Match_List")
@@ -189,6 +196,7 @@ func _clear_playerlist():
 
 func update_playerlist():
 	_clear_playerlist()
+	var ready_players = 0
 	for MEMBER in LOBBY_MEMBERS:
 		# Handle name node in player list
 		var MEMBER_STEAM_ID = MEMBER.get("steam_id")
@@ -206,12 +214,16 @@ func update_playerlist():
 		member_status.align = Label.ALIGN_CENTER
 		if lobby_member_data == "Ready":
 			member_status.add_color_override("font_color", Color.green)
+			ready_players += 1
 		if lobby_member_data == "Not ready":
 			member_status.add_color_override("font_color", Color.red)
 		status_list.add_child(member_status)
+	if ready_players == Steam.getNumLobbyMembers(STEAM_LOBBY_ID):
+		$HBoxContainer/LeftPanel/VBoxContainer/LobbyControl/Host/Start.disabled = false
+	else:
+		$HBoxContainer/LeftPanel/VBoxContainer/LobbyControl/Host/Start.disabled = true
 
 func _on_Lobby_Data_Update(success, lobbyID, memberID, key):
-	print("Success: "+str(success)+", Lobby ID: "+str(lobbyID)+", Member ID: "+str(memberID)+", Key: "+str(key))
 	update_playerlist()
 
 
@@ -271,7 +283,7 @@ func _leave_Lobby():
 func _make_P2P_Handshake():
 	print("Sending P2P handshake to the lobby")
 	var DATA = PoolByteArray()
-	DATA.append(256)
+	DATA.append(256) # Handshake
 	DATA.append_array(var2bytes({"message":"handshake", "from":Steamworks.STEAM_ID}))
 	_send_P2P_Packet(DATA, 2, 0)
 
@@ -287,11 +299,11 @@ func _on_P2P_Session_Request(remoteID):
 
 func _send_P2P_Packet(data, send_type, channel):
 	# If there is more than one user, send packets
-	if LOBBY_MEMBERS.size() > 1:
+	#if LOBBY_MEMBERS.size() > 1:
 		# Loop through all members that aren't you
 		for MEMBER in LOBBY_MEMBERS:
-			if MEMBER['steam_id'] != Steamworks.STEAM_ID:
-				Steam.sendP2PPacket(MEMBER['steam_id'], data, send_type, channel)
+			#if MEMBER['steam_id'] != Steamworks.STEAM_ID:
+			Steam.sendP2PPacket(MEMBER['steam_id'], data, send_type, channel)
 
 
 func _read_P2P_Packet():
@@ -307,5 +319,17 @@ func _read_P2P_Packet():
 		# Make the packet data readable
 		var READABLE = bytes2var(PACKET.data.subarray(1, PACKET_SIZE - 1))
 		# Print the packet to output
-		print("Packet: "+str(READABLE))
+		print("Packet: "+str(PACKET_CODE)+" "+str(READABLE))
 		# Append logic here to deal with packet data
+		if int(PACKET_CODE) == Packet.LEVEL_START:
+			print("Starting level")
+			get_node(".").visible = false
+			get_tree().get_root().get_node("Main/World").visible = true
+	
+
+
+func _on_Start_pressed():
+	var DATA = PoolByteArray()
+	DATA.append(Packet.LEVEL_START)
+	DATA.append_array(var2bytes({"players":LOBBY_MEMBERS, "from":Steamworks.STEAM_ID}))
+	_send_P2P_Packet(DATA, 2, 0)

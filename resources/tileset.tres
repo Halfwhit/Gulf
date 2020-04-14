@@ -1,20 +1,11 @@
-[gd_resource type="TileSet" load_steps=31 format=2]
+[gd_resource type="TileSet" load_steps=22 format=2]
 
 [ext_resource path="res://resources/Tiles/Grass.png" type="Texture" id=1]
 [ext_resource path="res://resources/Tiles/Wall.png" type="Texture" id=2]
-[ext_resource path="res://resources/Tiles/SmallCircle.png" type="Texture" id=3]
-[ext_resource path="res://resources/Tiles/SmallDiamond.png" type="Texture" id=4]
-[ext_resource path="res://resources/Tiles/SmallSlant.png" type="Texture" id=5]
-[ext_resource path="res://resources/Tiles/WallSmallSlant.png" type="Texture" id=6]
-[ext_resource path="res://resources/Tiles/WallCorner.png" type="Texture" id=7]
 [ext_resource path="res://resources/Tiles/Hole.png" type="Texture" id=8]
-[ext_resource path="res://resources/Tiles/Slant.png" type="Texture" id=9]
 [ext_resource path="res://resources/Tiles/Start.png" type="Texture" id=10]
 [ext_resource path="res://resources/Tiles/Water.png" type="Texture" id=11]
 [ext_resource path="res://resources/Tiles/Yellow.png" type="Texture" id=12]
-[ext_resource path="res://resources/Tiles/LargeCircle.png" type="Texture" id=13]
-[ext_resource path="res://resources/Tiles/Corner.png" type="Texture" id=14]
-[ext_resource path="res://resources/Tiles/Diamond.png" type="Texture" id=15]
 
 [sub_resource type="ConvexPolygonShape2D" id=1]
 points = PoolVector2Array( 0, 0, 64, 0, 64, 64, 0, 64, 0, 0 )
@@ -112,7 +103,6 @@ points = PoolVector2Array( 32, 0, 64, 32, 32, 64, 0, 32 )
 2/shapes = [  ]
 2/z_index = 0
 3/name = "Slant"
-3/texture = ExtResource( 9 )
 3/tex_offset = Vector2( 0, 0 )
 3/modulate = Color( 1, 1, 1, 1 )
 3/region = Rect2( 0, 0, 64, 64 )
@@ -175,7 +165,6 @@ points = PoolVector2Array( 32, 0, 64, 32, 32, 64, 0, 32 )
 6/shapes = [  ]
 6/z_index = 0
 7/name = "LargeCircle"
-7/texture = ExtResource( 13 )
 7/tex_offset = Vector2( 0, 0 )
 7/modulate = Color( 1, 1, 1, 1 )
 7/region = Rect2( 0, 0, 64, 64 )
@@ -196,7 +185,6 @@ points = PoolVector2Array( 32, 0, 64, 32, 32, 64, 0, 32 )
 } ]
 7/z_index = 0
 8/name = "Corner"
-8/texture = ExtResource( 14 )
 8/tex_offset = Vector2( 0, 0 )
 8/modulate = Color( 1, 1, 1, 1 )
 8/region = Rect2( 0, 0, 64, 64 )
@@ -217,7 +205,6 @@ points = PoolVector2Array( 32, 0, 64, 32, 32, 64, 0, 32 )
 } ]
 8/z_index = 0
 9/name = "Diamond"
-9/texture = ExtResource( 15 )
 9/tex_offset = Vector2( 0, 0 )
 9/modulate = Color( 1, 1, 1, 1 )
 9/region = Rect2( 0, 0, 64, 64 )
@@ -238,7 +225,6 @@ points = PoolVector2Array( 32, 0, 64, 32, 32, 64, 0, 32 )
 } ]
 9/z_index = 0
 10/name = "SmallCircle"
-10/texture = ExtResource( 3 )
 10/tex_offset = Vector2( 0, 0 )
 10/modulate = Color( 1, 1, 1, 1 )
 10/region = Rect2( 0, 0, 64, 64 )
@@ -259,7 +245,6 @@ points = PoolVector2Array( 32, 0, 64, 32, 32, 64, 0, 32 )
 } ]
 10/z_index = 0
 11/name = "SmallDiamond"
-11/texture = ExtResource( 4 )
 11/tex_offset = Vector2( 0, 0 )
 11/modulate = Color( 1, 1, 1, 1 )
 11/region = Rect2( 0, 0, 64, 64 )
@@ -280,7 +265,6 @@ points = PoolVector2Array( 32, 0, 64, 32, 32, 64, 0, 32 )
 } ]
 11/z_index = 0
 12/name = "SmallSlant"
-12/texture = ExtResource( 5 )
 12/tex_offset = Vector2( 0, 0 )
 12/modulate = Color( 1, 1, 1, 1 )
 12/region = Rect2( 0, 0, 64, 64 )
@@ -301,7 +285,6 @@ points = PoolVector2Array( 32, 0, 64, 32, 32, 64, 0, 32 )
 } ]
 12/z_index = 0
 13/name = "WallSmallSlant"
-13/texture = ExtResource( 6 )
 13/tex_offset = Vector2( 0, 0 )
 13/modulate = Color( 1, 1, 1, 1 )
 13/region = Rect2( 0, 0, 64, 64 )
@@ -322,7 +305,6 @@ points = PoolVector2Array( 32, 0, 64, 32, 32, 64, 0, 32 )
 } ]
 13/z_index = 0
 14/name = "WallCorner"
-14/texture = ExtResource( 7 )
 14/tex_offset = Vector2( 0, 0 )
 14/modulate = Color( 1, 1, 1, 1 )
 14/region = Rect2( 0, 0, 64, 64 )
