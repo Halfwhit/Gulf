@@ -71,7 +71,7 @@ func _on_Friends_pressed():
 
 
 func _on_Lobby_Created(connect, lobbyID):
-	if connect == 0:
+	if connect == 1:
 		# Set the lobby ID
 		STEAM_LOBBY_ID = lobbyID
 		# Set some lobby data
@@ -147,12 +147,14 @@ func _on_Lobby_Joined(lobbyID, permissions, locked, response):
 	# Make the initial handshake
 	_make_P2P_Handshake()
 	$HBoxContainer/LeftPanel/VBoxContainer/LobbyControl/Connecting.hide()
+	print("Host:   " + Steam.getLobbyData(lobbyID, "host"))
+	print("Player: " + str(Steamworks.STEAM_ID))
 	if Steam.getLobbyData(lobbyID, "host") == str(Steamworks.STEAM_ID):
 		$HBoxContainer/LeftPanel/VBoxContainer/LobbyControl/Host.show()
-		$HBoxContainer/LeftPanel/VBoxContainer/LobbyControl/Peer.hide()
+		#$HBoxContainer/LeftPanel/VBoxContainer/LobbyControl/Peer.hide()
 	else:
 		$HBoxContainer/LeftPanel/VBoxContainer/LobbyControl/Peer.show()
-		$HBoxContainer/LeftPanel/VBoxContainer/LobbyControl/Host.hide()
+		#$HBoxContainer/LeftPanel/VBoxContainer/LobbyControl/Host.hide()
 
 
 func _on_Lobby_Chat_Update(lobbyID, changedID, makingChangeID, chatState):

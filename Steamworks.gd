@@ -10,7 +10,7 @@ func _ready():
 	var INIT = Steam.steamInit()
 	print("Did Steam initialize?: "+str(INIT))
 	
-	if INIT['status'] != 0:
+	if INIT['status'] != 1:
 		print("Failed to initialize Steam. "+str(INIT['verbal'])+" Shutting down...")
 		get_tree().quit()
 	

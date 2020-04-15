@@ -46,8 +46,6 @@ func _ready():
 			#var yellow = YellowSpawn.instance()
 			#yellow.position = Vector2( pos.x * size_x + (0.5*size_x), pos.y * size_y + (0.5*size_y))
 			#add_child(yellow)
-			
-	emit_signal("level_loaded")
 
 #func level_start():
 #	player_count = get_node("/root/players").get_child_count()
