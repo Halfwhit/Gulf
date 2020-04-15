@@ -326,7 +326,10 @@ func _read_P2P_Packet():
 		if int(PACKET_CODE) == Packet.LEVEL_START:
 			print("Starting level")
 			get_node(".").visible = false
-			get_tree().get_root().get_node("Main/World").visible = true
+			var world = Gamestate.level.instance()
+			get_tree().get_root().get_node("Main").add_child(world)
+			#var node_path = NodePath("Main/World/Players/" + str(Steamworks.STEAM_ID) + "/PlayerCam")
+			#get_tree().get_root().get_node(node_path).make_current()
 	
 
 

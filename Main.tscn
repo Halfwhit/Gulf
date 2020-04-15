@@ -1,10 +1,9 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://resources/fonts/font24.tres" type="DynamicFont" id=1]
 [ext_resource path="res://resources/fonts/font_data.tres" type="DynamicFontData" id=2]
 [ext_resource path="res://scenes/Lobby.tscn" type="PackedScene" id=3]
-[ext_resource path="res://TitleScreen.gd" type="Script" id=4]
-[ext_resource path="res://scenes/World.tscn" type="PackedScene" id=5]
+[ext_resource path="res://scenes/TitleScreen.gd" type="Script" id=4]
 
 [sub_resource type="DynamicFont" id=1]
 size = 240
@@ -18,7 +17,9 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="TitleScreen" type="CenterContainer" parent="."]
+[node name="GUI" type="CanvasLayer" parent="."]
+
+[node name="TitleScreen" type="CenterContainer" parent="GUI"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 script = ExtResource( 4 )
@@ -26,14 +27,14 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="VBoxContainer" type="VBoxContainer" parent="TitleScreen"]
+[node name="VBoxContainer" type="VBoxContainer" parent="GUI/TitleScreen"]
 margin_left = 221.0
 margin_top = 223.0
 margin_right = 802.0
 margin_bottom = 544.0
 alignment = 1
 
-[node name="Title" type="Label" parent="TitleScreen/VBoxContainer"]
+[node name="Title" type="Label" parent="GUI/TitleScreen/VBoxContainer"]
 margin_right = 581.0
 margin_bottom = 282.0
 custom_fonts/font = SubResource( 1 )
@@ -44,7 +45,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Start" type="Button" parent="TitleScreen/VBoxContainer"]
+[node name="Start" type="Button" parent="GUI/TitleScreen/VBoxContainer"]
 margin_top = 286.0
 margin_right = 581.0
 margin_bottom = 321.0
@@ -54,9 +55,6 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Lobby" parent="." instance=ExtResource( 3 )]
+[node name="Lobby" parent="GUI" instance=ExtResource( 3 )]
 visible = false
-
-[node name="World" parent="." instance=ExtResource( 5 )]
-visible = false
-[connection signal="pressed" from="TitleScreen/VBoxContainer/Start" to="TitleScreen" method="start"]
+[connection signal="pressed" from="GUI/TitleScreen/VBoxContainer/Start" to="GUI/TitleScreen" method="start"]

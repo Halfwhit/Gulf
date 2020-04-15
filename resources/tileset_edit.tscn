@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://resources/tiles/Grass.png" type="Texture" id=1]
 [ext_resource path="res://resources/tiles/Wall.png" type="Texture" id=2]
+[ext_resource path="res://resources/tiles/Start.png" type="Texture" id=3]
 
 [node name="Tileset" type="Node2D"]
 
@@ -19,3 +20,8 @@ collision_layer = 2
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Wall/StaticBody2D"]
 polygon = PoolVector2Array( 0, 0, 0, 64, 64, 64, 64, 0, 0, 0 )
+
+[node name="Start" type="Sprite" parent="."]
+position = Vector2( 128, 0 )
+texture = ExtResource( 3 )
+centered = false

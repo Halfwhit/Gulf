@@ -1,6 +1,6 @@
 extends Node2D
 
-#var Player = preload("res://Scenes/Assets/Player.tscn")
+var Player = preload("res://assets/Player.tscn")
 #var HoleSpawn = preload("res://Scenes/Assets/Hole.tscn")
 #var WaterSpawn = preload("res://Scenes/Assets/Water.tscn")
 #var YellowSpawn = preload("res://Scenes/Assets/Yellow.tscn")
@@ -26,8 +26,12 @@ func _ready():
 			print("Spawning SpawnPoint")
 			var spawn_point = Node2D.new()
 			spawn_point.position = Vector2( pos.x * size_x + (0.5*size_x), pos.y * size_y + (0.5*size_y))
-			spawn_point.set_name("SpawnPoint")
+			spawn_point.name = "SpawnPoint"
+			var player = Player.instance()
+			player.position = spawn_point.position
+			player.name = str(Steamworks.STEAM_ID)
 			add_child(spawn_point)
+			get_node("Players").add_child(player)
 
 		if name == "Hole":
 			print("Spawning Hole")
