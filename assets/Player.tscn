@@ -8,17 +8,17 @@
 radius = 8.0
 
 [node name="Player" type="KinematicBody2D"]
-collision_mask = 3
+collision_mask = 2
 script = ExtResource( 3 )
 
 [node name="HitLine" type="Line2D" parent="."]
+visible = false
 points = PoolVector2Array( 0, 0, 0, 0 )
 width = 1.0
 default_color = Color( 0, 0, 0, 1 )
 sharp_limit = 0.0
 
 [node name="PlayerCam" type="Camera2D" parent="."]
-current = true
 script = ExtResource( 2 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]

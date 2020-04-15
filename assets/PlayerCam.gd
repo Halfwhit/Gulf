@@ -2,6 +2,10 @@ extends Camera2D
 
 var zoom_increment = 1.1
 
+func _ready():
+	if get_parent().name == str(Steamworks.STEAM_ID):
+		make_current()
+
 func _input(event):
 	if event.is_action("scroll_up"):
 		zoom("in")

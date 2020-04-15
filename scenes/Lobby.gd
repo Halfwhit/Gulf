@@ -15,7 +15,7 @@ onready var status_list = get_node("HBoxContainer/LeftPanel/VBoxContainer/Player
 enum Packet {
 	HANDSHAKE
 	LEVEL_START
-	PACKET_TYPE_2
+	POSITION_UPDATE
 }
 
 
@@ -130,7 +130,7 @@ func _join_Lobby(lobbyID):
 
 # Called when a friend tries to join a running game
 func _on_Lobby_Join_Requested(lobbyID, friendID):
-	get_tree().get_root().get_node("Main/TitleScreen").start()
+	get_tree().get_root().get_node("Main/GUI/TitleScreen").start()
 	# Get the lobby owner's name
 	var OWNER_NAME = Steam.getFriendPersonaName(friendID)
 	print("Joining "+str(OWNER_NAME)+"'s lobby...")
