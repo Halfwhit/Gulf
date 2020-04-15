@@ -1,9 +1,9 @@
 [gd_scene load_steps=11 format=2]
 
-[ext_resource path="res://resources/Fonts/Font14.tres" type="DynamicFont" id=1]
-[ext_resource path="res://resources/Fonts/Font24.tres" type="DynamicFont" id=2]
+[ext_resource path="res://resources/fonts/font14.tres" type="DynamicFont" id=1]
+[ext_resource path="res://resources/fonts/font24.tres" type="DynamicFont" id=2]
 [ext_resource path="res://scenes/Lobby.gd" type="Script" id=3]
-[ext_resource path="res://resources/Fonts/Font36.tres" type="DynamicFont" id=4]
+[ext_resource path="res://resources/fonts/font36.tres" type="DynamicFont" id=4]
 
 [sub_resource type="Theme" id=1]
 default_font = ExtResource( 1 )
