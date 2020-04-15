@@ -225,6 +225,7 @@ func update_playerlist():
 	else:
 		$HBoxContainer/LeftPanel/VBoxContainer/LobbyControl/Host/Start.disabled = true
 
+
 func _on_Lobby_Data_Update(success, lobbyID, memberID, key):
 	update_playerlist()
 
@@ -328,9 +329,6 @@ func _read_P2P_Packet():
 			get_node(".").visible = false
 			var world = Gamestate.level.instance()
 			get_tree().get_root().get_node("Main").add_child(world)
-			#var node_path = NodePath("Main/World/Players/" + str(Steamworks.STEAM_ID) + "/PlayerCam")
-			#get_tree().get_root().get_node(node_path).make_current()
-	
 
 
 func _on_Start_pressed():
