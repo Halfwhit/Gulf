@@ -9,7 +9,8 @@ var FRICTION = 0.98
 var slave_pos
 var slave_vector = Vector2.ZERO
 var ball_vector = Vector2.ZERO
-var turn = true
+var turn = false
+var in_motion = false
 
 func _ready() -> void:
 	position = get_tree().get_root().get_node("Main/World/SpawnPoint").position
@@ -31,6 +32,7 @@ func _physics_process(delta: float) -> void:
 		var new_vector = -get_local_mouse_position().clamped(MAX_FORCE) * FORCE_MULTIPLIER
 		send_vector_packet(new_vector)
 		turn = false
+		in_motion = true
 	# Handle collisions
 	var collision_info = move_and_collide(ball_vector * delta)
 	if collision_info:
@@ -41,6 +43,9 @@ func _physics_process(delta: float) -> void:
 func check_motion():
 	if ball_vector.length() <= 1: #if ball has nearly or has stopped moving
 		ball_vector = Vector2.ZERO
+		if in_motion:
+			in_motion = false
+			send_turn_packet()
 		if turn and name == str(Steamworks.STEAM_ID):
 			$HitLine.show()
 	else:
@@ -52,5 +57,8 @@ func send_vector_packet(new_vector):
 	DATA.append_array(var2bytes({"vector":new_vector, "from":Steamworks.STEAM_ID}))
 	Lobby._send_P2P_Packet(DATA, 0, 0)
 
-func send_position_packet(new_position):
-	pass
+func send_turn_packet():
+	var DATA = PoolByteArray()
+	DATA.append(Lobby.Packet.TURN_TAKEN)
+	DATA.append_array(var2bytes({"turn":true, "from":Steamworks.STEAM_ID}))
+	Lobby._send_P2P_Packet(DATA, 0, 0)

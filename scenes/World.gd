@@ -5,6 +5,9 @@ var Player = preload("res://assets/Player.tscn")
 #var WaterSpawn = preload("res://Scenes/Assets/Water.tscn")
 #var YellowSpawn = preload("res://Scenes/Assets/Yellow.tscn")
 
+var player_count
+var current_player_index = 0
+
 signal level_loaded
 
 func _ready():
@@ -43,25 +46,19 @@ func _ready():
 
 func spawn_player():
 	var lobby = get_tree().get_root().get_node("Main/GUI/Lobby")
+	player_count = lobby.LOBBY_MEMBERS.size()
 	for member in lobby.LOBBY_MEMBERS:
 		var player = Player.instance()
 		player.position = get_node("SpawnPoint").position
 		player.name = str(member.get("steam_id"))
 		get_node("Players").add_child(player)
+	get_node("Players").get_child(current_player_index).turn = true
 
-#func level_start():
-#	player_count = get_node("/root/players").get_child_count()
-#
-#remotesync func turn_taken(pid):
-#	current_player_index += 1
-#
-#	var node_name = String(pid)
-#	print(node_name + " just took a turn")
-#	get_node("/root/players").get_node(node_name).rset("turn", false)
-#	$GUI/GameUI.rpc_id(1, "update_score")
-#
-#	if current_player_index < player_count:
-#		get_node("/root/players").get_child(current_player_index).rset("turn", true)
-#	else:
-#		current_player_index = 0
-#		get_node("/root/players").get_child(current_player_index).rset("turn", true)
+func turn_taken(steam_id):
+	current_player_index += 1
+	get_node("Players").get_node(steam_id).turn = false
+	if current_player_index < player_count:
+		get_node("Players").get_child(current_player_index).turn = true
+	else:
+		current_player_index = 0
+		get_node("Players").get_child(current_player_index).turn = true

@@ -16,6 +16,7 @@ enum Packet {
 	HANDSHAKE
 	LEVEL_START
 	VECTOR_UPDATE
+	TURN_TAKEN
 }
 
 
@@ -331,7 +332,8 @@ func _read_P2P_Packet():
 			var node_path = NodePath("Main/World/Players/" + str(PACKET_ID))
 			var new_vector = READABLE.get("vector")
 			get_tree().get_root().get_node(node_path).ball_vector += new_vector
-			#get_tree().get_root().get_node(node_path).slave_position.y = new_position.y
+		if int(PACKET_CODE) == Packet.TURN_TAKEN:
+			get_tree().get_root().get_node("Main/World").turn_taken(PACKET_ID)
 
 
 func _on_Start_pressed():
