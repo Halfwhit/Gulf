@@ -330,10 +330,15 @@ func _read_P2P_Packet():
 			get_tree().get_root().get_node("Main").add_child(world)
 		if int(PACKET_CODE) == Packet.VECTOR_UPDATE:
 			var new_vector = READABLE.get("vector")
+			var pos = READABLE.get("position")
 			var ball = READABLE.get("ball")
 			var node_path = NodePath("Main/World/Players/" + ball)
-			get_tree().get_root().get_node(node_path).ball_vector += new_vector
+			get_tree().get_root().get_node(node_path).position = pos
+			get_tree().get_root().get_node(node_path).ball_vector = new_vector
 		if int(PACKET_CODE) == Packet.TURN_TAKEN:
+			var pos = READABLE.get("position")
+			var node_path = NodePath("Main/World/Players/" + PACKET_ID)
+			get_tree().get_root().get_node(node_path).position = pos
 			get_tree().get_root().get_node("Main/World").turn_taken(PACKET_ID)
 
 
