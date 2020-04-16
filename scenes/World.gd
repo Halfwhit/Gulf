@@ -1,9 +1,9 @@
 extends Node2D
 
 var Player = preload("res://assets/Player.tscn")
-#var HoleSpawn = preload("res://Scenes/Assets/Hole.tscn")
-#var WaterSpawn = preload("res://Scenes/Assets/Water.tscn")
-#var YellowSpawn = preload("res://Scenes/Assets/Yellow.tscn")
+var HoleSpawn = preload("res://assets/Hole.tscn")
+var WaterSpawn = preload("res://assets/Water.tscn")
+var YellowSpawn = preload("res://assets/Yellow.tscn")
 
 var player_count
 var current_player_index = 0
@@ -29,19 +29,19 @@ func _ready():
 			add_child(spawn_point)
 		if name == "Hole":
 			print("Spawning Hole")
-			#var hole = HoleSpawn.instance()
-			#hole.position = Vector2( pos.x * size_x + (0.5*size_x), pos.y * size_y + (0.5*size_y))
-			#add_child(hole)
+			var hole = HoleSpawn.instance()
+			hole.position = Vector2( pos.x * size_x + (0.5*size_x), pos.y * size_y + (0.5*size_y))
+			add_child(hole)
 		if name == "Water":
 			print("Spawning Water")
-			#var water = WaterSpawn.instance()
-			#water.position = Vector2( pos.x * size_x + (0.5*size_x), pos.y * size_y + (0.5*size_y))
-			#add_child(water)
+			var water = WaterSpawn.instance()
+			water.position = Vector2( pos.x * size_x + (0.5*size_x), pos.y * size_y + (0.5*size_y))
+			add_child(water)
 		if name == "Yellow":
 			print("Spawning Yellow")
-			#var yellow = YellowSpawn.instance()
-			#yellow.position = Vector2( pos.x * size_x + (0.5*size_x), pos.y * size_y + (0.5*size_y))
-			#add_child(yellow)
+			var yellow = YellowSpawn.instance()
+			yellow.position = Vector2( pos.x * size_x + (0.5*size_x), pos.y * size_y + (0.5*size_y))
+			add_child(yellow)
 	emit_signal("level_loaded")
 
 func spawn_player():
