@@ -26,23 +26,17 @@ func _process(delta: float) -> void:
 		turn = true
 
 func _physics_process(delta: float) -> void:
-	if name == str(Steamworks.STEAM_ID):
-		# Get Input
-		if turn and Input.is_action_just_pressed("touch_main"):
-			ball_vector = -get_local_mouse_position().clamped(MAX_FORCE) * FORCE_MULTIPLIER
-			send_vector_packet(ball_vector)
-			turn = false
-		# Handle collisions
-		var collision_info = move_and_collide(ball_vector * delta)
-		if collision_info:
-			ball_vector = ball_vector.bounce(collision_info.normal)
-		# Apply friction
-		ball_vector = ball_vector.linear_interpolate(Vector2(0,0), FRICTION * delta)
-		# Send position data
-		send_position_packet(position)
-	else:
-		position = slave_pos
-		ball_vector = slave_vector
+	# Get Input
+	if turn and name == str(Steamworks.STEAM_ID) and Input.is_action_just_pressed("touch_main"):
+		var new_vector = -get_local_mouse_position().clamped(MAX_FORCE) * FORCE_MULTIPLIER
+		send_vector_packet(new_vector)
+		turn = false
+	# Handle collisions
+	var collision_info = move_and_collide(ball_vector * delta)
+	if collision_info:
+		ball_vector = ball_vector.bounce(collision_info.normal)
+	# Apply friction
+	ball_vector = ball_vector.linear_interpolate(Vector2(0,0), FRICTION * delta)
 
 func check_motion():
 	if ball_vector.length() <= 1: #if ball has nearly or has stopped moving
@@ -53,7 +47,10 @@ func check_motion():
 		$HitLine.hide()
 
 func send_vector_packet(new_vector):
-	pass
+	var DATA = PoolByteArray()
+	DATA.append(Lobby.Packet.VECTOR_UPDATE)
+	DATA.append_array(var2bytes({"vector":new_vector, "from":Steamworks.STEAM_ID}))
+	Lobby._send_P2P_Packet(DATA, 0, 0)
 
 func send_position_packet(new_position):
 	pass

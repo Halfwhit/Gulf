@@ -15,7 +15,7 @@ onready var status_list = get_node("HBoxContainer/LeftPanel/VBoxContainer/Player
 enum Packet {
 	HANDSHAKE
 	LEVEL_START
-	POSITION_UPDATE
+	VECTOR_UPDATE
 }
 
 
@@ -147,14 +147,12 @@ func _on_Lobby_Joined(lobbyID, permissions, locked, response):
 	# Make the initial handshake
 	_make_P2P_Handshake()
 	$HBoxContainer/LeftPanel/VBoxContainer/LobbyControl/Connecting.hide()
-	print("Host:   " + Steam.getLobbyData(lobbyID, "host"))
-	print("Player: " + str(Steamworks.STEAM_ID))
 	if Steam.getLobbyData(lobbyID, "host") == str(Steamworks.STEAM_ID):
 		$HBoxContainer/LeftPanel/VBoxContainer/LobbyControl/Host.show()
-		#$HBoxContainer/LeftPanel/VBoxContainer/LobbyControl/Peer.hide()
+		$HBoxContainer/LeftPanel/VBoxContainer/LobbyControl/Peer.hide()
 	else:
 		$HBoxContainer/LeftPanel/VBoxContainer/LobbyControl/Peer.show()
-		#$HBoxContainer/LeftPanel/VBoxContainer/LobbyControl/Host.hide()
+		$HBoxContainer/LeftPanel/VBoxContainer/LobbyControl/Host.hide()
 
 
 func _on_Lobby_Chat_Update(lobbyID, changedID, makingChangeID, chatState):
@@ -306,7 +304,7 @@ func _send_P2P_Packet(data, send_type, channel):
 		# Loop through all members that aren't you
 		for MEMBER in LOBBY_MEMBERS:
 			#if MEMBER['steam_id'] != Steamworks.STEAM_ID:
-			Steam.sendP2PPacket(MEMBER['steam_id'], data, send_type, channel)
+				Steam.sendP2PPacket(MEMBER['steam_id'], data, send_type, channel)
 
 
 func _read_P2P_Packet():
@@ -329,6 +327,11 @@ func _read_P2P_Packet():
 			get_node(".").visible = false
 			var world = Gamestate.level.instance()
 			get_tree().get_root().get_node("Main").add_child(world)
+		if int(PACKET_CODE) == Packet.VECTOR_UPDATE:
+			var node_path = NodePath("Main/World/Players/" + str(PACKET_ID))
+			var new_vector = READABLE.get("vector")
+			get_tree().get_root().get_node(node_path).ball_vector += new_vector
+			#get_tree().get_root().get_node(node_path).slave_position.y = new_position.y
 
 
 func _on_Start_pressed():
