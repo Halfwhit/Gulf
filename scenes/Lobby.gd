@@ -121,7 +121,6 @@ func _join_Lobby(lobbyID):
 
 # Called when a friend tries to join a running game
 func _on_Lobby_Join_Requested(lobbyID, friendID):
-	get_tree().get_root().get_node("Main/GUI/TitleScreen").start()
 	# Get the lobby owner's name
 	var OWNER_NAME = Steam.getFriendPersonaName(friendID)
 	print("Joining "+str(OWNER_NAME)+"'s lobby...")
