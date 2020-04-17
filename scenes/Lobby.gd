@@ -94,6 +94,9 @@ func _on_CloseLobbySearch_pressed():
 
 # Getting a lobby match list from the steam callback
 func _on_Lobby_Match_List(lobbies):
+	if lobbies == []:
+		$LobbyPanel.hide()
+		_append_Message("No public lobbies found!")
 	for LOBBY in lobbies:
 		# Pull lobby data from Steam
 		var LOBBY_NAME = Steam.getLobbyData(LOBBY, "name")
