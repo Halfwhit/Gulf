@@ -5,6 +5,8 @@ var HoleSpawn = preload("res://assets/Hole.tscn")
 var WaterSpawn = preload("res://assets/Water.tscn")
 var YellowSpawn = preload("res://assets/Yellow.tscn")
 
+var ready_for_turn
+
 var player_count
 var current_player_index = 0
 
@@ -44,6 +46,9 @@ func _ready():
 			add_child(yellow)
 	emit_signal("level_loaded")
 
+func _process(delta: float) -> void:
+	ready_for_turn = is_everyone_still()
+
 func spawn_player():
 	var lobby = get_tree().get_root().get_node("Main/GUI/Lobby")
 	player_count = lobby.LOBBY_MEMBERS.size()
@@ -62,3 +67,10 @@ func turn_taken(steam_id):
 	else:
 		current_player_index = 0
 		get_node("Players").get_child(current_player_index).turn = true
+
+func is_everyone_still():
+	var return_boolean = true
+	for ball in get_node("Players").get_children():
+		if ball.ball_vector.length() != 0:
+			return_boolean = false
+	return return_boolean

@@ -16,7 +16,7 @@ enum Packet {
 	HANDSHAKE
 	LEVEL_START
 	VECTOR_UPDATE
-	TURN_TAKEN
+	COLLISION
 }
 
 
@@ -287,7 +287,7 @@ func _make_P2P_Handshake():
 	var DATA = PoolByteArray()
 	DATA.append(256) # Handshake
 	DATA.append_array(var2bytes({"message":"handshake", "from":Steamworks.STEAM_ID}))
-	_send_P2P_Packet(DATA, 2, 0)
+	_send_P2P_Packet(DATA, 1, 0)
 
 
 func _on_P2P_Session_Request(remoteID):	
@@ -301,10 +301,10 @@ func _on_P2P_Session_Request(remoteID):
 
 func _send_P2P_Packet(data, send_type, channel):
 	# If there is more than one user, send packets
-	#if LOBBY_MEMBERS.size() > 1:
+	if LOBBY_MEMBERS.size() > 1:
 		# Loop through all members that aren't you
 		for MEMBER in LOBBY_MEMBERS:
-			#if MEMBER['steam_id'] != Steamworks.STEAM_ID:
+			if MEMBER['steam_id'] != Steamworks.STEAM_ID:
 				Steam.sendP2PPacket(MEMBER['steam_id'], data, send_type, channel)
 
 
@@ -324,22 +324,29 @@ func _read_P2P_Packet():
 		print("Packet: "+str(PACKET_CODE)+" "+str(READABLE))
 		# Append logic here to deal with packet data
 		if int(PACKET_CODE) == Packet.LEVEL_START:
-			print("Starting level")
-			get_node(".").visible = false
-			var world = Gamestate.level.instance()
-			get_tree().get_root().get_node("Main").add_child(world)
+			start_world()
 		if int(PACKET_CODE) == Packet.VECTOR_UPDATE:
+			var new_vector = READABLE.get("vector")
+			var pos = READABLE.get("position")
+			var node_path = NodePath("Main/World/Players/" + PACKET_ID)
+			get_tree().get_root().get_node(node_path).position = pos
+			get_tree().get_root().get_node(node_path).ball_vector = new_vector
+		if int(PACKET_CODE) == Packet.COLLISION:
 			var new_vector = READABLE.get("vector")
 			var pos = READABLE.get("position")
 			var ball = READABLE.get("ball")
 			var node_path = NodePath("Main/World/Players/" + ball)
 			get_tree().get_root().get_node(node_path).position = pos
-			get_tree().get_root().get_node(node_path).ball_vector = new_vector
-		if int(PACKET_CODE) == Packet.TURN_TAKEN:
-			var pos = READABLE.get("position")
-			var node_path = NodePath("Main/World/Players/" + PACKET_ID)
-			get_tree().get_root().get_node(node_path).position = pos
-			get_tree().get_root().get_node("Main/World").turn_taken(PACKET_ID)
+			get_tree().get_root().get_node(node_path).hit(new_vector)
+
+
+
+func start_world():
+	print("Starting level")
+	get_node(".").visible = false
+	var world = Gamestate.level.instance()
+	get_tree().get_root().get_node("Main").add_child(world)
+	Gamestate.connect_world()
 
 
 func _on_Start_pressed():
@@ -347,3 +354,4 @@ func _on_Start_pressed():
 	DATA.append(Packet.LEVEL_START)
 	DATA.append_array(var2bytes({"players":LOBBY_MEMBERS, "from":Steamworks.STEAM_ID}))
 	_send_P2P_Packet(DATA, 2, 0)
+	start_world()

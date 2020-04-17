@@ -14,7 +14,6 @@ radius = 4.0
 "balls",
 ]]
 collision_mask = 14
-collision/safe_margin = 0.001
 script = ExtResource( 3 )
 
 [node name="HitLine" type="Line2D" parent="."]
