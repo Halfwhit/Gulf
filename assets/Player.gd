@@ -82,7 +82,7 @@ func send_turn_packet():
 func _on_TriggerArea_entered(area: Area2D) -> void:
 	if area.get_name() == "WaterArea2D":
 		in_water = true
-		ball_vector /= 3
+		ball_vector /= 1.1
 	if area.get_name() == "YellowArea2D":
 		in_yellow = true
-		ball_vector /= 5
+		ball_vector /= 1.2

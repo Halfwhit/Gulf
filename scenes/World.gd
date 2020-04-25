@@ -14,29 +14,30 @@ signal level_loaded
 
 func _ready():
 	connect("level_loaded", self, "spawn_players")
-	var tileMap = get_node("TileMap")
+	var tileMap = get_node("Entities")
 	var size_x = tileMap.get_cell_size().x
 	var size_y = tileMap.get_cell_size().y
 	var tileSet = tileMap.get_tileset()
 	var usedCells = tileMap.get_used_cells()
-	#Setup tilemap
-	for pos in usedCells :
+	#Setup ground tilemap
+	for pos in usedCells:
 		var id = tileMap.get_cell(pos.x, pos.y)
 		var name = tileSet.tile_get_name(id)
 		if name == "Start":
 			var spawn_point = Node2D.new()
-			spawn_point.position = Vector2( pos.x * size_x + (0.5*size_x), pos.y * size_y + (0.5*size_y))
-			spawn_point.name = "SpawnPoint"
+			spawn_point.position = Vector2( pos.x * size_x + (size_x), pos.y * size_y + (size_y))
+			spawn_point.set_name("SpawnPoint")
 			add_child(spawn_point)
 		if name == "Hole":
+			print("Spawning Hole")
 			var hole = HoleSpawn.instance()
-			hole.position = Vector2( pos.x * size_x + (0.5*size_x), pos.y * size_y + (0.5*size_y))
+			hole.position = Vector2( pos.x * size_x + (size_x), pos.y * size_y + (size_y))
 			add_child(hole)
-		if name == "Water":
+		if name == "Water Entity":
 			var water = WaterSpawn.instance()
 			water.position = Vector2( pos.x * size_x + (0.5*size_x), pos.y * size_y + (0.5*size_y))
 			add_child(water)
-		if name == "Yellow":
+		if name == "Acid Entity":
 			var yellow = YellowSpawn.instance()
 			yellow.position = Vector2( pos.x * size_x + (0.5*size_x), pos.y * size_y + (0.5*size_y))
 			add_child(yellow)
