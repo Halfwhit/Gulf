@@ -29,9 +29,10 @@ __meta__ = {
 
 [node name="VBoxContainer" type="VBoxContainer" parent="GUI/TitleScreen"]
 margin_left = 221.0
-margin_top = 223.0
+margin_top = 188.0
 margin_right = 802.0
-margin_bottom = 544.0
+margin_bottom = 580.0
+custom_constants/separation = 20
 alignment = 1
 
 [node name="Title" type="Label" parent="GUI/TitleScreen/VBoxContainer"]
@@ -46,11 +47,21 @@ __meta__ = {
 }
 
 [node name="Start" type="Button" parent="GUI/TitleScreen/VBoxContainer"]
-margin_top = 286.0
+margin_top = 302.0
 margin_right = 581.0
-margin_bottom = 321.0
+margin_bottom = 337.0
 custom_fonts/font = ExtResource( 1 )
-text = "Start"
+text = "Start Game"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Editor" type="Button" parent="GUI/TitleScreen/VBoxContainer"]
+margin_top = 357.0
+margin_right = 581.0
+margin_bottom = 392.0
+custom_fonts/font = ExtResource( 1 )
+text = "Load Level Editor"
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -58,3 +69,4 @@ __meta__ = {
 [node name="Lobby" parent="GUI" instance=ExtResource( 3 )]
 visible = false
 [connection signal="pressed" from="GUI/TitleScreen/VBoxContainer/Start" to="GUI/TitleScreen" method="start"]
+[connection signal="pressed" from="GUI/TitleScreen/VBoxContainer/Editor" to="GUI/TitleScreen" method="_on_Editor_pressed"]

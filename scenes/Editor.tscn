@@ -1,0 +1,121 @@
+[gd_scene load_steps=3 format=2]
+
+[sub_resource type="GDScript" id=1]
+script/source = "extends ItemList
+
+var ground: TileSet = preload(\"res://resources/tiles/floor.tres\")
+
+func _ready() -> void:
+	populate()
+
+func populate():
+	for id in ground.get_tiles_ids():
+		var tile_name = ground.tile_get_name(id)
+		if tile_name.find(\"_\") == -1:
+			var tile_texture = ground.tile_get_texture(id)
+			add_item(ground.tile_get_name(id).capitalize(), tile_texture)
+
+func _process(delta: float) -> void:
+	if Input.is_action_just_pressed(\"ui_cancel\"):
+		get_tree().quit()
+"
+
+[sub_resource type="GDScript" id=2]
+script/source = "extends ItemList
+
+var ground: TileSet = preload(\"res://resources/tiles/floor.tres\")
+
+onready var terrains : Array = [\"grass\", \"green\", \"water\", \"acid\", \"mud\", \"deepmud\"]
+
+func populate(terrain):
+	if terrain == 0:
+		clear()
+		visible = false
+	else:
+		clear()
+		visible = true
+		for id in ground.get_tiles_ids():
+			var search = terrains[terrain] + \"_blend\"
+			var tile_name = ground.tile_get_name(id)
+			if tile_name.begins_with(search):
+				var tile_texture = ground.tile_get_texture(id)
+				add_icon_item(tile_texture)
+"
+
+[node name="Editor" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TileSelector" type="PanelContainer" parent="."]
+anchor_left = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -280.0
+size_flags_horizontal = 3
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TabContainer" type="TabContainer" parent="TileSelector"]
+margin_left = 7.0
+margin_top = 7.0
+margin_right = 273.0
+margin_bottom = 761.0
+size_flags_horizontal = 3
+use_hidden_tabs_for_min_size = true
+
+[node name="Ground" type="VSplitContainer" parent="TileSelector/TabContainer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 4.0
+margin_top = 32.0
+margin_right = -4.0
+margin_bottom = -4.0
+size_flags_horizontal = 3
+split_offset = 200
+
+[node name="BaseTile" type="ItemList" parent="TileSelector/TabContainer/Ground"]
+margin_right = 258.0
+margin_bottom = 553.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_constants/vseparation = 10
+custom_constants/hseparation = 10
+icon_scale = 2.0
+script = SubResource( 1 )
+
+[node name="TileVariant" type="ItemList" parent="TileSelector/TabContainer/Ground"]
+margin_top = 565.0
+margin_right = 258.0
+margin_bottom = 718.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_constants/vseparation = 10
+custom_constants/line_separation = 10
+custom_constants/hseparation = 10
+max_columns = 4
+same_column_width = true
+icon_scale = 3.0
+script = SubResource( 2 )
+
+[node name="Walls" type="GridContainer" parent="TileSelector/TabContainer"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 4.0
+margin_top = 32.0
+margin_right = -4.0
+margin_bottom = -4.0
+
+[node name="Entities" type="ItemList" parent="TileSelector/TabContainer"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 4.0
+margin_top = 32.0
+margin_right = -4.0
+margin_bottom = -4.0
+[connection signal="item_selected" from="TileSelector/TabContainer/Ground/BaseTile" to="TileSelector/TabContainer/Ground/TileVariant" method="populate"]
