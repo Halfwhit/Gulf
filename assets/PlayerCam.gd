@@ -18,7 +18,7 @@ func _input(event):
 		zoom("out")
 
 func _process(delta: float) -> void:
-	if Input.is_mouse_button_pressed(BUTTON_RIGHT):
+	if Input.is_mouse_button_pressed(BUTTON_RIGHT) or Input.is_mouse_button_pressed(BUTTON_MIDDLE):
 		if not dragging:
 			last_mouse_pos = get_viewport().get_mouse_position()
 			dragging = true
