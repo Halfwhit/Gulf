@@ -37,10 +37,16 @@ func _ready():
 			var water = WaterSpawn.instance()
 			water.position = Vector2( pos.x * size_x + (0.5*size_x), pos.y * size_y + (0.5*size_y))
 			add_child(water)
+			tileMap.set_cell(pos.x, pos.y, -1)
 		if name == "acid_entity":
 			var yellow = YellowSpawn.instance()
 			yellow.position = Vector2( pos.x * size_x + (0.5*size_x), pos.y * size_y + (0.5*size_y))
 			add_child(yellow)
+			tileMap.set_cell(pos.x, pos.y, -1)
+		if name == "mud_entity":
+			tileMap.set_cell(pos.x, pos.y, -1)
+		if name == "deep_mud_entity":
+			tileMap.set_cell(pos.x, pos.y, -1)
 	emit_signal("level_loaded")
 
 func _process(delta: float) -> void:
