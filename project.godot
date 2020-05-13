@@ -43,7 +43,7 @@ texture={
 "detect_3d": false,
 "flags/anisotropic": false,
 "flags/filter": false,
-"flags/mipmaps": false,
+"flags/mipmaps": true,
 "flags/repeat": 0,
 "flags/srgb": 2,
 "process/HDR_as_SRGB": false,
@@ -112,4 +112,6 @@ right_click={
 
 [rendering]
 
+quality/2d/use_pixel_snap=true
+quality/depth/hdr=false
 environment/default_environment="res://default_env.tres"

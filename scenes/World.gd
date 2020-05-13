@@ -23,21 +23,21 @@ func _ready():
 	for pos in usedCells:
 		var id = tileMap.get_cell(pos.x, pos.y)
 		var name = tileSet.tile_get_name(id)
-		if name == "Start":
+		if name == "start":
 			var spawn_point = Node2D.new()
 			spawn_point.position = Vector2( pos.x * size_x + (size_x), pos.y * size_y + (size_y))
 			spawn_point.set_name("SpawnPoint")
 			add_child(spawn_point)
-		if name == "Hole":
+		if name == "hole":
 			print("Spawning Hole")
 			var hole = HoleSpawn.instance()
 			hole.position = Vector2( pos.x * size_x + (size_x), pos.y * size_y + (size_y))
 			add_child(hole)
-		if name == "Water Entity":
+		if name == "water_entity":
 			var water = WaterSpawn.instance()
 			water.position = Vector2( pos.x * size_x + (0.5*size_x), pos.y * size_y + (0.5*size_y))
 			add_child(water)
-		if name == "Acid Entity":
+		if name == "acid_entity":
 			var yellow = YellowSpawn.instance()
 			yellow.position = Vector2( pos.x * size_x + (0.5*size_x), pos.y * size_y + (0.5*size_y))
 			add_child(yellow)
