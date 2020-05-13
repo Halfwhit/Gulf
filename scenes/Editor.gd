@@ -4,11 +4,11 @@ onready var ground = $Level/Ground
 onready var walls = $Level/Walls
 onready var entities = $Level/Entities
 onready var mouse = $Mouse
+onready var tile_selector = $CanvasLayer/TileSelector
 
-var selected_tile_name = "grass" # Defaukl
-var selected_tile
-var tile_id
-var tile_name
+var selected_tile = 0
+var mouse_rot: float = 0
+
 
 func _input(event: InputEvent) -> void:
 	if event is InputEventMouseButton:
@@ -17,28 +17,41 @@ func _input(event: InputEvent) -> void:
 				# Get which tile is under the mouse
 				var mouse_pos = ground.get_local_mouse_position()
 				var cell_pos = ground.world_to_map(mouse_pos)
-				tile_id = ground.get_cellv(cell_pos)
-				tile_name = ground.tile_set.tile_get_name(tile_id)
-				# Do stuff according to the above
-				if tile_name != selected_tile_name:
-					# For example, turn the tile into a wall tile when clicked
-					var selected_tile_id = ground.tile_set.find_tile_by_name(selected_tile_name)
-					ground.set_cellv(cell_pos, selected_tile_id)
+				if is_equal_approx(0, mouse_rot):
+					ground.set_cellv(cell_pos, selected_tile, false, false, false)
+				elif is_equal_approx(PI * 0.5, mouse_rot):
+					ground.set_cellv(cell_pos, selected_tile, true, false, true)
+				elif is_equal_approx(PI * 1.0, mouse_rot):
+					ground.set_cellv(cell_pos, selected_tile, true, true, false)
+				elif is_equal_approx(PI * 1.5, mouse_rot):
+					ground.set_cellv(cell_pos, selected_tile, false, true, true)
 		if event.button_index == BUTTON_RIGHT:
 			if event.pressed:
 				# Get which tile is under the mouse
 				var mouse_pos = ground.get_local_mouse_position()
 				var cell_pos = ground.world_to_map(mouse_pos)
-				tile_id = ground.get_cellv(cell_pos)
-				if tile_id != -1:
-					ground.set_cellv(cell_pos, -1)
+				ground.set_cellv(cell_pos, -1)
 	if event is InputEventMouseMotion:
 		var mouse_pos = ground.get_local_mouse_position()
 		var cell_pos = ground.world_to_map(mouse_pos)
-		mouse.position.x = cell_pos.x * ground.cell_size.x
-		mouse.position.y = cell_pos.y * ground.cell_size.y
+		mouse.position.x = cell_pos.x * ground.cell_size.x + ground.cell_size.x/2
+		mouse.position.y = cell_pos.y * ground.cell_size.y + ground.cell_size.y/2
 		var sprite_pos = mouse.position
 		sprite_pos.snapped(Vector2(16, 16))
+	if event.is_action_pressed("rotate_right"):
+		if mouse_rot < (1.5 * PI):
+			mouse_rot += PI/2
+		else:
+			mouse_rot = 0
+		mouse.rotation = mouse_rot
+	if event.is_action_pressed("rotate_left"):
+		if is_equal_approx(mouse_rot, 0.0):
+			mouse_rot = PI * 1.5
+		else:
+			mouse_rot -= PI/2
+		mouse.rotation = mouse_rot
+			
 
-func _on_TileVariant_tile_selected(tile) -> void:
-	selected_tile = ground.tile_set.find_tile_by_name(tile)
+func _on_TileSelector_tile_selected(id) -> void:
+	selected_tile = id
+	mouse.texture = ground.tile_set.tile_get_texture(id)
