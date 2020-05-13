@@ -3,6 +3,7 @@ extends Control
 onready var ground = $Level/Ground
 onready var walls = $Level/Walls
 onready var entities = $Level/Entities
+onready var mouse = $Mouse
 
 var selected_tile_name = "grass" # Defaukl
 var selected_tile
@@ -31,7 +32,13 @@ func _input(event: InputEvent) -> void:
 				tile_id = ground.get_cellv(cell_pos)
 				if tile_id != -1:
 					ground.set_cellv(cell_pos, -1)
-
+	if event is InputEventMouseMotion:
+		var mouse_pos = ground.get_local_mouse_position()
+		var cell_pos = ground.world_to_map(mouse_pos)
+		mouse.position.x = cell_pos.x * ground.cell_size.x
+		mouse.position.y = cell_pos.y * ground.cell_size.y
+		var sprite_pos = mouse.position
+		sprite_pos.snapped(Vector2(16, 16))
 
 func _on_TileVariant_tile_selected(tile) -> void:
 	selected_tile = ground.tile_set.find_tile_by_name(tile)
