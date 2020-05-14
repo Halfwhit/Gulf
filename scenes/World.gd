@@ -13,6 +13,7 @@ var current_player_index = 0
 signal level_loaded
 
 func _ready():
+# warning-ignore:return_value_discarded
 	connect("level_loaded", self, "spawn_players")
 	var tileMap = get_node("Entities")
 	var size_x = tileMap.get_cell_size().x
@@ -49,7 +50,7 @@ func _ready():
 			tileMap.set_cell(pos.x, pos.y, -1)
 	emit_signal("level_loaded")
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	if ready_for_turn and is_everyone_still():
 		ready_for_turn = false
 		turn_taken()

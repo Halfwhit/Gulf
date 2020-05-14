@@ -4,7 +4,6 @@ extends Node
 
 var STEAM_LOBBY_ID = 0
 var LOBBY_MEMBERS = []
-var DATA
 var LOBBY_INVITE_ARG = false
 var player_data = {}
 var players_ready = []
@@ -131,7 +130,7 @@ func _on_Lobby_Join_Requested(lobbyID, friendID):
 	_join_Lobby(lobbyID)
 
 
-func _on_Lobby_Joined(lobbyID, permissions, locked, response):
+func _on_Lobby_Joined(lobbyID, _permissions, _locked, _response):
 	# Set this lobby ID as your lobby ID
 	STEAM_LOBBY_ID = lobbyID
 	Steam.setLobbyMemberData(lobbyID, "status", "Not ready")
@@ -151,7 +150,7 @@ func _on_Lobby_Joined(lobbyID, permissions, locked, response):
 	Gamestate.host_id = Steam.getLobbyData(lobbyID, "host")
 
 
-func _on_Lobby_Chat_Update(lobbyID, changedID, makingChangeID, chatState):
+func _on_Lobby_Chat_Update(_lobbyID, _changedID, makingChangeID, chatState):
 	# Get the user who has made the lobby change
 	var CHANGER = Steam.getFriendPersonaName(makingChangeID)
 	var message
@@ -220,7 +219,7 @@ func update_playerlist():
 		$HBoxContainer/LeftPanel/VBoxContainer/LobbyControl/Host/Start.disabled = true
 
 
-func _on_Lobby_Data_Update(success, lobbyID, memberID, key):
+func _on_Lobby_Data_Update(_success, _lobbyID, _memberID, _key):
 	update_playerlist()
 
 
@@ -231,7 +230,7 @@ func _on_Ready_pressed():
 		Steam.setLobbyMemberData(STEAM_LOBBY_ID, "status", "Not ready")
 
 
-func _on_Lobby_Message(result, user, message, type):
+func _on_Lobby_Message(_result, user, message, _type):
 	# We are only concerned with who is sending the message and what the message is
 	var SENDER = Steam.getFriendPersonaName(user)
 	_append_Message(str(SENDER)+" :  "+str(message))
@@ -241,7 +240,7 @@ func _append_Message(message):
 	$HBoxContainer/RightPanel/ChatBox/VBoxContainer/Chatlog.add_text("\n" + str(message))
 
 
-func _on_Message_text_entered(new_text):
+func _on_Message_text_entered(_new_text):
 	# Get the entered chat message
 	var MESSAGE = $HBoxContainer/RightPanel/ChatBox/VBoxContainer/Message.get_text()
 	# Pass the message to Steam

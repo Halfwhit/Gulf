@@ -12,7 +12,7 @@ enum Packet {
 	TURN_UPDATE
 }
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	_read_P2P_Packet()
 	
 	if Input.is_action_just_pressed("ui_cancel"):
@@ -54,4 +54,5 @@ func start_world():
 
 
 func send_to_host_reliable(DATA):
+# warning-ignore:return_value_discarded
 	Steam.sendP2PPacket(int(host_id), DATA, 2, 0)

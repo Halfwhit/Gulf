@@ -17,7 +17,7 @@ var in_yellow
 func _ready() -> void:
 	start_point = get_tree().get_root().get_node("Main/World/SpawnPoint").position
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	$HitLine.points[1] = get_local_mouse_position().clamped(MAX_FORCE)
 	if turn and name == str(Steamworks.STEAM_ID):
 		$HitLine.show()
@@ -27,10 +27,6 @@ func _process(delta: float) -> void:
 	if start_dist > 16:
 		set_collision_mask_bit(0, true)
 	check_motion()
-	# Dev test command
-	if Input.is_action_just_pressed("ui_select") and ball_vector == Vector2.ZERO:
-		turn = true
-
 
 func _physics_process(delta: float) -> void:
 	# Get Input

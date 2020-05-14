@@ -6,7 +6,7 @@ var turn = false
 var ball_vector
 
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	hit_line()
 	get_input()
 	# Dev test command
