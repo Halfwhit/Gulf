@@ -1,13 +1,14 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=15 format=2]
 
 [ext_resource path="res://resources/tiles/floor.tres" type="TileSet" id=1]
+[ext_resource path="res://scenes/SaveController.gd" type="Script" id=2]
 [ext_resource path="res://assets/EditorCam.gd" type="Script" id=3]
 [ext_resource path="res://scenes/Editor.gd" type="Script" id=4]
 [ext_resource path="res://scenes/TileSelector.gd" type="Script" id=5]
 [ext_resource path="res://resources/tiles/entities.tres" type="TileSet" id=6]
 [ext_resource path="res://resources/tiles/wall.tres" type="TileSet" id=7]
 
-[sub_resource type="GDScript" id=2]
+[sub_resource type="GDScript" id=1]
 script/source = "extends ItemList
 
 var ground: TileSet = preload(\"res://resources/tiles/floor.tres\")
@@ -25,7 +26,7 @@ func _process(_delta: float) -> void:
 
 "
 
-[sub_resource type="GDScript" id=3]
+[sub_resource type="GDScript" id=2]
 script/source = "extends ItemList
 
 var ground: TileSet = preload(\"res://resources/tiles/floor.tres\")
@@ -51,7 +52,7 @@ func populate(terrain):
 				add_icon_item(tile_texture)
 "
 
-[sub_resource type="GDScript" id=4]
+[sub_resource type="GDScript" id=3]
 script/source = "extends ItemList
 
 var walls = preload(\"res://resources/tiles/wall.tres\")
@@ -62,7 +63,7 @@ func _ready() -> void:
 		add_icon_item(tile_texture)
 "
 
-[sub_resource type="GDScript" id=5]
+[sub_resource type="GDScript" id=4]
 script/source = "extends ItemList
 
 var entities = preload(\"res://resources/tiles/entities.tres\")
@@ -71,6 +72,63 @@ func _ready() -> void:
 	for id in entities.get_tiles_ids():
 		var tile_texture = entities.tile_get_texture(id)
 		add_item(entities.tile_get_name(id).capitalize(), tile_texture)
+"
+
+[sub_resource type="GDScript" id=5]
+script/source = "extends TileMap
+
+func save():
+	var save_dict = {
+	\"ground_cells_used\" : get_used_cells(),
+	\"ground_cells_ids\" : [],
+	}
+	# Save tile id's
+	for key in save_dict:
+		if key == \"ground_cells_used\":
+			var used_array = save_dict.get(key)
+			for tile in used_array:
+				var id = get_cellv(tile)
+				save_dict[\"ground_cells_ids\"].append(id)
+
+	return save_dict
+"
+
+[sub_resource type="GDScript" id=6]
+script/source = "extends TileMap
+
+func save():
+	var save_dict = {
+	\"wall_cells_used\" : get_used_cells(),
+	\"wall_cells_ids\" : []
+	}
+	# Save tile id's
+	for key in save_dict:
+		if key == \"wall_cells_used\":
+			var used_array = save_dict.get(key)
+			for tile in used_array:
+				var id = get_cellv(tile)
+				save_dict[\"wall_cells_ids\"].append(id)
+
+	return save_dict
+"
+
+[sub_resource type="GDScript" id=7]
+script/source = "extends TileMap
+
+func save():
+	var save_dict = {
+	\"entity_cells_used\" : get_used_cells(),
+	\"entity_cells_ids\" : []
+	}
+	# Save tile id's
+	for key in save_dict:
+		if key == \"entity_cells_used\":
+			var used_array = save_dict.get(key)
+			for tile in used_array:
+				var id = get_cellv(tile)
+				save_dict[\"entity_cells_ids\"].append(id)
+
+	return save_dict
 "
 
 [node name="Editor" type="Control"]
@@ -96,15 +154,20 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="TabContainer" type="TabContainer" parent="CanvasLayer/TileSelector"]
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/TileSelector"]
 margin_left = 7.0
 margin_top = 7.0
 margin_right = 273.0
 margin_bottom = 761.0
+
+[node name="TabContainer" type="TabContainer" parent="CanvasLayer/TileSelector/VBoxContainer"]
+margin_right = 266.0
+margin_bottom = 706.0
 size_flags_horizontal = 3
+size_flags_vertical = 3
 use_hidden_tabs_for_min_size = true
 
-[node name="Ground" type="VSplitContainer" parent="CanvasLayer/TileSelector/TabContainer"]
+[node name="Ground" type="VSplitContainer" parent="CanvasLayer/TileSelector/VBoxContainer/TabContainer"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 4.0
@@ -114,32 +177,52 @@ margin_bottom = -4.0
 size_flags_horizontal = 3
 split_offset = 200
 
-[node name="BaseTile" type="ItemList" parent="CanvasLayer/TileSelector/TabContainer/Ground"]
+[node name="BaseTile" type="ItemList" parent="CanvasLayer/TileSelector/VBoxContainer/TabContainer/Ground"]
 margin_right = 258.0
-margin_bottom = 553.0
+margin_bottom = 529.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 custom_constants/vseparation = 10
 custom_constants/hseparation = 10
+allow_reselect = true
 icon_scale = 2.0
-script = SubResource( 2 )
+script = SubResource( 1 )
 
-[node name="TileVariant" type="ItemList" parent="CanvasLayer/TileSelector/TabContainer/Ground"]
-margin_top = 565.0
+[node name="TileVariant" type="ItemList" parent="CanvasLayer/TileSelector/VBoxContainer/TabContainer/Ground"]
+margin_top = 541.0
 margin_right = 258.0
-margin_bottom = 718.0
+margin_bottom = 670.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 custom_constants/vseparation = 10
 custom_constants/line_separation = 10
 custom_constants/icon_margin = 10
 custom_constants/hseparation = 10
+allow_reselect = true
+max_columns = 4
+same_column_width = true
+icon_scale = 3.0
+script = SubResource( 2 )
+
+[node name="Walls" type="ItemList" parent="CanvasLayer/TileSelector/VBoxContainer/TabContainer"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 4.0
+margin_top = 32.0
+margin_right = -4.0
+margin_bottom = -4.0
+custom_constants/vseparation = 10
+custom_constants/line_separation = 10
+custom_constants/icon_margin = 10
+custom_constants/hseparation = 10
+allow_reselect = true
 max_columns = 4
 same_column_width = true
 icon_scale = 3.0
 script = SubResource( 3 )
 
-[node name="Walls" type="ItemList" parent="CanvasLayer/TileSelector/TabContainer"]
+[node name="Entities" type="ItemList" parent="CanvasLayer/TileSelector/VBoxContainer/TabContainer"]
 visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -147,47 +230,54 @@ margin_left = 4.0
 margin_top = 32.0
 margin_right = -4.0
 margin_bottom = -4.0
-custom_constants/vseparation = 10
-custom_constants/line_separation = 10
-custom_constants/icon_margin = 10
-custom_constants/hseparation = 10
-max_columns = 4
-same_column_width = true
-icon_scale = 3.0
-script = SubResource( 4 )
-
-[node name="Entities" type="ItemList" parent="CanvasLayer/TileSelector/TabContainer"]
-visible = false
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_left = 4.0
-margin_top = 32.0
-margin_right = -4.0
-margin_bottom = -4.0
+allow_reselect = true
 max_columns = 4
 same_column_width = true
 fixed_icon_size = Vector2( 48, 48 )
-script = SubResource( 5 )
+script = SubResource( 4 )
 
-[node name="Level" type="Control" parent="."]
-__meta__ = {
-"_edit_use_anchors_": false
-}
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/TileSelector/VBoxContainer"]
+margin_top = 710.0
+margin_right = 266.0
+margin_bottom = 754.0
+size_flags_horizontal = 3
 
-[node name="Ground" type="TileMap" parent="Level"]
+[node name="Load" type="Button" parent="CanvasLayer/TileSelector/VBoxContainer/VBoxContainer"]
+margin_right = 266.0
+margin_bottom = 20.0
+text = "Load"
+
+[node name="Save" type="Button" parent="CanvasLayer/TileSelector/VBoxContainer/VBoxContainer"]
+margin_top = 24.0
+margin_right = 266.0
+margin_bottom = 44.0
+text = "Save"
+
+[node name="Level" type="Node2D" parent="."]
+
+[node name="Ground" type="TileMap" parent="Level" groups=[
+"save",
+]]
 tile_set = ExtResource( 1 )
 cell_size = Vector2( 16, 16 )
 format = 1
+script = SubResource( 5 )
 
-[node name="Walls" type="TileMap" parent="Level"]
+[node name="Walls" type="TileMap" parent="Level" groups=[
+"save",
+]]
 tile_set = ExtResource( 7 )
 cell_size = Vector2( 16, 16 )
 format = 1
+script = SubResource( 6 )
 
-[node name="Entities" type="TileMap" parent="Level"]
+[node name="Entities" type="TileMap" parent="Level" groups=[
+"save",
+]]
 tile_set = ExtResource( 6 )
 cell_size = Vector2( 8, 8 )
 format = 1
+script = SubResource( 7 )
 
 [node name="Mouse" type="Sprite" parent="."]
 self_modulate = Color( 1, 1, 1, 0.501961 )
@@ -203,11 +293,16 @@ limit_top = 0
 limit_right = 2048
 limit_bottom = 1024
 script = ExtResource( 3 )
+
+[node name="SaveController" type="Node" parent="."]
+script = ExtResource( 2 )
 [connection signal="tile_selected" from="CanvasLayer/TileSelector" to="." method="_on_TileSelector_tile_selected"]
-[connection signal="tab_changed" from="CanvasLayer/TileSelector/TabContainer" to="." method="_on_TabContainer_tab_changed"]
-[connection signal="item_selected" from="CanvasLayer/TileSelector/TabContainer/Ground/BaseTile" to="CanvasLayer/TileSelector" method="_on_BaseTile_item_selected"]
-[connection signal="item_selected" from="CanvasLayer/TileSelector/TabContainer/Ground/BaseTile" to="CanvasLayer/TileSelector/TabContainer/Ground/TileVariant" method="populate"]
-[connection signal="item_selected" from="CanvasLayer/TileSelector/TabContainer/Ground/TileVariant" to="CanvasLayer/TileSelector" method="_on_TileVariant_item_selected"]
-[connection signal="nothing_selected" from="CanvasLayer/TileSelector/TabContainer/Ground/TileVariant" to="CanvasLayer/TileSelector" method="_on_TileVariant_nothing_selected"]
-[connection signal="item_selected" from="CanvasLayer/TileSelector/TabContainer/Walls" to="CanvasLayer/TileSelector" method="_on_Walls_item_selected"]
-[connection signal="item_selected" from="CanvasLayer/TileSelector/TabContainer/Entities" to="CanvasLayer/TileSelector" method="_on_Entities_item_selected"]
+[connection signal="tab_changed" from="CanvasLayer/TileSelector/VBoxContainer/TabContainer" to="." method="_on_TabContainer_tab_changed"]
+[connection signal="item_selected" from="CanvasLayer/TileSelector/VBoxContainer/TabContainer/Ground/BaseTile" to="CanvasLayer/TileSelector" method="_on_BaseTile_item_selected"]
+[connection signal="item_selected" from="CanvasLayer/TileSelector/VBoxContainer/TabContainer/Ground/BaseTile" to="CanvasLayer/TileSelector/VBoxContainer/TabContainer/Ground/TileVariant" method="populate"]
+[connection signal="item_selected" from="CanvasLayer/TileSelector/VBoxContainer/TabContainer/Ground/TileVariant" to="CanvasLayer/TileSelector" method="_on_TileVariant_item_selected"]
+[connection signal="nothing_selected" from="CanvasLayer/TileSelector/VBoxContainer/TabContainer/Ground/TileVariant" to="CanvasLayer/TileSelector" method="_on_TileVariant_nothing_selected"]
+[connection signal="item_selected" from="CanvasLayer/TileSelector/VBoxContainer/TabContainer/Walls" to="CanvasLayer/TileSelector" method="_on_Walls_item_selected"]
+[connection signal="item_selected" from="CanvasLayer/TileSelector/VBoxContainer/TabContainer/Entities" to="CanvasLayer/TileSelector" method="_on_Entities_item_selected"]
+[connection signal="pressed" from="CanvasLayer/TileSelector/VBoxContainer/VBoxContainer/Load" to="SaveController" method="load_scene"]
+[connection signal="pressed" from="CanvasLayer/TileSelector/VBoxContainer/VBoxContainer/Save" to="SaveController" method="save_scene"]
