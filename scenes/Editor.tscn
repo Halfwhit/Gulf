@@ -12,44 +12,76 @@
 script/source = "extends ItemList
 
 var ground: TileSet = preload(\"res://resources/tiles/floor.tres\")
+var selected_tiles = [0, 1]
+
+signal blend(tile_array)
 
 func _ready() -> void:
 	for id in ground.get_tiles_ids():
 		var tile_name = ground.tile_get_name(id)
-		if tile_name.find(\"_\") == -1:
+		if tile_name.find(\"_var\") == -1 and tile_name.find(\"_blend\") == -1 :
 			var tile_texture = ground.tile_get_texture(id)
 			add_item(ground.tile_get_name(id).capitalize(), tile_texture)
 
-func _process(_delta: float) -> void:
-	if Input.is_action_just_pressed(\"ui_cancel\"):
-		get_tree().quit()
 
+func multi_select(index: int, selected: bool) -> void:
+	var selection = get_selected_items()
+	if selection.size() > 2:
+		unselect(selection[0])
+	emit_signal(\"blend\", get_selected_items())
 "
 
 [sub_resource type="GDScript" id=2]
 script/source = "extends ItemList
 
 var ground: TileSet = preload(\"res://resources/tiles/floor.tres\")
-var tile_variant
-onready var terrains : Array = [\"grass\", \"green\", \"water\", \"acid\", \"mud\", \"deepmud\"]
+onready var base_tiles: Array = [\"grass\", \"green\", \"water\", \"acid\", \"mud\", \"deepmud\"]
+var blend_one
+var blend_two
 
-signal grass_selected()
+signal tile_selection(id)
 
-func populate(terrain):
-	tile_variant = terrain
-	if terrain == 0:
-		clear()
-		visible = false
-		emit_signal(\"grass_selected\", 0)
-	else:
-		clear()
+func populate(tile_array):
+	clear()
+	if tile_array.size() == 2:
 		visible = true
+		# Sort blend tiles numerically for ease
+		if tile_array[0] < tile_array[1]:
+			blend_one = tile_array[0]
+			blend_two = tile_array[1]
+		else:
+			blend_one = tile_array[1]
+			blend_two = tile_array[0]
+		# Populate from tileset
 		for id in ground.get_tiles_ids():
-			var search = terrains[terrain] + \"_blend\"
+			var search = base_tiles[blend_one] + \"_\" + base_tiles[blend_two] + \"_blend\"
 			var tile_name = ground.tile_get_name(id)
-			if tile_name.begins_with(search):
+			if tile_name.find(search) != -1:
 				var tile_texture = ground.tile_get_texture(id)
 				add_icon_item(tile_texture)
+	else:
+		blend_one = tile_array[0]
+		nothing_selected()
+
+
+func _on_TileVariant_item_selected(index: int) -> void:
+	var id
+	if blend_one == 0:  # grass
+		id = 14 + (blend_one * 40) + (blend_two * 10) + index
+	elif blend_one == 1:  # green
+		id = 14 + (blend_one * 40) + (blend_two * 10) + index
+	elif blend_one == 2:  # water
+		id = 4 + (blend_one * 40) + (blend_two * 10) + index
+	elif blend_one == 3:  # acid
+		id = -16 + (blend_one * 40) + (blend_two * 10) + index
+	elif blend_one == 4:  # mud
+		id = -46 + (blend_one * 40) + (blend_two * 10) + index
+	emit_signal(\"tile_selection\", id)
+
+
+func nothing_selected():
+	emit_signal(\"tile_selection\", blend_one * 4)
+	visible = false
 "
 
 [sub_resource type="GDScript" id=3]
@@ -190,21 +222,20 @@ margin_top = 32.0
 margin_right = -4.0
 margin_bottom = -4.0
 size_flags_horizontal = 3
-split_offset = 200
 
 [node name="BaseTile" type="ItemList" parent="CanvasLayer/TileSelector/VBoxContainer/TabContainer/Ground"]
 margin_right = 258.0
-margin_bottom = 529.0
+margin_bottom = 329.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 custom_constants/vseparation = 10
 custom_constants/hseparation = 10
-allow_reselect = true
+select_mode = 1
 icon_scale = 2.0
 script = SubResource( 1 )
 
 [node name="TileVariant" type="ItemList" parent="CanvasLayer/TileSelector/VBoxContainer/TabContainer/Ground"]
-margin_top = 541.0
+margin_top = 341.0
 margin_right = 258.0
 margin_bottom = 670.0
 size_flags_horizontal = 3
@@ -313,10 +344,11 @@ script = ExtResource( 3 )
 script = ExtResource( 2 )
 [connection signal="tile_selected" from="CanvasLayer/TileSelector" to="." method="_on_TileSelector_tile_selected"]
 [connection signal="tab_changed" from="CanvasLayer/TileSelector/VBoxContainer/TabContainer" to="." method="_on_TabContainer_tab_changed"]
-[connection signal="item_selected" from="CanvasLayer/TileSelector/VBoxContainer/TabContainer/Ground/BaseTile" to="CanvasLayer/TileSelector/VBoxContainer/TabContainer/Ground/TileVariant" method="populate"]
-[connection signal="item_selected" from="CanvasLayer/TileSelector/VBoxContainer/TabContainer/Ground/BaseTile" to="CanvasLayer/TileSelector" method="_on_BaseTile_item_selected"]
-[connection signal="item_selected" from="CanvasLayer/TileSelector/VBoxContainer/TabContainer/Ground/TileVariant" to="CanvasLayer/TileSelector" method="_on_TileVariant_item_selected"]
-[connection signal="nothing_selected" from="CanvasLayer/TileSelector/VBoxContainer/TabContainer/Ground/TileVariant" to="CanvasLayer/TileSelector" method="_on_TileVariant_nothing_selected"]
+[connection signal="blend" from="CanvasLayer/TileSelector/VBoxContainer/TabContainer/Ground/BaseTile" to="CanvasLayer/TileSelector/VBoxContainer/TabContainer/Ground/TileVariant" method="populate"]
+[connection signal="multi_selected" from="CanvasLayer/TileSelector/VBoxContainer/TabContainer/Ground/BaseTile" to="CanvasLayer/TileSelector/VBoxContainer/TabContainer/Ground/BaseTile" method="multi_select"]
+[connection signal="item_selected" from="CanvasLayer/TileSelector/VBoxContainer/TabContainer/Ground/TileVariant" to="CanvasLayer/TileSelector/VBoxContainer/TabContainer/Ground/TileVariant" method="_on_TileVariant_item_selected"]
+[connection signal="nothing_selected" from="CanvasLayer/TileSelector/VBoxContainer/TabContainer/Ground/TileVariant" to="CanvasLayer/TileSelector/VBoxContainer/TabContainer/Ground/TileVariant" method="nothing_selected"]
+[connection signal="tile_selection" from="CanvasLayer/TileSelector/VBoxContainer/TabContainer/Ground/TileVariant" to="CanvasLayer/TileSelector" method="ground_tile_selected"]
 [connection signal="item_selected" from="CanvasLayer/TileSelector/VBoxContainer/TabContainer/Walls" to="CanvasLayer/TileSelector" method="_on_Walls_item_selected"]
 [connection signal="item_selected" from="CanvasLayer/TileSelector/VBoxContainer/TabContainer/Entities" to="CanvasLayer/TileSelector" method="_on_Entities_item_selected"]
 [connection signal="pressed" from="CanvasLayer/TileSelector/VBoxContainer/VBoxContainer/Load" to="SaveController" method="load_scene"]
