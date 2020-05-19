@@ -81,6 +81,7 @@ func save():
 	var save_dict = {
 	\"ground_cells_used\" : get_used_cells(),
 	\"ground_cells_ids\" : [],
+	\"ground_cells_rotation\" : []
 	}
 	# Save tile id's
 	for key in save_dict:
@@ -89,6 +90,10 @@ func save():
 			for tile in used_array:
 				var id = get_cellv(tile)
 				save_dict[\"ground_cells_ids\"].append(id)
+				var transpose : bool = is_cell_transposed(tile.x, tile.y)
+				var y_flip : bool = is_cell_y_flipped(tile.x, tile.y)
+				var x_flip : bool = is_cell_x_flipped(tile.x, tile.y)
+				save_dict[\"ground_cells_rotation\"].append([transpose, y_flip, x_flip])
 
 	return save_dict
 "
@@ -99,7 +104,8 @@ script/source = "extends TileMap
 func save():
 	var save_dict = {
 	\"wall_cells_used\" : get_used_cells(),
-	\"wall_cells_ids\" : []
+	\"wall_cells_ids\" : [],
+	\"wall_cells_rotation\" : []
 	}
 	# Save tile id's
 	for key in save_dict:
@@ -108,6 +114,10 @@ func save():
 			for tile in used_array:
 				var id = get_cellv(tile)
 				save_dict[\"wall_cells_ids\"].append(id)
+				var transpose : bool = is_cell_transposed(tile.x, tile.y)
+				var y_flip : bool = is_cell_y_flipped(tile.x, tile.y)
+				var x_flip : bool = is_cell_x_flipped(tile.x, tile.y)
+				save_dict[\"wall_cells_rotation\"].append([transpose, y_flip, x_flip])
 
 	return save_dict
 "
@@ -118,7 +128,8 @@ script/source = "extends TileMap
 func save():
 	var save_dict = {
 	\"entity_cells_used\" : get_used_cells(),
-	\"entity_cells_ids\" : []
+	\"entity_cells_ids\" : [],
+	\"entity_cells_rotation\" : []
 	}
 	# Save tile id's
 	for key in save_dict:
@@ -127,6 +138,10 @@ func save():
 			for tile in used_array:
 				var id = get_cellv(tile)
 				save_dict[\"entity_cells_ids\"].append(id)
+				var transpose : bool = is_cell_transposed(tile.x, tile.y)
+				var y_flip : bool = is_cell_y_flipped(tile.x, tile.y)
+				var x_flip : bool = is_cell_x_flipped(tile.x, tile.y)
+				save_dict[\"entity_cells_rotation\"].append([transpose, y_flip, x_flip])
 
 	return save_dict
 "
@@ -298,8 +313,8 @@ script = ExtResource( 3 )
 script = ExtResource( 2 )
 [connection signal="tile_selected" from="CanvasLayer/TileSelector" to="." method="_on_TileSelector_tile_selected"]
 [connection signal="tab_changed" from="CanvasLayer/TileSelector/VBoxContainer/TabContainer" to="." method="_on_TabContainer_tab_changed"]
-[connection signal="item_selected" from="CanvasLayer/TileSelector/VBoxContainer/TabContainer/Ground/BaseTile" to="CanvasLayer/TileSelector" method="_on_BaseTile_item_selected"]
 [connection signal="item_selected" from="CanvasLayer/TileSelector/VBoxContainer/TabContainer/Ground/BaseTile" to="CanvasLayer/TileSelector/VBoxContainer/TabContainer/Ground/TileVariant" method="populate"]
+[connection signal="item_selected" from="CanvasLayer/TileSelector/VBoxContainer/TabContainer/Ground/BaseTile" to="CanvasLayer/TileSelector" method="_on_BaseTile_item_selected"]
 [connection signal="item_selected" from="CanvasLayer/TileSelector/VBoxContainer/TabContainer/Ground/TileVariant" to="CanvasLayer/TileSelector" method="_on_TileVariant_item_selected"]
 [connection signal="nothing_selected" from="CanvasLayer/TileSelector/VBoxContainer/TabContainer/Ground/TileVariant" to="CanvasLayer/TileSelector" method="_on_TileVariant_nothing_selected"]
 [connection signal="item_selected" from="CanvasLayer/TileSelector/VBoxContainer/TabContainer/Walls" to="CanvasLayer/TileSelector" method="_on_Walls_item_selected"]

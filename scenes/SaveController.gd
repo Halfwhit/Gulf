@@ -1,6 +1,6 @@
 extends Node
 
-export var save_location = "user//Gulf/levels/editor.level"
+export var save_location: String = "user://editor.level"
 
 func save_scene():
 	var save_scene = File.new()
@@ -40,10 +40,13 @@ func load_scene():
 				var string_to_vec = location_string.split(",", false)
 				var location_vector = Vector2(string_to_vec[0].to_int(), string_to_vec[1].to_int())
 				var cell_id: int = node_data.get("ground_cells_ids")[ground]
-				ground_map.set_cellv(location_vector, cell_id)
+				var transpose : bool = node_data.get("ground_cells_rotation")[ground][0]
+				var y_flip : bool = node_data.get("ground_cells_rotation")[ground][1]
+				var x_flip : bool = node_data.get("ground_cells_rotation")[ground][2]
+				ground_map.set_cellv(location_vector, cell_id, x_flip, y_flip, transpose)
 		# Read wall data
 		if node_data.has("wall_cells_used"):
-			var wall_map = get_parent().get_node("Level/Wall")
+			var wall_map = get_parent().get_node("Level/Walls")
 			# Clear tilemap
 			for tile in wall_map.get_used_cells():
 				wall_map.set_cellv(tile, -1)
@@ -54,7 +57,10 @@ func load_scene():
 				var string_to_vec = location_string.split(",", false)
 				var location_vector = Vector2(string_to_vec[0].to_int(), string_to_vec[1].to_int())
 				var cell_id: int = node_data.get("wall_cells_ids")[wall]
-				wall_map.set_cellv(location_vector, cell_id)
+				var transpose : bool = node_data.get("wall_cells_rotation")[wall][0]
+				var y_flip : bool = node_data.get("wall_cells_rotation")[wall][1]
+				var x_flip : bool = node_data.get("wall_cells_rotation")[wall][2]
+				wall_map.set_cellv(location_vector, cell_id, x_flip, y_flip, transpose)
 		# Read entity data
 		if node_data.has("entity_cells_used"):
 			var entity_map = get_parent().get_node("Level/Entities")
@@ -68,6 +74,9 @@ func load_scene():
 				var string_to_vec = location_string.split(",", false)
 				var location_vector = Vector2(string_to_vec[0].to_int(), string_to_vec[1].to_int())
 				var cell_id: int = node_data.get("entity_cells_ids")[entity]
-				entity_map.set_cellv(location_vector, cell_id)
+				var transpose : bool = node_data.get("entity_cells_rotation")[entity][0]
+				var y_flip : bool = node_data.get("entity_cells_rotation")[entity][1]
+				var x_flip : bool = node_data.get("entity_cells_rotation")[entity][2]
+				entity_map.set_cellv(location_vector, cell_id, x_flip, y_flip, transpose)
 	
 	save_scene.close()
