@@ -65,8 +65,8 @@ func _gui_input(event: InputEvent) -> void:
 		else:
 			var mouse_pos = entities.get_local_mouse_position()
 			var cell_pos = entities.world_to_map(mouse_pos)
-			mouse.position.x = cell_pos.x * entities.cell_size.x + entities.cell_size.x
-			mouse.position.y = cell_pos.y * entities.cell_size.y + entities.cell_size.y
+			mouse.position.x = cell_pos.x * entities.cell_size.x + entities.cell_size.x/2
+			mouse.position.y = cell_pos.y * entities.cell_size.y + entities.cell_size.y/2
 			var sprite_pos = mouse.position
 			sprite_pos.snapped(Vector2(8, 8))
 

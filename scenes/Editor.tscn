@@ -19,15 +19,17 @@ signal blend(tile_array)
 func _ready() -> void:
 	for id in ground.get_tiles_ids():
 		var tile_name = ground.tile_get_name(id)
-		if tile_name.find(\"_var\") == -1 and tile_name.find(\"_blend\") == -1 :
+		if tile_name.find(\"_var\") == -1 and tile_name.find(\"_blend\") == -1:
+			if tile_name.match(\"start\") or tile_name.match(\"hole\"):
+				continue
 			var tile_texture = ground.tile_get_texture(id)
 			add_item(ground.tile_get_name(id).capitalize(), tile_texture)
 
 
 func multi_select(index: int, selected: bool) -> void:
 	var selection = get_selected_items()
-	if selection.size() > 2:
-		unselect(selection[0])
+	if selection.size() > 3:
+		unselect(selection[-1])
 	emit_signal(\"blend\", get_selected_items())
 "
 
@@ -38,50 +40,82 @@ var ground: TileSet = preload(\"res://resources/tiles/floor.tres\")
 onready var base_tiles: Array = [\"grass\", \"green\", \"water\", \"acid\", \"mud\", \"deepmud\"]
 var blend_one
 var blend_two
+var blend_three
+var first_variant_index
 
 signal tile_selection(id)
 
-func populate(tile_array):
+func populate(tile_array : PoolIntArray):
 	clear()
 	if tile_array.size() == 2:
 		visible = true
+		
 		# Sort blend tiles numerically for ease
-		if tile_array[0] < tile_array[1]:
-			blend_one = tile_array[0]
-			blend_two = tile_array[1]
-		else:
-			blend_one = tile_array[1]
-			blend_two = tile_array[0]
+		var sorted_array = Array(tile_array)
+		sorted_array.sort()
+		blend_one = sorted_array[0]
+		blend_two = sorted_array[1]
+		blend_three = null
+		
 		# Populate from tileset
 		for id in ground.get_tiles_ids():
 			var search = base_tiles[blend_one] + \"_\" + base_tiles[blend_two] + \"_blend\"
 			var tile_name = ground.tile_get_name(id)
-			if tile_name.find(search) != -1:
+			if tile_name.begins_with(search):
+				if tile_name.ends_with(\"1\"):
+					first_variant_index = id
 				var tile_texture = ground.tile_get_texture(id)
 				add_icon_item(tile_texture)
-	else:
+	elif tile_array.size() == 3:
+		visible = true
+		
+		# Sort blend tiles numerically for ease
+		var sorted_array = Array(tile_array)
+		sorted_array.sort()
+		blend_one = sorted_array[0]
+		blend_two = sorted_array[1]
+		blend_three = sorted_array[2]
+		
+		# Populate from tileset
+		for id in ground.get_tiles_ids():
+			var search = base_tiles[blend_one] + \"_\" + base_tiles[blend_two] + \"_\" + base_tiles[blend_three] + \"_blend\"
+			var tile_name = ground.tile_get_name(id)
+			if tile_name.begins_with(search):
+				if tile_name.ends_with(\"1\"):
+					first_variant_index = id
+				var tile_texture = ground.tile_get_texture(id)
+				add_icon_item(tile_texture)
+	else:	# Nothing selected
 		blend_one = tile_array[0]
-		nothing_selected()
+		blend_two = null
+		blend_three = null
+		if blend_one == 0:  # Grass
+			visible = true
+			# Get start tile
+			for id in ground.get_tiles_ids():
+				var tile_name = ground.tile_get_name(id)
+				if tile_name == \"start\":
+					first_variant_index = id
+					var tile_texture = ground.tile_get_texture(id)
+					add_icon_item(tile_texture)
+		elif blend_one == 1:  # Green
+			visible = true
+			# Get hole tile
+			for id in ground.get_tiles_ids():
+				var tile_name = ground.tile_get_name(id)
+				if tile_name == \"hole\":
+					first_variant_index = id
+					var tile_texture = ground.tile_get_texture(id)
+					add_icon_item(tile_texture)
+		else:
+			visible = false
+			first_variant_index = null
+		
+		emit_signal(\"tile_selection\", blend_one * 4)
 
 
 func _on_TileVariant_item_selected(index: int) -> void:
-	var id
-	if blend_one == 0:  # grass
-		id = 14 + (blend_one * 40) + (blend_two * 10) + index
-	elif blend_one == 1:  # green
-		id = 14 + (blend_one * 40) + (blend_two * 10) + index
-	elif blend_one == 2:  # water
-		id = 4 + (blend_one * 40) + (blend_two * 10) + index
-	elif blend_one == 3:  # acid
-		id = -16 + (blend_one * 40) + (blend_two * 10) + index
-	elif blend_one == 4:  # mud
-		id = -46 + (blend_one * 40) + (blend_two * 10) + index
-	emit_signal(\"tile_selection\", id)
-
-
-func nothing_selected():
-	emit_signal(\"tile_selection\", blend_one * 4)
-	visible = false
+	emit_signal(\"tile_selection\", first_variant_index + index)
 "
 
 [sub_resource type="GDScript" id=3]
@@ -327,9 +361,6 @@ script = SubResource( 7 )
 
 [node name="Mouse" type="Sprite" parent="."]
 self_modulate = Color( 1, 1, 1, 0.501961 )
-position = Vector2( 8, 8 )
-centered = false
-offset = Vector2( -8, -8 )
 
 [node name="Camera2D" type="Camera2D" parent="."]
 anchor_mode = 0

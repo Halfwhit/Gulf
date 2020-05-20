@@ -1,4 +1,4 @@
-[gd_resource type="TileSet" load_steps=175 format=2]
+[gd_resource type="TileSet" load_steps=163 format=2]
 
 [ext_resource path="res://resources/tiles/floor/ground/grass.png" type="Texture" id=1]
 [ext_resource path="res://resources/tiles/floor/ground/water_var_3.png" type="Texture" id=2]
@@ -24,156 +24,144 @@
 [ext_resource path="res://resources/tiles/floor/ground/deep_mud.png" type="Texture" id=22]
 [ext_resource path="res://resources/tiles/floor/ground/deep_mud_var_1.png" type="Texture" id=23]
 [ext_resource path="res://resources/tiles/floor/ground/deep_mud_var_3.png" type="Texture" id=24]
-[ext_resource path="res://resources/tiles/floor/blends/grass_green_blend_7.png" type="Texture" id=25]
-[ext_resource path="res://resources/tiles/floor/blends/grass_green_blend_8.png" type="Texture" id=26]
-[ext_resource path="res://resources/tiles/floor/blends/grass_green_blend_5.png" type="Texture" id=27]
-[ext_resource path="res://resources/tiles/floor/blends/grass_green_blend_3.png" type="Texture" id=28]
-[ext_resource path="res://resources/tiles/floor/blends/grass_green_blend_9.png" type="Texture" id=29]
-[ext_resource path="res://resources/tiles/floor/blends/grass_green_blend_1.png" type="Texture" id=30]
-[ext_resource path="res://resources/tiles/floor/blends/grass_green_blend_6.png" type="Texture" id=31]
-[ext_resource path="res://resources/tiles/floor/blends/grass_green_blend_10.png" type="Texture" id=32]
-[ext_resource path="res://resources/tiles/floor/blends/grass_green_blend_2.png" type="Texture" id=33]
-[ext_resource path="res://resources/tiles/floor/blends/grass_green_blend_4.png" type="Texture" id=34]
-[ext_resource path="res://resources/tiles/floor/blends/grass_water_blend_3.png" type="Texture" id=35]
-[ext_resource path="res://resources/tiles/floor/blends/grass_water_blend_1.png" type="Texture" id=36]
-[ext_resource path="res://resources/tiles/floor/blends/grass_water_blend_2.png" type="Texture" id=37]
-[ext_resource path="res://resources/tiles/floor/blends/grass_water_blend_4.png" type="Texture" id=38]
-[ext_resource path="res://resources/tiles/floor/blends/grass_water_blend_9.png" type="Texture" id=39]
-[ext_resource path="res://resources/tiles/floor/blends/grass_water_blend_10.png" type="Texture" id=40]
-[ext_resource path="res://resources/tiles/floor/blends/grass_water_blend_6.png" type="Texture" id=41]
-[ext_resource path="res://resources/tiles/floor/blends/grass_water_blend_5.png" type="Texture" id=42]
-[ext_resource path="res://resources/tiles/floor/blends/grass_water_blend_8.png" type="Texture" id=43]
-[ext_resource path="res://resources/tiles/floor/blends/grass_water_blend_7.png" type="Texture" id=44]
-[ext_resource path="res://resources/tiles/floor/blends/grass_acid_blend_1.png" type="Texture" id=45]
-[ext_resource path="res://resources/tiles/floor/blends/grass_acid_blend_2.png" type="Texture" id=46]
-[ext_resource path="res://resources/tiles/floor/blends/grass_acid_blend_4.png" type="Texture" id=47]
-[ext_resource path="res://resources/tiles/floor/blends/grass_acid_blend_7.png" type="Texture" id=48]
-[ext_resource path="res://resources/tiles/floor/blends/grass_acid_blend_8.png" type="Texture" id=49]
-[ext_resource path="res://resources/tiles/floor/blends/grass_acid_blend_5.png" type="Texture" id=50]
-[ext_resource path="res://resources/tiles/floor/blends/grass_acid_blend_6.png" type="Texture" id=51]
-[ext_resource path="res://resources/tiles/floor/blends/grass_acid_blend_10.png" type="Texture" id=52]
-[ext_resource path="res://resources/tiles/floor/blends/grass_acid_blend_3.png" type="Texture" id=53]
-[ext_resource path="res://resources/tiles/floor/blends/grass_acid_blend_9.png" type="Texture" id=54]
-[ext_resource path="res://resources/tiles/floor/blends/green_water_blend_9.png" type="Texture" id=55]
-[ext_resource path="res://resources/tiles/floor/blends/green_water_blend_8.png" type="Texture" id=56]
-[ext_resource path="res://resources/tiles/floor/blends/green_water_blend_10.png" type="Texture" id=57]
-[ext_resource path="res://resources/tiles/floor/blends/green_water_blend_6.png" type="Texture" id=58]
-[ext_resource path="res://resources/tiles/floor/blends/green_water_blend_7.png" type="Texture" id=59]
-[ext_resource path="res://resources/tiles/floor/blends/grass_mud_blend_1.png" type="Texture" id=60]
-[ext_resource path="res://resources/tiles/floor/blends/grass_mud_blend_2.png" type="Texture" id=61]
-[ext_resource path="res://resources/tiles/floor/blends/green_water_blend_1.png" type="Texture" id=62]
-[ext_resource path="res://resources/tiles/floor/blends/grass_mud_blend_3.png" type="Texture" id=63]
-[ext_resource path="res://resources/tiles/floor/blends/green_water_blend_4.png" type="Texture" id=64]
-[ext_resource path="res://resources/tiles/floor/blends/grass_mud_blend_6.png" type="Texture" id=65]
-[ext_resource path="res://resources/tiles/floor/blends/grass_mud_blend_8.png" type="Texture" id=66]
-[ext_resource path="res://resources/tiles/floor/blends/grass_mud_blend_9.png" type="Texture" id=67]
-[ext_resource path="res://resources/tiles/floor/blends/grass_mud_blend_5.png" type="Texture" id=68]
-[ext_resource path="res://resources/tiles/floor/blends/grass_mud_blend_10.png" type="Texture" id=69]
-[ext_resource path="res://resources/tiles/floor/blends/grass_mud_blend_7.png" type="Texture" id=70]
-[ext_resource path="res://resources/tiles/floor/blends/green_water_blend_3.png" type="Texture" id=71]
-[ext_resource path="res://resources/tiles/floor/blends/green_water_blend_5.png" type="Texture" id=72]
-[ext_resource path="res://resources/tiles/floor/blends/green_water_blend_2.png" type="Texture" id=73]
-[ext_resource path="res://resources/tiles/floor/blends/grass_mud_blend_4.png" type="Texture" id=74]
-[ext_resource path="res://resources/tiles/floor/blends/grass_deepmud_blend_7.png" type="Texture" id=75]
-[ext_resource path="res://resources/tiles/floor/blends/grass_deepmud_blend_2.png" type="Texture" id=76]
-[ext_resource path="res://resources/tiles/floor/blends/grass_deepmud_blend_8.png" type="Texture" id=77]
-[ext_resource path="res://resources/tiles/floor/blends/grass_deepmud_blend_9.png" type="Texture" id=78]
-[ext_resource path="res://resources/tiles/floor/blends/grass_deepmud_blend_1.png" type="Texture" id=79]
-[ext_resource path="res://resources/tiles/floor/blends/grass_deepmud_blend_6.png" type="Texture" id=80]
-[ext_resource path="res://resources/tiles/floor/blends/grass_deepmud_blend_4.png" type="Texture" id=81]
-[ext_resource path="res://resources/tiles/floor/blends/grass_deepmud_blend_5.png" type="Texture" id=82]
-[ext_resource path="res://resources/tiles/floor/blends/grass_deepmud_blend_3.png" type="Texture" id=83]
-[ext_resource path="res://resources/tiles/floor/blends/grass_deepmud_blend_10.png" type="Texture" id=84]
-[ext_resource path="res://resources/tiles/floor/blends/green_acid_blend_8.png" type="Texture" id=85]
-[ext_resource path="res://resources/tiles/floor/blends/green_acid_blend_4.png" type="Texture" id=86]
-[ext_resource path="res://resources/tiles/floor/blends/green_acid_blend_1.png" type="Texture" id=87]
-[ext_resource path="res://resources/tiles/floor/blends/green_acid_blend_6.png" type="Texture" id=88]
-[ext_resource path="res://resources/tiles/floor/blends/green_acid_blend_10.png" type="Texture" id=89]
-[ext_resource path="res://resources/tiles/floor/blends/green_acid_blend_9.png" type="Texture" id=90]
-[ext_resource path="res://resources/tiles/floor/blends/green_acid_blend_3.png" type="Texture" id=91]
-[ext_resource path="res://resources/tiles/floor/blends/green_acid_blend_5.png" type="Texture" id=92]
-[ext_resource path="res://resources/tiles/floor/blends/green_acid_blend_7.png" type="Texture" id=93]
-[ext_resource path="res://resources/tiles/floor/blends/green_acid_blend_2.png" type="Texture" id=94]
-[ext_resource path="res://resources/tiles/floor/blends/green_deepmud_blend_6.png" type="Texture" id=95]
-[ext_resource path="res://resources/tiles/floor/blends/green_mud_blend_4.png" type="Texture" id=96]
-[ext_resource path="res://resources/tiles/floor/blends/green_mud_blend_10.png" type="Texture" id=97]
-[ext_resource path="res://resources/tiles/floor/blends/green_deepmud_blend_1.png" type="Texture" id=98]
-[ext_resource path="res://resources/tiles/floor/blends/green_mud_blend_5.png" type="Texture" id=99]
-[ext_resource path="res://resources/tiles/floor/blends/green_mud_blend_3.png" type="Texture" id=100]
-[ext_resource path="res://resources/tiles/floor/blends/green_mud_blend_9.png" type="Texture" id=101]
-[ext_resource path="res://resources/tiles/floor/blends/green_deepmud_blend_2.png" type="Texture" id=102]
-[ext_resource path="res://resources/tiles/floor/blends/green_deepmud_blend_3.png" type="Texture" id=103]
-[ext_resource path="res://resources/tiles/floor/blends/green_mud_blend_8.png" type="Texture" id=104]
-[ext_resource path="res://resources/tiles/floor/blends/green_deepmud_blend_5.png" type="Texture" id=105]
-[ext_resource path="res://resources/tiles/floor/blends/green_mud_blend_7.png" type="Texture" id=106]
-[ext_resource path="res://resources/tiles/floor/blends/green_mud_blend_6.png" type="Texture" id=107]
-[ext_resource path="res://resources/tiles/floor/blends/green_mud_blend_1.png" type="Texture" id=108]
-[ext_resource path="res://resources/tiles/floor/blends/green_mud_blend_2.png" type="Texture" id=109]
-[ext_resource path="res://resources/tiles/floor/blends/green_deepmud_blend_4.png" type="Texture" id=110]
-[ext_resource path="res://resources/tiles/floor/blends/green_deepmud_blend_7.png" type="Texture" id=111]
-[ext_resource path="res://resources/tiles/floor/blends/green_deepmud_blend_8.png" type="Texture" id=112]
-[ext_resource path="res://resources/tiles/floor/blends/green_deepmud_blend_10.png" type="Texture" id=113]
-[ext_resource path="res://resources/tiles/floor/blends/water_acid_blend_2.png" type="Texture" id=114]
-[ext_resource path="res://resources/tiles/floor/blends/water_acid_blend_4.png" type="Texture" id=115]
-[ext_resource path="res://resources/tiles/floor/blends/green_deepmud_blend_9.png" type="Texture" id=116]
-[ext_resource path="res://resources/tiles/floor/blends/water_acid_blend_1.png" type="Texture" id=117]
-[ext_resource path="res://resources/tiles/floor/blends/water_acid_blend_5.png" type="Texture" id=118]
-[ext_resource path="res://resources/tiles/floor/blends/water_acid_blend_3.png" type="Texture" id=119]
-[ext_resource path="res://resources/tiles/floor/blends/water_acid_blend_7.png" type="Texture" id=120]
-[ext_resource path="res://resources/tiles/floor/blends/water_acid_blend_6.png" type="Texture" id=121]
-[ext_resource path="res://resources/tiles/floor/blends/water_acid_blend_8.png" type="Texture" id=122]
-[ext_resource path="res://resources/tiles/floor/blends/water_acid_blend_10.png" type="Texture" id=123]
-[ext_resource path="res://resources/tiles/floor/blends/water_acid_blend_9.png" type="Texture" id=124]
-[ext_resource path="res://resources/tiles/floor/blends/water_deepmud_blend_7.png" type="Texture" id=125]
-[ext_resource path="res://resources/tiles/floor/blends/water_deepmud_blend_9.png" type="Texture" id=126]
-[ext_resource path="res://resources/tiles/floor/blends/water_deepmud_blend_10.png" type="Texture" id=127]
-[ext_resource path="res://resources/tiles/floor/blends/water_deepmud_blend_8.png" type="Texture" id=128]
-[ext_resource path="res://resources/tiles/floor/blends/water_deepmud_blend_1.png" type="Texture" id=129]
-[ext_resource path="res://resources/tiles/floor/blends/water_deepmud_blend_4.png" type="Texture" id=130]
-[ext_resource path="res://resources/tiles/floor/blends/water_deepmud_blend_5.png" type="Texture" id=131]
-[ext_resource path="res://resources/tiles/floor/blends/water_deepmud_blend_6.png" type="Texture" id=132]
-[ext_resource path="res://resources/tiles/floor/blends/water_deepmud_blend_2.png" type="Texture" id=133]
-[ext_resource path="res://resources/tiles/floor/blends/water_mud_blend_1.png" type="Texture" id=134]
-[ext_resource path="res://resources/tiles/floor/blends/water_mud_blend_3.png" type="Texture" id=135]
-[ext_resource path="res://resources/tiles/floor/blends/water_mud_blend_4.png" type="Texture" id=136]
-[ext_resource path="res://resources/tiles/floor/blends/water_deepmud_blend_3.png" type="Texture" id=137]
-[ext_resource path="res://resources/tiles/floor/blends/water_mud_blend_2.png" type="Texture" id=138]
-[ext_resource path="res://resources/tiles/floor/blends/water_mud_blend_6.png" type="Texture" id=139]
-[ext_resource path="res://resources/tiles/floor/blends/water_mud_blend_8.png" type="Texture" id=140]
-[ext_resource path="res://resources/tiles/floor/blends/water_mud_blend_7.png" type="Texture" id=141]
-[ext_resource path="res://resources/tiles/floor/blends/water_mud_blend_5.png" type="Texture" id=142]
-[ext_resource path="res://resources/tiles/floor/blends/water_mud_blend_9.png" type="Texture" id=143]
-[ext_resource path="res://resources/tiles/floor/blends/water_mud_blend_10.png" type="Texture" id=144]
-[ext_resource path="res://resources/tiles/floor/blends/acid_deepmud_blend_8.png" type="Texture" id=145]
-[ext_resource path="res://resources/tiles/floor/blends/acid_mud_blend_9.png" type="Texture" id=146]
-[ext_resource path="res://resources/tiles/floor/blends/acid_deepmud_blend_7.png" type="Texture" id=147]
-[ext_resource path="res://resources/tiles/floor/blends/mud_deepmud_blend_5.png" type="Texture" id=148]
-[ext_resource path="res://resources/tiles/floor/blends/acid_mud_blend_8.png" type="Texture" id=149]
-[ext_resource path="res://resources/tiles/floor/blends/acid_mud_blend_6.png" type="Texture" id=150]
-[ext_resource path="res://resources/tiles/floor/blends/acid_deepmud_blend_1.png" type="Texture" id=151]
-[ext_resource path="res://resources/tiles/floor/blends/mud_deepmud_blend_1.png" type="Texture" id=152]
-[ext_resource path="res://resources/tiles/floor/blends/acid_deepmud_blend_6.png" type="Texture" id=153]
-[ext_resource path="res://resources/tiles/floor/blends/mud_deepmud_blend_2.png" type="Texture" id=154]
-[ext_resource path="res://resources/tiles/floor/blends/mud_deepmud_blend_7.png" type="Texture" id=155]
-[ext_resource path="res://resources/tiles/floor/blends/acid_mud_blend_7.png" type="Texture" id=156]
-[ext_resource path="res://resources/tiles/floor/blends/mud_deepmud_blend_10.png" type="Texture" id=157]
-[ext_resource path="res://resources/tiles/floor/blends/acid_mud_blend_10.png" type="Texture" id=158]
-[ext_resource path="res://resources/tiles/floor/blends/mud_deepmud_blend_9.png" type="Texture" id=159]
-[ext_resource path="res://resources/tiles/floor/blends/acid_deepmud_blend_9.png" type="Texture" id=160]
-[ext_resource path="res://resources/tiles/floor/blends/acid_mud_blend_5.png" type="Texture" id=161]
-[ext_resource path="res://resources/tiles/floor/blends/acid_deepmud_blend_10.png" type="Texture" id=162]
-[ext_resource path="res://resources/tiles/floor/blends/acid_deepmud_blend_2.png" type="Texture" id=163]
-[ext_resource path="res://resources/tiles/floor/blends/mud_deepmud_blend_4.png" type="Texture" id=164]
-[ext_resource path="res://resources/tiles/floor/blends/mud_deepmud_blend_3.png" type="Texture" id=165]
-[ext_resource path="res://resources/tiles/floor/blends/mud_deepmud_blend_8.png" type="Texture" id=166]
-[ext_resource path="res://resources/tiles/floor/blends/acid_deepmud_blend_4.png" type="Texture" id=167]
-[ext_resource path="res://resources/tiles/floor/blends/mud_deepmud_blend_6.png" type="Texture" id=168]
-[ext_resource path="res://resources/tiles/floor/blends/acid_deepmud_blend_5.png" type="Texture" id=169]
-[ext_resource path="res://resources/tiles/floor/blends/acid_mud_blend_4.png" type="Texture" id=170]
-[ext_resource path="res://resources/tiles/floor/blends/acid_deepmud_blend_3.png" type="Texture" id=171]
-[ext_resource path="res://resources/tiles/floor/blends/acid_mud_blend_3.png" type="Texture" id=172]
-[ext_resource path="res://resources/tiles/floor/blends/acid_mud_blend_1.png" type="Texture" id=173]
-[ext_resource path="res://resources/tiles/floor/blends/acid_mud_blend_2.png" type="Texture" id=174]
+[ext_resource path="res://resources/tiles/floor/blends/acid_mud_blend_1.png" type="Texture" id=25]
+[ext_resource path="res://resources/tiles/floor/blends/acid_mud_blend_2.png" type="Texture" id=26]
+[ext_resource path="res://resources/tiles/floor/blends/acid_mud_blend_5.png" type="Texture" id=27]
+[ext_resource path="res://resources/tiles/floor/blends/acid_mud_blend_6.png" type="Texture" id=28]
+[ext_resource path="res://resources/tiles/floor/blends/acid_mud_blend_7.png" type="Texture" id=29]
+[ext_resource path="res://resources/tiles/floor/blends/acid_mud_blend_4.png" type="Texture" id=30]
+[ext_resource path="res://resources/tiles/floor/blends/green_water_blend_10.png" type="Texture" id=31]
+[ext_resource path="res://resources/tiles/floor/blends/acid_mud_blend_3.png" type="Texture" id=32]
+[ext_resource path="res://resources/tiles/floor/blends/mud_deepmud_blend_3.png" type="Texture" id=33]
+[ext_resource path="res://resources/tiles/floor/blends/acid_mud_blend_8.png" type="Texture" id=34]
+[ext_resource path="res://resources/tiles/floor/blends/grass_green_blend_2.png" type="Texture" id=35]
+[ext_resource path="res://resources/tiles/floor/blends/green_water_mud_blend_1.png" type="Texture" id=36]
+[ext_resource path="res://resources/tiles/floor/blends/grass_acid_blend_7.png" type="Texture" id=37]
+[ext_resource path="res://resources/tiles/floor/blends/grass_acid_blend_2.png" type="Texture" id=38]
+[ext_resource path="res://resources/tiles/floor/blends/grass_acid_blend_8.png" type="Texture" id=39]
+[ext_resource path="res://resources/tiles/floor/blends/green_water_mud_blend_5.png" type="Texture" id=40]
+[ext_resource path="res://resources/tiles/floor/blends/grass_acid_mud_blend_1.png" type="Texture" id=41]
+[ext_resource path="res://resources/tiles/floor/blends/grass_acid_blend_10.png" type="Texture" id=42]
+[ext_resource path="res://resources/tiles/floor/blends/grass_acid_mud_blend_3.png" type="Texture" id=43]
+[ext_resource path="res://resources/tiles/floor/blends/grass_deepmud_blend_2.png" type="Texture" id=44]
+[ext_resource path="res://resources/tiles/floor/blends/grass_deepmud_blend_6.png" type="Texture" id=45]
+[ext_resource path="res://resources/tiles/floor/blends/grass_acid_mud_blend_5.png" type="Texture" id=46]
+[ext_resource path="res://resources/tiles/floor/blends/grass_acid_mud_blend_2.png" type="Texture" id=47]
+[ext_resource path="res://resources/tiles/floor/blends/acid_mud_blend_9.png" type="Texture" id=48]
+[ext_resource path="res://resources/tiles/floor/blends/grass_deepmud_blend_3.png" type="Texture" id=49]
+[ext_resource path="res://resources/tiles/floor/blends/grass_acid_blend_9.png" type="Texture" id=50]
+[ext_resource path="res://resources/tiles/floor/blends/grass_deepmud_blend_10.png" type="Texture" id=51]
+[ext_resource path="res://resources/tiles/floor/blends/grass_green_blend_1.png" type="Texture" id=52]
+[ext_resource path="res://resources/tiles/floor/blends/grass_acid_mud_blend_6.png" type="Texture" id=53]
+[ext_resource path="res://resources/tiles/floor/blends/grass_acid_blend_6.png" type="Texture" id=54]
+[ext_resource path="res://resources/tiles/floor/blends/grass_acid_blend_5.png" type="Texture" id=55]
+[ext_resource path="res://resources/tiles/floor/blends/grass_deepmud_blend_4.png" type="Texture" id=56]
+[ext_resource path="res://resources/tiles/floor/blends/grass_deepmud_blend_7.png" type="Texture" id=57]
+[ext_resource path="res://resources/tiles/floor/blends/acid_mud_blend_10.png" type="Texture" id=58]
+[ext_resource path="res://resources/tiles/floor/blends/grass_acid_blend_1.png" type="Texture" id=59]
+[ext_resource path="res://resources/tiles/floor/blends/grass_deepmud_blend_1.png" type="Texture" id=60]
+[ext_resource path="res://resources/tiles/floor/blends/grass_acid_blend_3.png" type="Texture" id=61]
+[ext_resource path="res://resources/tiles/floor/blends/grass_acid_mud_blend_4.png" type="Texture" id=62]
+[ext_resource path="res://resources/tiles/floor/blends/grass_acid_blend_4.png" type="Texture" id=63]
+[ext_resource path="res://resources/tiles/floor/blends/grass_deepmud_blend_5.png" type="Texture" id=64]
+[ext_resource path="res://resources/tiles/floor/blends/grass_deepmud_blend_8.png" type="Texture" id=65]
+[ext_resource path="res://resources/tiles/floor/blends/grass_deepmud_blend_9.png" type="Texture" id=66]
+[ext_resource path="res://resources/tiles/floor/blends/grass_green_mud_blend_5.png" type="Texture" id=67]
+[ext_resource path="res://resources/tiles/floor/blends/grass_green_water_blend_4.png" type="Texture" id=68]
+[ext_resource path="res://resources/tiles/floor/blends/grass_green_water_blend_5.png" type="Texture" id=69]
+[ext_resource path="res://resources/tiles/floor/blends/grass_mud_blend_2.png" type="Texture" id=70]
+[ext_resource path="res://resources/tiles/floor/blends/grass_green_mud_blend_1.png" type="Texture" id=71]
+[ext_resource path="res://resources/tiles/floor/blends/grass_green_blend_4.png" type="Texture" id=72]
+[ext_resource path="res://resources/tiles/floor/blends/grass_green_blend_6.png" type="Texture" id=73]
+[ext_resource path="res://resources/tiles/floor/blends/grass_green_blend_8.png" type="Texture" id=74]
+[ext_resource path="res://resources/tiles/floor/blends/grass_green_blend_9.png" type="Texture" id=75]
+[ext_resource path="res://resources/tiles/floor/blends/grass_mud_blend_1.png" type="Texture" id=76]
+[ext_resource path="res://resources/tiles/floor/blends/grass_green_mud_blend_2.png" type="Texture" id=77]
+[ext_resource path="res://resources/tiles/floor/blends/grass_green_blend_3.png" type="Texture" id=78]
+[ext_resource path="res://resources/tiles/floor/blends/grass_green_blend_5.png" type="Texture" id=79]
+[ext_resource path="res://resources/tiles/floor/blends/grass_green_blend_7.png" type="Texture" id=80]
+[ext_resource path="res://resources/tiles/floor/blends/grass_green_mud_blend_4.png" type="Texture" id=81]
+[ext_resource path="res://resources/tiles/floor/blends/grass_mud_blend_5.png" type="Texture" id=82]
+[ext_resource path="res://resources/tiles/floor/blends/grass_mud_blend_7.png" type="Texture" id=83]
+[ext_resource path="res://resources/tiles/floor/blends/grass_mud_blend_8.png" type="Texture" id=84]
+[ext_resource path="res://resources/tiles/floor/blends/grass_mud_blend_9.png" type="Texture" id=85]
+[ext_resource path="res://resources/tiles/floor/blends/grass_mud_blend_10.png" type="Texture" id=86]
+[ext_resource path="res://resources/tiles/floor/blends/green_water_mud_blend_2.png" type="Texture" id=87]
+[ext_resource path="res://resources/tiles/floor/blends/mud_deepmud_blend_2.png" type="Texture" id=88]
+[ext_resource path="res://resources/tiles/floor/blends/grass_mud_blend_6.png" type="Texture" id=89]
+[ext_resource path="res://resources/tiles/floor/blends/grass_green_water_blend_3.png" type="Texture" id=90]
+[ext_resource path="res://resources/tiles/floor/blends/grass_green_water_blend_1.png" type="Texture" id=91]
+[ext_resource path="res://resources/tiles/floor/blends/grass_green_water_blend_6.png" type="Texture" id=92]
+[ext_resource path="res://resources/tiles/floor/blends/grass_green_water_blend_2.png" type="Texture" id=93]
+[ext_resource path="res://resources/tiles/floor/blends/grass_green_blend_10.png" type="Texture" id=94]
+[ext_resource path="res://resources/tiles/floor/blends/grass_green_mud_blend_3.png" type="Texture" id=95]
+[ext_resource path="res://resources/tiles/floor/blends/grass_mud_blend_4.png" type="Texture" id=96]
+[ext_resource path="res://resources/tiles/floor/blends/grass_green_mud_blend_6.png" type="Texture" id=97]
+[ext_resource path="res://resources/tiles/floor/blends/grass_mud_blend_3.png" type="Texture" id=98]
+[ext_resource path="res://resources/tiles/floor/blends/green_mud_blend_7.png" type="Texture" id=99]
+[ext_resource path="res://resources/tiles/floor/blends/grass_mud_deepmud_blend_1.png" type="Texture" id=100]
+[ext_resource path="res://resources/tiles/floor/blends/grass_water_blend_5.png" type="Texture" id=101]
+[ext_resource path="res://resources/tiles/floor/blends/green_mud_blend_3.png" type="Texture" id=102]
+[ext_resource path="res://resources/tiles/floor/blends/green_mud_blend_8.png" type="Texture" id=103]
+[ext_resource path="res://resources/tiles/floor/blends/grass_water_blend_7.png" type="Texture" id=104]
+[ext_resource path="res://resources/tiles/floor/blends/grass_mud_deepmud_blend_2.png" type="Texture" id=105]
+[ext_resource path="res://resources/tiles/floor/blends/grass_water_blend_2.png" type="Texture" id=106]
+[ext_resource path="res://resources/tiles/floor/blends/grass_water_mud_blend_1.png" type="Texture" id=107]
+[ext_resource path="res://resources/tiles/floor/blends/grass_water_mud_blend_6.png" type="Texture" id=108]
+[ext_resource path="res://resources/tiles/floor/blends/green_mud_blend_4.png" type="Texture" id=109]
+[ext_resource path="res://resources/tiles/floor/blends/grass_water_mud_blend_2.png" type="Texture" id=110]
+[ext_resource path="res://resources/tiles/floor/blends/green_water_mud_blend_3.png" type="Texture" id=111]
+[ext_resource path="res://resources/tiles/floor/blends/mud_deepmud_blend_1.png" type="Texture" id=112]
+[ext_resource path="res://resources/tiles/floor/blends/grass_mud_deepmud_blend_4.png" type="Texture" id=113]
+[ext_resource path="res://resources/tiles/floor/blends/grass_mud_deepmud_blend_5.png" type="Texture" id=114]
+[ext_resource path="res://resources/tiles/floor/blends/grass_water_blend_10.png" type="Texture" id=115]
+[ext_resource path="res://resources/tiles/floor/blends/grass_mud_deepmud_blend_6.png" type="Texture" id=116]
+[ext_resource path="res://resources/tiles/floor/blends/grass_water_blend_1.png" type="Texture" id=117]
+[ext_resource path="res://resources/tiles/floor/blends/grass_water_mud_blend_3.png" type="Texture" id=118]
+[ext_resource path="res://resources/tiles/floor/blends/grass_water_mud_blend_4.png" type="Texture" id=119]
+[ext_resource path="res://resources/tiles/floor/blends/grass_water_mud_blend_5.png" type="Texture" id=120]
+[ext_resource path="res://resources/tiles/floor/blends/green_mud_blend_1.png" type="Texture" id=121]
+[ext_resource path="res://resources/tiles/floor/blends/green_mud_blend_2.png" type="Texture" id=122]
+[ext_resource path="res://resources/tiles/floor/blends/grass_water_blend_8.png" type="Texture" id=123]
+[ext_resource path="res://resources/tiles/floor/blends/grass_water_blend_3.png" type="Texture" id=124]
+[ext_resource path="res://resources/tiles/floor/blends/grass_water_blend_6.png" type="Texture" id=125]
+[ext_resource path="res://resources/tiles/floor/blends/grass_water_blend_9.png" type="Texture" id=126]
+[ext_resource path="res://resources/tiles/floor/blends/green_mud_blend_5.png" type="Texture" id=127]
+[ext_resource path="res://resources/tiles/floor/blends/green_mud_blend_6.png" type="Texture" id=128]
+[ext_resource path="res://resources/tiles/floor/blends/grass_mud_deepmud_blend_3.png" type="Texture" id=129]
+[ext_resource path="res://resources/tiles/floor/blends/grass_water_blend_4.png" type="Texture" id=130]
+[ext_resource path="res://resources/tiles/floor/blends/green_water_blend_5.png" type="Texture" id=131]
+[ext_resource path="res://resources/tiles/floor/blends/green_mud_blend_9.png" type="Texture" id=132]
+[ext_resource path="res://resources/tiles/floor/blends/green_water_blend_1.png" type="Texture" id=133]
+[ext_resource path="res://resources/tiles/floor/blends/green_mud_blend_10.png" type="Texture" id=134]
+[ext_resource path="res://resources/tiles/floor/blends/green_water_blend_3.png" type="Texture" id=135]
+[ext_resource path="res://resources/tiles/floor/blends/green_water_blend_7.png" type="Texture" id=136]
+[ext_resource path="res://resources/tiles/floor/blends/green_water_blend_9.png" type="Texture" id=137]
+[ext_resource path="res://resources/tiles/floor/blends/green_water_mud_blend_4.png" type="Texture" id=138]
+[ext_resource path="res://resources/tiles/floor/blends/green_water_mud_blend_6.png" type="Texture" id=139]
+[ext_resource path="res://resources/tiles/floor/blends/green_water_blend_2.png" type="Texture" id=140]
+[ext_resource path="res://resources/tiles/floor/blends/green_water_blend_4.png" type="Texture" id=141]
+[ext_resource path="res://resources/tiles/floor/blends/green_water_blend_8.png" type="Texture" id=142]
+[ext_resource path="res://resources/tiles/floor/blends/green_water_blend_6.png" type="Texture" id=143]
+[ext_resource path="res://resources/tiles/floor/blends/water_mud_blend_1.png" type="Texture" id=144]
+[ext_resource path="res://resources/tiles/floor/blends/mud_deepmud_blend_10.png" type="Texture" id=145]
+[ext_resource path="res://resources/tiles/floor/blends/mud_deepmud_blend_9.png" type="Texture" id=146]
+[ext_resource path="res://resources/tiles/floor/blends/mud_deepmud_blend_8.png" type="Texture" id=147]
+[ext_resource path="res://resources/tiles/floor/blends/water_mud_blend_9.png" type="Texture" id=148]
+[ext_resource path="res://resources/tiles/floor/blends/water_mud_blend_2.png" type="Texture" id=149]
+[ext_resource path="res://resources/tiles/floor/blends/water_mud_blend_5.png" type="Texture" id=150]
+[ext_resource path="res://resources/tiles/floor/blends/mud_deepmud_blend_7.png" type="Texture" id=151]
+[ext_resource path="res://resources/tiles/floor/blends/mud_deepmud_blend_4.png" type="Texture" id=152]
+[ext_resource path="res://resources/tiles/floor/blends/water_mud_blend_3.png" type="Texture" id=153]
+[ext_resource path="res://resources/tiles/floor/blends/water_mud_blend_8.png" type="Texture" id=154]
+[ext_resource path="res://resources/tiles/floor/blends/mud_deepmud_blend_6.png" type="Texture" id=155]
+[ext_resource path="res://resources/tiles/floor/blends/water_mud_blend_6.png" type="Texture" id=156]
+[ext_resource path="res://resources/tiles/floor/blends/water_mud_blend_7.png" type="Texture" id=157]
+[ext_resource path="res://resources/tiles/floor/blends/mud_deepmud_blend_5.png" type="Texture" id=158]
+[ext_resource path="res://resources/tiles/floor/blends/water_mud_blend_4.png" type="Texture" id=159]
+[ext_resource path="res://resources/tiles/floor/blends/water_mud_blend_10.png" type="Texture" id=160]
+[ext_resource path="res://resources/tiles/floor/ground/start.png" type="Texture" id=161]
+[ext_resource path="res://resources/tiles/floor/ground/hole.png" type="Texture" id=162]
 
 [resource]
 0/name = "grass"
@@ -512,8 +500,8 @@
 23/shape_one_way_margin = 0.0
 23/shapes = [  ]
 23/z_index = 0
-24/name = "grass_green_blend_1"
-24/texture = ExtResource( 30 )
+24/name = "acid_mud_blend_1"
+24/texture = ExtResource( 25 )
 24/tex_offset = Vector2( 0, 0 )
 24/modulate = Color( 1, 1, 1, 1 )
 24/region = Rect2( 0, 0, 16, 16 )
@@ -526,8 +514,8 @@
 24/shape_one_way_margin = 0.0
 24/shapes = [  ]
 24/z_index = 0
-25/name = "grass_green_blend_2"
-25/texture = ExtResource( 33 )
+25/name = "acid_mud_blend_2"
+25/texture = ExtResource( 26 )
 25/tex_offset = Vector2( 0, 0 )
 25/modulate = Color( 1, 1, 1, 1 )
 25/region = Rect2( 0, 0, 16, 16 )
@@ -540,8 +528,8 @@
 25/shape_one_way_margin = 0.0
 25/shapes = [  ]
 25/z_index = 0
-26/name = "grass_green_blend_3"
-26/texture = ExtResource( 28 )
+26/name = "acid_mud_blend_3"
+26/texture = ExtResource( 32 )
 26/tex_offset = Vector2( 0, 0 )
 26/modulate = Color( 1, 1, 1, 1 )
 26/region = Rect2( 0, 0, 16, 16 )
@@ -554,8 +542,8 @@
 26/shape_one_way_margin = 0.0
 26/shapes = [  ]
 26/z_index = 0
-27/name = "grass_green_blend_4"
-27/texture = ExtResource( 34 )
+27/name = "acid_mud_blend_4"
+27/texture = ExtResource( 30 )
 27/tex_offset = Vector2( 0, 0 )
 27/modulate = Color( 1, 1, 1, 1 )
 27/region = Rect2( 0, 0, 16, 16 )
@@ -568,7 +556,7 @@
 27/shape_one_way_margin = 0.0
 27/shapes = [  ]
 27/z_index = 0
-28/name = "grass_green_blend_5"
+28/name = "acid_mud_blend_5"
 28/texture = ExtResource( 27 )
 28/tex_offset = Vector2( 0, 0 )
 28/modulate = Color( 1, 1, 1, 1 )
@@ -582,8 +570,8 @@
 28/shape_one_way_margin = 0.0
 28/shapes = [  ]
 28/z_index = 0
-29/name = "grass_green_blend_6"
-29/texture = ExtResource( 31 )
+29/name = "acid_mud_blend_6"
+29/texture = ExtResource( 28 )
 29/tex_offset = Vector2( 0, 0 )
 29/modulate = Color( 1, 1, 1, 1 )
 29/region = Rect2( 0, 0, 16, 16 )
@@ -596,8 +584,8 @@
 29/shape_one_way_margin = 0.0
 29/shapes = [  ]
 29/z_index = 0
-30/name = "grass_green_blend_7"
-30/texture = ExtResource( 25 )
+30/name = "acid_mud_blend_7"
+30/texture = ExtResource( 29 )
 30/tex_offset = Vector2( 0, 0 )
 30/modulate = Color( 1, 1, 1, 1 )
 30/region = Rect2( 0, 0, 16, 16 )
@@ -610,8 +598,8 @@
 30/shape_one_way_margin = 0.0
 30/shapes = [  ]
 30/z_index = 0
-31/name = "grass_green_blend_8"
-31/texture = ExtResource( 26 )
+31/name = "acid_mud_blend_8"
+31/texture = ExtResource( 34 )
 31/tex_offset = Vector2( 0, 0 )
 31/modulate = Color( 1, 1, 1, 1 )
 31/region = Rect2( 0, 0, 16, 16 )
@@ -624,8 +612,8 @@
 31/shape_one_way_margin = 0.0
 31/shapes = [  ]
 31/z_index = 0
-32/name = "grass_green_blend_9"
-32/texture = ExtResource( 29 )
+32/name = "acid_mud_blend_9"
+32/texture = ExtResource( 48 )
 32/tex_offset = Vector2( 0, 0 )
 32/modulate = Color( 1, 1, 1, 1 )
 32/region = Rect2( 0, 0, 16, 16 )
@@ -638,8 +626,8 @@
 32/shape_one_way_margin = 0.0
 32/shapes = [  ]
 32/z_index = 0
-33/name = "grass_green_blend_10"
-33/texture = ExtResource( 32 )
+33/name = "acid_mud_blend_10"
+33/texture = ExtResource( 58 )
 33/tex_offset = Vector2( 0, 0 )
 33/modulate = Color( 1, 1, 1, 1 )
 33/region = Rect2( 0, 0, 16, 16 )
@@ -652,8 +640,8 @@
 33/shape_one_way_margin = 0.0
 33/shapes = [  ]
 33/z_index = 0
-34/name = "grass_water_blend_1"
-34/texture = ExtResource( 36 )
+34/name = "grass_acid_blend_1"
+34/texture = ExtResource( 59 )
 34/tex_offset = Vector2( 0, 0 )
 34/modulate = Color( 1, 1, 1, 1 )
 34/region = Rect2( 0, 0, 16, 16 )
@@ -666,8 +654,8 @@
 34/shape_one_way_margin = 0.0
 34/shapes = [  ]
 34/z_index = 0
-35/name = "grass_water_blend_2"
-35/texture = ExtResource( 37 )
+35/name = "grass_acid_blend_2"
+35/texture = ExtResource( 38 )
 35/tex_offset = Vector2( 0, 0 )
 35/modulate = Color( 1, 1, 1, 1 )
 35/region = Rect2( 0, 0, 16, 16 )
@@ -680,8 +668,8 @@
 35/shape_one_way_margin = 0.0
 35/shapes = [  ]
 35/z_index = 0
-36/name = "grass_water_blend_3"
-36/texture = ExtResource( 35 )
+36/name = "grass_acid_blend_3"
+36/texture = ExtResource( 61 )
 36/tex_offset = Vector2( 0, 0 )
 36/modulate = Color( 1, 1, 1, 1 )
 36/region = Rect2( 0, 0, 16, 16 )
@@ -694,8 +682,8 @@
 36/shape_one_way_margin = 0.0
 36/shapes = [  ]
 36/z_index = 0
-37/name = "grass_water_blend_4"
-37/texture = ExtResource( 38 )
+37/name = "grass_acid_blend_4"
+37/texture = ExtResource( 63 )
 37/tex_offset = Vector2( 0, 0 )
 37/modulate = Color( 1, 1, 1, 1 )
 37/region = Rect2( 0, 0, 16, 16 )
@@ -708,8 +696,8 @@
 37/shape_one_way_margin = 0.0
 37/shapes = [  ]
 37/z_index = 0
-38/name = "grass_water_blend_5"
-38/texture = ExtResource( 42 )
+38/name = "grass_acid_blend_5"
+38/texture = ExtResource( 55 )
 38/tex_offset = Vector2( 0, 0 )
 38/modulate = Color( 1, 1, 1, 1 )
 38/region = Rect2( 0, 0, 16, 16 )
@@ -722,8 +710,8 @@
 38/shape_one_way_margin = 0.0
 38/shapes = [  ]
 38/z_index = 0
-39/name = "grass_water_blend_6"
-39/texture = ExtResource( 41 )
+39/name = "grass_acid_blend_6"
+39/texture = ExtResource( 54 )
 39/tex_offset = Vector2( 0, 0 )
 39/modulate = Color( 1, 1, 1, 1 )
 39/region = Rect2( 0, 0, 16, 16 )
@@ -736,8 +724,8 @@
 39/shape_one_way_margin = 0.0
 39/shapes = [  ]
 39/z_index = 0
-40/name = "grass_water_blend_7"
-40/texture = ExtResource( 44 )
+40/name = "grass_acid_blend_7"
+40/texture = ExtResource( 37 )
 40/tex_offset = Vector2( 0, 0 )
 40/modulate = Color( 1, 1, 1, 1 )
 40/region = Rect2( 0, 0, 16, 16 )
@@ -750,8 +738,8 @@
 40/shape_one_way_margin = 0.0
 40/shapes = [  ]
 40/z_index = 0
-41/name = "grass_water_blend_8"
-41/texture = ExtResource( 43 )
+41/name = "grass_acid_blend_8"
+41/texture = ExtResource( 39 )
 41/tex_offset = Vector2( 0, 0 )
 41/modulate = Color( 1, 1, 1, 1 )
 41/region = Rect2( 0, 0, 16, 16 )
@@ -764,8 +752,8 @@
 41/shape_one_way_margin = 0.0
 41/shapes = [  ]
 41/z_index = 0
-42/name = "grass_water_blend_9"
-42/texture = ExtResource( 39 )
+42/name = "grass_acid_blend_9"
+42/texture = ExtResource( 50 )
 42/tex_offset = Vector2( 0, 0 )
 42/modulate = Color( 1, 1, 1, 1 )
 42/region = Rect2( 0, 0, 16, 16 )
@@ -778,8 +766,8 @@
 42/shape_one_way_margin = 0.0
 42/shapes = [  ]
 42/z_index = 0
-43/name = "grass_water_blend_10"
-43/texture = ExtResource( 40 )
+43/name = "grass_acid_blend_10"
+43/texture = ExtResource( 42 )
 43/tex_offset = Vector2( 0, 0 )
 43/modulate = Color( 1, 1, 1, 1 )
 43/region = Rect2( 0, 0, 16, 16 )
@@ -792,8 +780,8 @@
 43/shape_one_way_margin = 0.0
 43/shapes = [  ]
 43/z_index = 0
-44/name = "grass_acid_blend_1"
-44/texture = ExtResource( 45 )
+44/name = "grass_acid_mud_blend_1"
+44/texture = ExtResource( 41 )
 44/tex_offset = Vector2( 0, 0 )
 44/modulate = Color( 1, 1, 1, 1 )
 44/region = Rect2( 0, 0, 16, 16 )
@@ -806,8 +794,8 @@
 44/shape_one_way_margin = 0.0
 44/shapes = [  ]
 44/z_index = 0
-45/name = "grass_acid_blend_2"
-45/texture = ExtResource( 46 )
+45/name = "grass_acid_mud_blend_2"
+45/texture = ExtResource( 47 )
 45/tex_offset = Vector2( 0, 0 )
 45/modulate = Color( 1, 1, 1, 1 )
 45/region = Rect2( 0, 0, 16, 16 )
@@ -820,8 +808,8 @@
 45/shape_one_way_margin = 0.0
 45/shapes = [  ]
 45/z_index = 0
-46/name = "grass_acid_blend_3"
-46/texture = ExtResource( 53 )
+46/name = "grass_acid_mud_blend_3"
+46/texture = ExtResource( 43 )
 46/tex_offset = Vector2( 0, 0 )
 46/modulate = Color( 1, 1, 1, 1 )
 46/region = Rect2( 0, 0, 16, 16 )
@@ -834,8 +822,8 @@
 46/shape_one_way_margin = 0.0
 46/shapes = [  ]
 46/z_index = 0
-47/name = "grass_acid_blend_4"
-47/texture = ExtResource( 47 )
+47/name = "grass_acid_mud_blend_4"
+47/texture = ExtResource( 62 )
 47/tex_offset = Vector2( 0, 0 )
 47/modulate = Color( 1, 1, 1, 1 )
 47/region = Rect2( 0, 0, 16, 16 )
@@ -848,8 +836,8 @@
 47/shape_one_way_margin = 0.0
 47/shapes = [  ]
 47/z_index = 0
-48/name = "grass_acid_blend_5"
-48/texture = ExtResource( 50 )
+48/name = "grass_acid_mud_blend_5"
+48/texture = ExtResource( 46 )
 48/tex_offset = Vector2( 0, 0 )
 48/modulate = Color( 1, 1, 1, 1 )
 48/region = Rect2( 0, 0, 16, 16 )
@@ -862,8 +850,8 @@
 48/shape_one_way_margin = 0.0
 48/shapes = [  ]
 48/z_index = 0
-49/name = "grass_acid_blend_6"
-49/texture = ExtResource( 51 )
+49/name = "grass_acid_mud_blend_6"
+49/texture = ExtResource( 53 )
 49/tex_offset = Vector2( 0, 0 )
 49/modulate = Color( 1, 1, 1, 1 )
 49/region = Rect2( 0, 0, 16, 16 )
@@ -876,8 +864,8 @@
 49/shape_one_way_margin = 0.0
 49/shapes = [  ]
 49/z_index = 0
-50/name = "grass_acid_blend_7"
-50/texture = ExtResource( 48 )
+50/name = "grass_deepmud_blend_1"
+50/texture = ExtResource( 60 )
 50/tex_offset = Vector2( 0, 0 )
 50/modulate = Color( 1, 1, 1, 1 )
 50/region = Rect2( 0, 0, 16, 16 )
@@ -890,8 +878,8 @@
 50/shape_one_way_margin = 0.0
 50/shapes = [  ]
 50/z_index = 0
-51/name = "grass_acid_blend_8"
-51/texture = ExtResource( 49 )
+51/name = "grass_deepmud_blend_2"
+51/texture = ExtResource( 44 )
 51/tex_offset = Vector2( 0, 0 )
 51/modulate = Color( 1, 1, 1, 1 )
 51/region = Rect2( 0, 0, 16, 16 )
@@ -904,8 +892,8 @@
 51/shape_one_way_margin = 0.0
 51/shapes = [  ]
 51/z_index = 0
-52/name = "grass_acid_blend_9"
-52/texture = ExtResource( 54 )
+52/name = "grass_deepmud_blend_3"
+52/texture = ExtResource( 49 )
 52/tex_offset = Vector2( 0, 0 )
 52/modulate = Color( 1, 1, 1, 1 )
 52/region = Rect2( 0, 0, 16, 16 )
@@ -918,8 +906,8 @@
 52/shape_one_way_margin = 0.0
 52/shapes = [  ]
 52/z_index = 0
-53/name = "grass_acid_blend_10"
-53/texture = ExtResource( 52 )
+53/name = "grass_deepmud_blend_4"
+53/texture = ExtResource( 56 )
 53/tex_offset = Vector2( 0, 0 )
 53/modulate = Color( 1, 1, 1, 1 )
 53/region = Rect2( 0, 0, 16, 16 )
@@ -932,8 +920,8 @@
 53/shape_one_way_margin = 0.0
 53/shapes = [  ]
 53/z_index = 0
-54/name = "grass_mud_blend_1"
-54/texture = ExtResource( 60 )
+54/name = "grass_deepmud_blend_5"
+54/texture = ExtResource( 64 )
 54/tex_offset = Vector2( 0, 0 )
 54/modulate = Color( 1, 1, 1, 1 )
 54/region = Rect2( 0, 0, 16, 16 )
@@ -946,8 +934,8 @@
 54/shape_one_way_margin = 0.0
 54/shapes = [  ]
 54/z_index = 0
-55/name = "grass_mud_blend_2"
-55/texture = ExtResource( 61 )
+55/name = "grass_deepmud_blend_6"
+55/texture = ExtResource( 45 )
 55/tex_offset = Vector2( 0, 0 )
 55/modulate = Color( 1, 1, 1, 1 )
 55/region = Rect2( 0, 0, 16, 16 )
@@ -960,8 +948,8 @@
 55/shape_one_way_margin = 0.0
 55/shapes = [  ]
 55/z_index = 0
-56/name = "grass_mud_blend_3"
-56/texture = ExtResource( 63 )
+56/name = "grass_deepmud_blend_7"
+56/texture = ExtResource( 57 )
 56/tex_offset = Vector2( 0, 0 )
 56/modulate = Color( 1, 1, 1, 1 )
 56/region = Rect2( 0, 0, 16, 16 )
@@ -974,8 +962,8 @@
 56/shape_one_way_margin = 0.0
 56/shapes = [  ]
 56/z_index = 0
-57/name = "grass_mud_blend_4"
-57/texture = ExtResource( 74 )
+57/name = "grass_deepmud_blend_8"
+57/texture = ExtResource( 65 )
 57/tex_offset = Vector2( 0, 0 )
 57/modulate = Color( 1, 1, 1, 1 )
 57/region = Rect2( 0, 0, 16, 16 )
@@ -988,8 +976,8 @@
 57/shape_one_way_margin = 0.0
 57/shapes = [  ]
 57/z_index = 0
-58/name = "grass_mud_blend_5"
-58/texture = ExtResource( 68 )
+58/name = "grass_deepmud_blend_9"
+58/texture = ExtResource( 66 )
 58/tex_offset = Vector2( 0, 0 )
 58/modulate = Color( 1, 1, 1, 1 )
 58/region = Rect2( 0, 0, 16, 16 )
@@ -1002,8 +990,8 @@
 58/shape_one_way_margin = 0.0
 58/shapes = [  ]
 58/z_index = 0
-59/name = "grass_mud_blend_6"
-59/texture = ExtResource( 65 )
+59/name = "grass_deepmud_blend_10"
+59/texture = ExtResource( 51 )
 59/tex_offset = Vector2( 0, 0 )
 59/modulate = Color( 1, 1, 1, 1 )
 59/region = Rect2( 0, 0, 16, 16 )
@@ -1016,8 +1004,8 @@
 59/shape_one_way_margin = 0.0
 59/shapes = [  ]
 59/z_index = 0
-60/name = "grass_mud_blend_7"
-60/texture = ExtResource( 70 )
+60/name = "grass_green_blend_1"
+60/texture = ExtResource( 52 )
 60/tex_offset = Vector2( 0, 0 )
 60/modulate = Color( 1, 1, 1, 1 )
 60/region = Rect2( 0, 0, 16, 16 )
@@ -1030,8 +1018,8 @@
 60/shape_one_way_margin = 0.0
 60/shapes = [  ]
 60/z_index = 0
-61/name = "grass_mud_blend_8"
-61/texture = ExtResource( 66 )
+61/name = "grass_green_blend_2"
+61/texture = ExtResource( 35 )
 61/tex_offset = Vector2( 0, 0 )
 61/modulate = Color( 1, 1, 1, 1 )
 61/region = Rect2( 0, 0, 16, 16 )
@@ -1044,8 +1032,8 @@
 61/shape_one_way_margin = 0.0
 61/shapes = [  ]
 61/z_index = 0
-62/name = "grass_mud_blend_9"
-62/texture = ExtResource( 67 )
+62/name = "grass_green_blend_3"
+62/texture = ExtResource( 78 )
 62/tex_offset = Vector2( 0, 0 )
 62/modulate = Color( 1, 1, 1, 1 )
 62/region = Rect2( 0, 0, 16, 16 )
@@ -1058,8 +1046,8 @@
 62/shape_one_way_margin = 0.0
 62/shapes = [  ]
 62/z_index = 0
-63/name = "grass_mud_blend_10"
-63/texture = ExtResource( 69 )
+63/name = "grass_green_blend_4"
+63/texture = ExtResource( 72 )
 63/tex_offset = Vector2( 0, 0 )
 63/modulate = Color( 1, 1, 1, 1 )
 63/region = Rect2( 0, 0, 16, 16 )
@@ -1072,7 +1060,7 @@
 63/shape_one_way_margin = 0.0
 63/shapes = [  ]
 63/z_index = 0
-64/name = "grass_deepmud_blend_1"
+64/name = "grass_green_blend_5"
 64/texture = ExtResource( 79 )
 64/tex_offset = Vector2( 0, 0 )
 64/modulate = Color( 1, 1, 1, 1 )
@@ -1086,8 +1074,8 @@
 64/shape_one_way_margin = 0.0
 64/shapes = [  ]
 64/z_index = 0
-65/name = "grass_deepmud_blend_2"
-65/texture = ExtResource( 76 )
+65/name = "grass_green_blend_6"
+65/texture = ExtResource( 73 )
 65/tex_offset = Vector2( 0, 0 )
 65/modulate = Color( 1, 1, 1, 1 )
 65/region = Rect2( 0, 0, 16, 16 )
@@ -1100,8 +1088,8 @@
 65/shape_one_way_margin = 0.0
 65/shapes = [  ]
 65/z_index = 0
-66/name = "grass_deepmud_blend_3"
-66/texture = ExtResource( 83 )
+66/name = "grass_green_blend_7"
+66/texture = ExtResource( 80 )
 66/tex_offset = Vector2( 0, 0 )
 66/modulate = Color( 1, 1, 1, 1 )
 66/region = Rect2( 0, 0, 16, 16 )
@@ -1114,8 +1102,8 @@
 66/shape_one_way_margin = 0.0
 66/shapes = [  ]
 66/z_index = 0
-67/name = "grass_deepmud_blend_4"
-67/texture = ExtResource( 81 )
+67/name = "grass_green_blend_8"
+67/texture = ExtResource( 74 )
 67/tex_offset = Vector2( 0, 0 )
 67/modulate = Color( 1, 1, 1, 1 )
 67/region = Rect2( 0, 0, 16, 16 )
@@ -1128,8 +1116,8 @@
 67/shape_one_way_margin = 0.0
 67/shapes = [  ]
 67/z_index = 0
-68/name = "grass_deepmud_blend_5"
-68/texture = ExtResource( 82 )
+68/name = "grass_green_blend_9"
+68/texture = ExtResource( 75 )
 68/tex_offset = Vector2( 0, 0 )
 68/modulate = Color( 1, 1, 1, 1 )
 68/region = Rect2( 0, 0, 16, 16 )
@@ -1142,8 +1130,8 @@
 68/shape_one_way_margin = 0.0
 68/shapes = [  ]
 68/z_index = 0
-69/name = "grass_deepmud_blend_6"
-69/texture = ExtResource( 80 )
+69/name = "grass_green_blend_10"
+69/texture = ExtResource( 94 )
 69/tex_offset = Vector2( 0, 0 )
 69/modulate = Color( 1, 1, 1, 1 )
 69/region = Rect2( 0, 0, 16, 16 )
@@ -1156,8 +1144,8 @@
 69/shape_one_way_margin = 0.0
 69/shapes = [  ]
 69/z_index = 0
-70/name = "grass_deepmud_blend_7"
-70/texture = ExtResource( 75 )
+70/name = "grass_green_mud_blend_1"
+70/texture = ExtResource( 71 )
 70/tex_offset = Vector2( 0, 0 )
 70/modulate = Color( 1, 1, 1, 1 )
 70/region = Rect2( 0, 0, 16, 16 )
@@ -1170,7 +1158,7 @@
 70/shape_one_way_margin = 0.0
 70/shapes = [  ]
 70/z_index = 0
-71/name = "grass_deepmud_blend_8"
+71/name = "grass_green_mud_blend_2"
 71/texture = ExtResource( 77 )
 71/tex_offset = Vector2( 0, 0 )
 71/modulate = Color( 1, 1, 1, 1 )
@@ -1184,8 +1172,8 @@
 71/shape_one_way_margin = 0.0
 71/shapes = [  ]
 71/z_index = 0
-72/name = "grass_deepmud_blend_9"
-72/texture = ExtResource( 78 )
+72/name = "grass_green_mud_blend_3"
+72/texture = ExtResource( 95 )
 72/tex_offset = Vector2( 0, 0 )
 72/modulate = Color( 1, 1, 1, 1 )
 72/region = Rect2( 0, 0, 16, 16 )
@@ -1198,8 +1186,8 @@
 72/shape_one_way_margin = 0.0
 72/shapes = [  ]
 72/z_index = 0
-73/name = "grass_deepmud_blend_10"
-73/texture = ExtResource( 84 )
+73/name = "grass_green_mud_blend_4"
+73/texture = ExtResource( 81 )
 73/tex_offset = Vector2( 0, 0 )
 73/modulate = Color( 1, 1, 1, 1 )
 73/region = Rect2( 0, 0, 16, 16 )
@@ -1212,8 +1200,8 @@
 73/shape_one_way_margin = 0.0
 73/shapes = [  ]
 73/z_index = 0
-74/name = "green_water_blend_1"
-74/texture = ExtResource( 62 )
+74/name = "grass_green_mud_blend_5"
+74/texture = ExtResource( 67 )
 74/tex_offset = Vector2( 0, 0 )
 74/modulate = Color( 1, 1, 1, 1 )
 74/region = Rect2( 0, 0, 16, 16 )
@@ -1226,8 +1214,8 @@
 74/shape_one_way_margin = 0.0
 74/shapes = [  ]
 74/z_index = 0
-75/name = "green_water_blend_2"
-75/texture = ExtResource( 73 )
+75/name = "grass_green_mud_blend_6"
+75/texture = ExtResource( 97 )
 75/tex_offset = Vector2( 0, 0 )
 75/modulate = Color( 1, 1, 1, 1 )
 75/region = Rect2( 0, 0, 16, 16 )
@@ -1240,8 +1228,8 @@
 75/shape_one_way_margin = 0.0
 75/shapes = [  ]
 75/z_index = 0
-76/name = "green_water_blend_3"
-76/texture = ExtResource( 71 )
+76/name = "grass_green_water_blend_1"
+76/texture = ExtResource( 91 )
 76/tex_offset = Vector2( 0, 0 )
 76/modulate = Color( 1, 1, 1, 1 )
 76/region = Rect2( 0, 0, 16, 16 )
@@ -1254,8 +1242,8 @@
 76/shape_one_way_margin = 0.0
 76/shapes = [  ]
 76/z_index = 0
-77/name = "green_water_blend_4"
-77/texture = ExtResource( 64 )
+77/name = "grass_green_water_blend_2"
+77/texture = ExtResource( 93 )
 77/tex_offset = Vector2( 0, 0 )
 77/modulate = Color( 1, 1, 1, 1 )
 77/region = Rect2( 0, 0, 16, 16 )
@@ -1268,8 +1256,8 @@
 77/shape_one_way_margin = 0.0
 77/shapes = [  ]
 77/z_index = 0
-78/name = "green_water_blend_5"
-78/texture = ExtResource( 72 )
+78/name = "grass_green_water_blend_3"
+78/texture = ExtResource( 90 )
 78/tex_offset = Vector2( 0, 0 )
 78/modulate = Color( 1, 1, 1, 1 )
 78/region = Rect2( 0, 0, 16, 16 )
@@ -1282,8 +1270,8 @@
 78/shape_one_way_margin = 0.0
 78/shapes = [  ]
 78/z_index = 0
-79/name = "green_water_blend_6"
-79/texture = ExtResource( 58 )
+79/name = "grass_green_water_blend_4"
+79/texture = ExtResource( 68 )
 79/tex_offset = Vector2( 0, 0 )
 79/modulate = Color( 1, 1, 1, 1 )
 79/region = Rect2( 0, 0, 16, 16 )
@@ -1296,8 +1284,8 @@
 79/shape_one_way_margin = 0.0
 79/shapes = [  ]
 79/z_index = 0
-80/name = "green_water_blend_7"
-80/texture = ExtResource( 59 )
+80/name = "grass_green_water_blend_5"
+80/texture = ExtResource( 69 )
 80/tex_offset = Vector2( 0, 0 )
 80/modulate = Color( 1, 1, 1, 1 )
 80/region = Rect2( 0, 0, 16, 16 )
@@ -1310,8 +1298,8 @@
 80/shape_one_way_margin = 0.0
 80/shapes = [  ]
 80/z_index = 0
-81/name = "green_water_blend_8"
-81/texture = ExtResource( 56 )
+81/name = "grass_green_water_blend_6"
+81/texture = ExtResource( 92 )
 81/tex_offset = Vector2( 0, 0 )
 81/modulate = Color( 1, 1, 1, 1 )
 81/region = Rect2( 0, 0, 16, 16 )
@@ -1324,8 +1312,8 @@
 81/shape_one_way_margin = 0.0
 81/shapes = [  ]
 81/z_index = 0
-82/name = "green_water_blend_9"
-82/texture = ExtResource( 55 )
+82/name = "grass_mud_blend_1"
+82/texture = ExtResource( 76 )
 82/tex_offset = Vector2( 0, 0 )
 82/modulate = Color( 1, 1, 1, 1 )
 82/region = Rect2( 0, 0, 16, 16 )
@@ -1338,8 +1326,8 @@
 82/shape_one_way_margin = 0.0
 82/shapes = [  ]
 82/z_index = 0
-83/name = "green_water_blend_10"
-83/texture = ExtResource( 57 )
+83/name = "grass_mud_blend_2"
+83/texture = ExtResource( 70 )
 83/tex_offset = Vector2( 0, 0 )
 83/modulate = Color( 1, 1, 1, 1 )
 83/region = Rect2( 0, 0, 16, 16 )
@@ -1352,8 +1340,8 @@
 83/shape_one_way_margin = 0.0
 83/shapes = [  ]
 83/z_index = 0
-84/name = "green_acid_blend_1"
-84/texture = ExtResource( 87 )
+84/name = "grass_mud_blend_3"
+84/texture = ExtResource( 98 )
 84/tex_offset = Vector2( 0, 0 )
 84/modulate = Color( 1, 1, 1, 1 )
 84/region = Rect2( 0, 0, 16, 16 )
@@ -1366,8 +1354,8 @@
 84/shape_one_way_margin = 0.0
 84/shapes = [  ]
 84/z_index = 0
-85/name = "green_acid_blend_2"
-85/texture = ExtResource( 94 )
+85/name = "grass_mud_blend_4"
+85/texture = ExtResource( 96 )
 85/tex_offset = Vector2( 0, 0 )
 85/modulate = Color( 1, 1, 1, 1 )
 85/region = Rect2( 0, 0, 16, 16 )
@@ -1380,8 +1368,8 @@
 85/shape_one_way_margin = 0.0
 85/shapes = [  ]
 85/z_index = 0
-86/name = "green_acid_blend_3"
-86/texture = ExtResource( 91 )
+86/name = "grass_mud_blend_5"
+86/texture = ExtResource( 82 )
 86/tex_offset = Vector2( 0, 0 )
 86/modulate = Color( 1, 1, 1, 1 )
 86/region = Rect2( 0, 0, 16, 16 )
@@ -1394,8 +1382,8 @@
 86/shape_one_way_margin = 0.0
 86/shapes = [  ]
 86/z_index = 0
-87/name = "green_acid_blend_4"
-87/texture = ExtResource( 86 )
+87/name = "grass_mud_blend_6"
+87/texture = ExtResource( 89 )
 87/tex_offset = Vector2( 0, 0 )
 87/modulate = Color( 1, 1, 1, 1 )
 87/region = Rect2( 0, 0, 16, 16 )
@@ -1408,8 +1396,8 @@
 87/shape_one_way_margin = 0.0
 87/shapes = [  ]
 87/z_index = 0
-88/name = "green_acid_blend_5"
-88/texture = ExtResource( 92 )
+88/name = "grass_mud_blend_7"
+88/texture = ExtResource( 83 )
 88/tex_offset = Vector2( 0, 0 )
 88/modulate = Color( 1, 1, 1, 1 )
 88/region = Rect2( 0, 0, 16, 16 )
@@ -1422,8 +1410,8 @@
 88/shape_one_way_margin = 0.0
 88/shapes = [  ]
 88/z_index = 0
-89/name = "green_acid_blend_6"
-89/texture = ExtResource( 88 )
+89/name = "grass_mud_blend_8"
+89/texture = ExtResource( 84 )
 89/tex_offset = Vector2( 0, 0 )
 89/modulate = Color( 1, 1, 1, 1 )
 89/region = Rect2( 0, 0, 16, 16 )
@@ -1436,8 +1424,8 @@
 89/shape_one_way_margin = 0.0
 89/shapes = [  ]
 89/z_index = 0
-90/name = "green_acid_blend_7"
-90/texture = ExtResource( 93 )
+90/name = "grass_mud_blend_9"
+90/texture = ExtResource( 85 )
 90/tex_offset = Vector2( 0, 0 )
 90/modulate = Color( 1, 1, 1, 1 )
 90/region = Rect2( 0, 0, 16, 16 )
@@ -1450,8 +1438,8 @@
 90/shape_one_way_margin = 0.0
 90/shapes = [  ]
 90/z_index = 0
-91/name = "green_acid_blend_8"
-91/texture = ExtResource( 85 )
+91/name = "grass_mud_blend_10"
+91/texture = ExtResource( 86 )
 91/tex_offset = Vector2( 0, 0 )
 91/modulate = Color( 1, 1, 1, 1 )
 91/region = Rect2( 0, 0, 16, 16 )
@@ -1464,8 +1452,8 @@
 91/shape_one_way_margin = 0.0
 91/shapes = [  ]
 91/z_index = 0
-92/name = "green_acid_blend_9"
-92/texture = ExtResource( 90 )
+92/name = "grass_mud_deepmud_blend_1"
+92/texture = ExtResource( 100 )
 92/tex_offset = Vector2( 0, 0 )
 92/modulate = Color( 1, 1, 1, 1 )
 92/region = Rect2( 0, 0, 16, 16 )
@@ -1478,8 +1466,8 @@
 92/shape_one_way_margin = 0.0
 92/shapes = [  ]
 92/z_index = 0
-93/name = "green_acid_blend_10"
-93/texture = ExtResource( 89 )
+93/name = "grass_mud_deepmud_blend_2"
+93/texture = ExtResource( 105 )
 93/tex_offset = Vector2( 0, 0 )
 93/modulate = Color( 1, 1, 1, 1 )
 93/region = Rect2( 0, 0, 16, 16 )
@@ -1492,8 +1480,8 @@
 93/shape_one_way_margin = 0.0
 93/shapes = [  ]
 93/z_index = 0
-94/name = "green_mud_blend_1"
-94/texture = ExtResource( 108 )
+94/name = "grass_mud_deepmud_blend_3"
+94/texture = ExtResource( 129 )
 94/tex_offset = Vector2( 0, 0 )
 94/modulate = Color( 1, 1, 1, 1 )
 94/region = Rect2( 0, 0, 16, 16 )
@@ -1506,8 +1494,8 @@
 94/shape_one_way_margin = 0.0
 94/shapes = [  ]
 94/z_index = 0
-95/name = "green_mud_blend_2"
-95/texture = ExtResource( 109 )
+95/name = "grass_mud_deepmud_blend_4"
+95/texture = ExtResource( 113 )
 95/tex_offset = Vector2( 0, 0 )
 95/modulate = Color( 1, 1, 1, 1 )
 95/region = Rect2( 0, 0, 16, 16 )
@@ -1520,8 +1508,8 @@
 95/shape_one_way_margin = 0.0
 95/shapes = [  ]
 95/z_index = 0
-96/name = "green_mud_blend_3"
-96/texture = ExtResource( 100 )
+96/name = "grass_mud_deepmud_blend_5"
+96/texture = ExtResource( 114 )
 96/tex_offset = Vector2( 0, 0 )
 96/modulate = Color( 1, 1, 1, 1 )
 96/region = Rect2( 0, 0, 16, 16 )
@@ -1534,8 +1522,8 @@
 96/shape_one_way_margin = 0.0
 96/shapes = [  ]
 96/z_index = 0
-97/name = "green_mud_blend_4"
-97/texture = ExtResource( 96 )
+97/name = "grass_mud_deepmud_blend_6"
+97/texture = ExtResource( 116 )
 97/tex_offset = Vector2( 0, 0 )
 97/modulate = Color( 1, 1, 1, 1 )
 97/region = Rect2( 0, 0, 16, 16 )
@@ -1548,8 +1536,8 @@
 97/shape_one_way_margin = 0.0
 97/shapes = [  ]
 97/z_index = 0
-98/name = "green_mud_blend_5"
-98/texture = ExtResource( 99 )
+98/name = "grass_water_blend_1"
+98/texture = ExtResource( 117 )
 98/tex_offset = Vector2( 0, 0 )
 98/modulate = Color( 1, 1, 1, 1 )
 98/region = Rect2( 0, 0, 16, 16 )
@@ -1562,8 +1550,8 @@
 98/shape_one_way_margin = 0.0
 98/shapes = [  ]
 98/z_index = 0
-99/name = "green_mud_blend_6"
-99/texture = ExtResource( 107 )
+99/name = "grass_water_blend_2"
+99/texture = ExtResource( 106 )
 99/tex_offset = Vector2( 0, 0 )
 99/modulate = Color( 1, 1, 1, 1 )
 99/region = Rect2( 0, 0, 16, 16 )
@@ -1576,8 +1564,8 @@
 99/shape_one_way_margin = 0.0
 99/shapes = [  ]
 99/z_index = 0
-100/name = "green_mud_blend_7"
-100/texture = ExtResource( 106 )
+100/name = "grass_water_blend_3"
+100/texture = ExtResource( 124 )
 100/tex_offset = Vector2( 0, 0 )
 100/modulate = Color( 1, 1, 1, 1 )
 100/region = Rect2( 0, 0, 16, 16 )
@@ -1590,8 +1578,8 @@
 100/shape_one_way_margin = 0.0
 100/shapes = [  ]
 100/z_index = 0
-101/name = "green_mud_blend_8"
-101/texture = ExtResource( 104 )
+101/name = "grass_water_blend_4"
+101/texture = ExtResource( 130 )
 101/tex_offset = Vector2( 0, 0 )
 101/modulate = Color( 1, 1, 1, 1 )
 101/region = Rect2( 0, 0, 16, 16 )
@@ -1604,7 +1592,7 @@
 101/shape_one_way_margin = 0.0
 101/shapes = [  ]
 101/z_index = 0
-102/name = "green_mud_blend_9"
+102/name = "grass_water_blend_5"
 102/texture = ExtResource( 101 )
 102/tex_offset = Vector2( 0, 0 )
 102/modulate = Color( 1, 1, 1, 1 )
@@ -1618,8 +1606,8 @@
 102/shape_one_way_margin = 0.0
 102/shapes = [  ]
 102/z_index = 0
-103/name = "green_mud_blend_10"
-103/texture = ExtResource( 97 )
+103/name = "grass_water_blend_6"
+103/texture = ExtResource( 125 )
 103/tex_offset = Vector2( 0, 0 )
 103/modulate = Color( 1, 1, 1, 1 )
 103/region = Rect2( 0, 0, 16, 16 )
@@ -1632,8 +1620,8 @@
 103/shape_one_way_margin = 0.0
 103/shapes = [  ]
 103/z_index = 0
-104/name = "green_deepmud_blend_1"
-104/texture = ExtResource( 98 )
+104/name = "grass_water_blend_7"
+104/texture = ExtResource( 104 )
 104/tex_offset = Vector2( 0, 0 )
 104/modulate = Color( 1, 1, 1, 1 )
 104/region = Rect2( 0, 0, 16, 16 )
@@ -1646,8 +1634,8 @@
 104/shape_one_way_margin = 0.0
 104/shapes = [  ]
 104/z_index = 0
-105/name = "green_deepmud_blend_2"
-105/texture = ExtResource( 102 )
+105/name = "grass_water_blend_8"
+105/texture = ExtResource( 123 )
 105/tex_offset = Vector2( 0, 0 )
 105/modulate = Color( 1, 1, 1, 1 )
 105/region = Rect2( 0, 0, 16, 16 )
@@ -1660,8 +1648,8 @@
 105/shape_one_way_margin = 0.0
 105/shapes = [  ]
 105/z_index = 0
-106/name = "green_deepmud_blend_3"
-106/texture = ExtResource( 103 )
+106/name = "grass_water_blend_9"
+106/texture = ExtResource( 126 )
 106/tex_offset = Vector2( 0, 0 )
 106/modulate = Color( 1, 1, 1, 1 )
 106/region = Rect2( 0, 0, 16, 16 )
@@ -1674,8 +1662,8 @@
 106/shape_one_way_margin = 0.0
 106/shapes = [  ]
 106/z_index = 0
-107/name = "green_deepmud_blend_4"
-107/texture = ExtResource( 110 )
+107/name = "grass_water_blend_10"
+107/texture = ExtResource( 115 )
 107/tex_offset = Vector2( 0, 0 )
 107/modulate = Color( 1, 1, 1, 1 )
 107/region = Rect2( 0, 0, 16, 16 )
@@ -1688,8 +1676,8 @@
 107/shape_one_way_margin = 0.0
 107/shapes = [  ]
 107/z_index = 0
-108/name = "green_deepmud_blend_5"
-108/texture = ExtResource( 105 )
+108/name = "grass_water_mud_blend_1"
+108/texture = ExtResource( 107 )
 108/tex_offset = Vector2( 0, 0 )
 108/modulate = Color( 1, 1, 1, 1 )
 108/region = Rect2( 0, 0, 16, 16 )
@@ -1702,8 +1690,8 @@
 108/shape_one_way_margin = 0.0
 108/shapes = [  ]
 108/z_index = 0
-109/name = "green_deepmud_blend_6"
-109/texture = ExtResource( 95 )
+109/name = "grass_water_mud_blend_2"
+109/texture = ExtResource( 110 )
 109/tex_offset = Vector2( 0, 0 )
 109/modulate = Color( 1, 1, 1, 1 )
 109/region = Rect2( 0, 0, 16, 16 )
@@ -1716,8 +1704,8 @@
 109/shape_one_way_margin = 0.0
 109/shapes = [  ]
 109/z_index = 0
-110/name = "green_deepmud_blend_7"
-110/texture = ExtResource( 111 )
+110/name = "grass_water_mud_blend_3"
+110/texture = ExtResource( 118 )
 110/tex_offset = Vector2( 0, 0 )
 110/modulate = Color( 1, 1, 1, 1 )
 110/region = Rect2( 0, 0, 16, 16 )
@@ -1730,8 +1718,8 @@
 110/shape_one_way_margin = 0.0
 110/shapes = [  ]
 110/z_index = 0
-111/name = "green_deepmud_blend_8"
-111/texture = ExtResource( 112 )
+111/name = "grass_water_mud_blend_4"
+111/texture = ExtResource( 119 )
 111/tex_offset = Vector2( 0, 0 )
 111/modulate = Color( 1, 1, 1, 1 )
 111/region = Rect2( 0, 0, 16, 16 )
@@ -1744,8 +1732,8 @@
 111/shape_one_way_margin = 0.0
 111/shapes = [  ]
 111/z_index = 0
-112/name = "green_deepmud_blend_9"
-112/texture = ExtResource( 116 )
+112/name = "grass_water_mud_blend_5"
+112/texture = ExtResource( 120 )
 112/tex_offset = Vector2( 0, 0 )
 112/modulate = Color( 1, 1, 1, 1 )
 112/region = Rect2( 0, 0, 16, 16 )
@@ -1758,8 +1746,8 @@
 112/shape_one_way_margin = 0.0
 112/shapes = [  ]
 112/z_index = 0
-113/name = "green_deepmud_blend_10"
-113/texture = ExtResource( 113 )
+113/name = "grass_water_mud_blend_6"
+113/texture = ExtResource( 108 )
 113/tex_offset = Vector2( 0, 0 )
 113/modulate = Color( 1, 1, 1, 1 )
 113/region = Rect2( 0, 0, 16, 16 )
@@ -1772,8 +1760,8 @@
 113/shape_one_way_margin = 0.0
 113/shapes = [  ]
 113/z_index = 0
-114/name = "water_acid_blend_1"
-114/texture = ExtResource( 117 )
+114/name = "green_mud_blend_1"
+114/texture = ExtResource( 121 )
 114/tex_offset = Vector2( 0, 0 )
 114/modulate = Color( 1, 1, 1, 1 )
 114/region = Rect2( 0, 0, 16, 16 )
@@ -1786,8 +1774,8 @@
 114/shape_one_way_margin = 0.0
 114/shapes = [  ]
 114/z_index = 0
-115/name = "water_acid_blend_2"
-115/texture = ExtResource( 114 )
+115/name = "green_mud_blend_2"
+115/texture = ExtResource( 122 )
 115/tex_offset = Vector2( 0, 0 )
 115/modulate = Color( 1, 1, 1, 1 )
 115/region = Rect2( 0, 0, 16, 16 )
@@ -1800,8 +1788,8 @@
 115/shape_one_way_margin = 0.0
 115/shapes = [  ]
 115/z_index = 0
-116/name = "water_acid_blend_3"
-116/texture = ExtResource( 119 )
+116/name = "green_mud_blend_3"
+116/texture = ExtResource( 102 )
 116/tex_offset = Vector2( 0, 0 )
 116/modulate = Color( 1, 1, 1, 1 )
 116/region = Rect2( 0, 0, 16, 16 )
@@ -1814,8 +1802,8 @@
 116/shape_one_way_margin = 0.0
 116/shapes = [  ]
 116/z_index = 0
-117/name = "water_acid_blend_4"
-117/texture = ExtResource( 115 )
+117/name = "green_mud_blend_4"
+117/texture = ExtResource( 109 )
 117/tex_offset = Vector2( 0, 0 )
 117/modulate = Color( 1, 1, 1, 1 )
 117/region = Rect2( 0, 0, 16, 16 )
@@ -1828,8 +1816,8 @@
 117/shape_one_way_margin = 0.0
 117/shapes = [  ]
 117/z_index = 0
-118/name = "water_acid_blend_5"
-118/texture = ExtResource( 118 )
+118/name = "green_mud_blend_5"
+118/texture = ExtResource( 127 )
 118/tex_offset = Vector2( 0, 0 )
 118/modulate = Color( 1, 1, 1, 1 )
 118/region = Rect2( 0, 0, 16, 16 )
@@ -1842,8 +1830,8 @@
 118/shape_one_way_margin = 0.0
 118/shapes = [  ]
 118/z_index = 0
-119/name = "water_acid_blend_6"
-119/texture = ExtResource( 121 )
+119/name = "green_mud_blend_6"
+119/texture = ExtResource( 128 )
 119/tex_offset = Vector2( 0, 0 )
 119/modulate = Color( 1, 1, 1, 1 )
 119/region = Rect2( 0, 0, 16, 16 )
@@ -1856,8 +1844,8 @@
 119/shape_one_way_margin = 0.0
 119/shapes = [  ]
 119/z_index = 0
-120/name = "water_acid_blend_7"
-120/texture = ExtResource( 120 )
+120/name = "green_mud_blend_7"
+120/texture = ExtResource( 99 )
 120/tex_offset = Vector2( 0, 0 )
 120/modulate = Color( 1, 1, 1, 1 )
 120/region = Rect2( 0, 0, 16, 16 )
@@ -1870,8 +1858,8 @@
 120/shape_one_way_margin = 0.0
 120/shapes = [  ]
 120/z_index = 0
-121/name = "water_acid_blend_8"
-121/texture = ExtResource( 122 )
+121/name = "green_mud_blend_8"
+121/texture = ExtResource( 103 )
 121/tex_offset = Vector2( 0, 0 )
 121/modulate = Color( 1, 1, 1, 1 )
 121/region = Rect2( 0, 0, 16, 16 )
@@ -1884,8 +1872,8 @@
 121/shape_one_way_margin = 0.0
 121/shapes = [  ]
 121/z_index = 0
-122/name = "water_acid_blend_9"
-122/texture = ExtResource( 124 )
+122/name = "green_mud_blend_9"
+122/texture = ExtResource( 132 )
 122/tex_offset = Vector2( 0, 0 )
 122/modulate = Color( 1, 1, 1, 1 )
 122/region = Rect2( 0, 0, 16, 16 )
@@ -1898,8 +1886,8 @@
 122/shape_one_way_margin = 0.0
 122/shapes = [  ]
 122/z_index = 0
-123/name = "water_acid_blend_10"
-123/texture = ExtResource( 123 )
+123/name = "green_mud_blend_10"
+123/texture = ExtResource( 134 )
 123/tex_offset = Vector2( 0, 0 )
 123/modulate = Color( 1, 1, 1, 1 )
 123/region = Rect2( 0, 0, 16, 16 )
@@ -1912,8 +1900,8 @@
 123/shape_one_way_margin = 0.0
 123/shapes = [  ]
 123/z_index = 0
-124/name = "water_mud_blend_1"
-124/texture = ExtResource( 134 )
+124/name = "green_water_blend_1"
+124/texture = ExtResource( 133 )
 124/tex_offset = Vector2( 0, 0 )
 124/modulate = Color( 1, 1, 1, 1 )
 124/region = Rect2( 0, 0, 16, 16 )
@@ -1926,8 +1914,8 @@
 124/shape_one_way_margin = 0.0
 124/shapes = [  ]
 124/z_index = 0
-125/name = "water_mud_blend_2"
-125/texture = ExtResource( 138 )
+125/name = "green_water_blend_2"
+125/texture = ExtResource( 140 )
 125/tex_offset = Vector2( 0, 0 )
 125/modulate = Color( 1, 1, 1, 1 )
 125/region = Rect2( 0, 0, 16, 16 )
@@ -1940,7 +1928,7 @@
 125/shape_one_way_margin = 0.0
 125/shapes = [  ]
 125/z_index = 0
-126/name = "water_mud_blend_3"
+126/name = "green_water_blend_3"
 126/texture = ExtResource( 135 )
 126/tex_offset = Vector2( 0, 0 )
 126/modulate = Color( 1, 1, 1, 1 )
@@ -1954,8 +1942,8 @@
 126/shape_one_way_margin = 0.0
 126/shapes = [  ]
 126/z_index = 0
-127/name = "water_mud_blend_4"
-127/texture = ExtResource( 136 )
+127/name = "green_water_blend_4"
+127/texture = ExtResource( 141 )
 127/tex_offset = Vector2( 0, 0 )
 127/modulate = Color( 1, 1, 1, 1 )
 127/region = Rect2( 0, 0, 16, 16 )
@@ -1968,8 +1956,8 @@
 127/shape_one_way_margin = 0.0
 127/shapes = [  ]
 127/z_index = 0
-128/name = "water_mud_blend_5"
-128/texture = ExtResource( 142 )
+128/name = "green_water_blend_5"
+128/texture = ExtResource( 131 )
 128/tex_offset = Vector2( 0, 0 )
 128/modulate = Color( 1, 1, 1, 1 )
 128/region = Rect2( 0, 0, 16, 16 )
@@ -1982,8 +1970,8 @@
 128/shape_one_way_margin = 0.0
 128/shapes = [  ]
 128/z_index = 0
-129/name = "water_mud_blend_6"
-129/texture = ExtResource( 139 )
+129/name = "green_water_blend_6"
+129/texture = ExtResource( 143 )
 129/tex_offset = Vector2( 0, 0 )
 129/modulate = Color( 1, 1, 1, 1 )
 129/region = Rect2( 0, 0, 16, 16 )
@@ -1996,8 +1984,8 @@
 129/shape_one_way_margin = 0.0
 129/shapes = [  ]
 129/z_index = 0
-130/name = "water_mud_blend_7"
-130/texture = ExtResource( 141 )
+130/name = "green_water_blend_7"
+130/texture = ExtResource( 136 )
 130/tex_offset = Vector2( 0, 0 )
 130/modulate = Color( 1, 1, 1, 1 )
 130/region = Rect2( 0, 0, 16, 16 )
@@ -2010,8 +1998,8 @@
 130/shape_one_way_margin = 0.0
 130/shapes = [  ]
 130/z_index = 0
-131/name = "water_mud_blend_8"
-131/texture = ExtResource( 140 )
+131/name = "green_water_blend_8"
+131/texture = ExtResource( 142 )
 131/tex_offset = Vector2( 0, 0 )
 131/modulate = Color( 1, 1, 1, 1 )
 131/region = Rect2( 0, 0, 16, 16 )
@@ -2024,8 +2012,8 @@
 131/shape_one_way_margin = 0.0
 131/shapes = [  ]
 131/z_index = 0
-132/name = "water_mud_blend_9"
-132/texture = ExtResource( 143 )
+132/name = "green_water_blend_9"
+132/texture = ExtResource( 137 )
 132/tex_offset = Vector2( 0, 0 )
 132/modulate = Color( 1, 1, 1, 1 )
 132/region = Rect2( 0, 0, 16, 16 )
@@ -2038,8 +2026,8 @@
 132/shape_one_way_margin = 0.0
 132/shapes = [  ]
 132/z_index = 0
-133/name = "water_mud_blend_10"
-133/texture = ExtResource( 144 )
+133/name = "green_water_blend_10"
+133/texture = ExtResource( 31 )
 133/tex_offset = Vector2( 0, 0 )
 133/modulate = Color( 1, 1, 1, 1 )
 133/region = Rect2( 0, 0, 16, 16 )
@@ -2052,8 +2040,8 @@
 133/shape_one_way_margin = 0.0
 133/shapes = [  ]
 133/z_index = 0
-134/name = "water_deepmud_blend_1"
-134/texture = ExtResource( 129 )
+134/name = "green_water_mud_blend_1"
+134/texture = ExtResource( 36 )
 134/tex_offset = Vector2( 0, 0 )
 134/modulate = Color( 1, 1, 1, 1 )
 134/region = Rect2( 0, 0, 16, 16 )
@@ -2066,8 +2054,8 @@
 134/shape_one_way_margin = 0.0
 134/shapes = [  ]
 134/z_index = 0
-135/name = "water_deepmud_blend_2"
-135/texture = ExtResource( 133 )
+135/name = "green_water_mud_blend_2"
+135/texture = ExtResource( 87 )
 135/tex_offset = Vector2( 0, 0 )
 135/modulate = Color( 1, 1, 1, 1 )
 135/region = Rect2( 0, 0, 16, 16 )
@@ -2080,8 +2068,8 @@
 135/shape_one_way_margin = 0.0
 135/shapes = [  ]
 135/z_index = 0
-136/name = "water_deepmud_blend_3"
-136/texture = ExtResource( 137 )
+136/name = "green_water_mud_blend_3"
+136/texture = ExtResource( 111 )
 136/tex_offset = Vector2( 0, 0 )
 136/modulate = Color( 1, 1, 1, 1 )
 136/region = Rect2( 0, 0, 16, 16 )
@@ -2094,8 +2082,8 @@
 136/shape_one_way_margin = 0.0
 136/shapes = [  ]
 136/z_index = 0
-137/name = "water_deepmud_blend_4"
-137/texture = ExtResource( 130 )
+137/name = "green_water_mud_blend_4"
+137/texture = ExtResource( 138 )
 137/tex_offset = Vector2( 0, 0 )
 137/modulate = Color( 1, 1, 1, 1 )
 137/region = Rect2( 0, 0, 16, 16 )
@@ -2108,8 +2096,8 @@
 137/shape_one_way_margin = 0.0
 137/shapes = [  ]
 137/z_index = 0
-138/name = "water_deepmud_blend_5"
-138/texture = ExtResource( 131 )
+138/name = "green_water_mud_blend_5"
+138/texture = ExtResource( 40 )
 138/tex_offset = Vector2( 0, 0 )
 138/modulate = Color( 1, 1, 1, 1 )
 138/region = Rect2( 0, 0, 16, 16 )
@@ -2122,8 +2110,8 @@
 138/shape_one_way_margin = 0.0
 138/shapes = [  ]
 138/z_index = 0
-139/name = "water_deepmud_blend_6"
-139/texture = ExtResource( 132 )
+139/name = "green_water_mud_blend_6"
+139/texture = ExtResource( 139 )
 139/tex_offset = Vector2( 0, 0 )
 139/modulate = Color( 1, 1, 1, 1 )
 139/region = Rect2( 0, 0, 16, 16 )
@@ -2136,8 +2124,8 @@
 139/shape_one_way_margin = 0.0
 139/shapes = [  ]
 139/z_index = 0
-140/name = "water_deepmud_blend_7"
-140/texture = ExtResource( 125 )
+140/name = "mud_deepmud_blend_1"
+140/texture = ExtResource( 112 )
 140/tex_offset = Vector2( 0, 0 )
 140/modulate = Color( 1, 1, 1, 1 )
 140/region = Rect2( 0, 0, 16, 16 )
@@ -2150,8 +2138,8 @@
 140/shape_one_way_margin = 0.0
 140/shapes = [  ]
 140/z_index = 0
-141/name = "water_deepmud_blend_8"
-141/texture = ExtResource( 128 )
+141/name = "mud_deepmud_blend_2"
+141/texture = ExtResource( 88 )
 141/tex_offset = Vector2( 0, 0 )
 141/modulate = Color( 1, 1, 1, 1 )
 141/region = Rect2( 0, 0, 16, 16 )
@@ -2164,8 +2152,8 @@
 141/shape_one_way_margin = 0.0
 141/shapes = [  ]
 141/z_index = 0
-142/name = "water_deepmud_blend_9"
-142/texture = ExtResource( 126 )
+142/name = "mud_deepmud_blend_3"
+142/texture = ExtResource( 33 )
 142/tex_offset = Vector2( 0, 0 )
 142/modulate = Color( 1, 1, 1, 1 )
 142/region = Rect2( 0, 0, 16, 16 )
@@ -2178,8 +2166,8 @@
 142/shape_one_way_margin = 0.0
 142/shapes = [  ]
 142/z_index = 0
-143/name = "water_deepmud_blend_10"
-143/texture = ExtResource( 127 )
+143/name = "mud_deepmud_blend_4"
+143/texture = ExtResource( 152 )
 143/tex_offset = Vector2( 0, 0 )
 143/modulate = Color( 1, 1, 1, 1 )
 143/region = Rect2( 0, 0, 16, 16 )
@@ -2192,8 +2180,8 @@
 143/shape_one_way_margin = 0.0
 143/shapes = [  ]
 143/z_index = 0
-144/name = "acid_mud_blend_1"
-144/texture = ExtResource( 173 )
+144/name = "mud_deepmud_blend_5"
+144/texture = ExtResource( 158 )
 144/tex_offset = Vector2( 0, 0 )
 144/modulate = Color( 1, 1, 1, 1 )
 144/region = Rect2( 0, 0, 16, 16 )
@@ -2206,8 +2194,8 @@
 144/shape_one_way_margin = 0.0
 144/shapes = [  ]
 144/z_index = 0
-145/name = "acid_mud_blend_2"
-145/texture = ExtResource( 174 )
+145/name = "mud_deepmud_blend_6"
+145/texture = ExtResource( 155 )
 145/tex_offset = Vector2( 0, 0 )
 145/modulate = Color( 1, 1, 1, 1 )
 145/region = Rect2( 0, 0, 16, 16 )
@@ -2220,8 +2208,8 @@
 145/shape_one_way_margin = 0.0
 145/shapes = [  ]
 145/z_index = 0
-146/name = "acid_mud_blend_3"
-146/texture = ExtResource( 172 )
+146/name = "mud_deepmud_blend_7"
+146/texture = ExtResource( 151 )
 146/tex_offset = Vector2( 0, 0 )
 146/modulate = Color( 1, 1, 1, 1 )
 146/region = Rect2( 0, 0, 16, 16 )
@@ -2234,8 +2222,8 @@
 146/shape_one_way_margin = 0.0
 146/shapes = [  ]
 146/z_index = 0
-147/name = "acid_mud_blend_4"
-147/texture = ExtResource( 170 )
+147/name = "mud_deepmud_blend_8"
+147/texture = ExtResource( 147 )
 147/tex_offset = Vector2( 0, 0 )
 147/modulate = Color( 1, 1, 1, 1 )
 147/region = Rect2( 0, 0, 16, 16 )
@@ -2248,8 +2236,8 @@
 147/shape_one_way_margin = 0.0
 147/shapes = [  ]
 147/z_index = 0
-148/name = "acid_mud_blend_5"
-148/texture = ExtResource( 161 )
+148/name = "mud_deepmud_blend_9"
+148/texture = ExtResource( 146 )
 148/tex_offset = Vector2( 0, 0 )
 148/modulate = Color( 1, 1, 1, 1 )
 148/region = Rect2( 0, 0, 16, 16 )
@@ -2262,8 +2250,8 @@
 148/shape_one_way_margin = 0.0
 148/shapes = [  ]
 148/z_index = 0
-149/name = "acid_mud_blend_6"
-149/texture = ExtResource( 150 )
+149/name = "mud_deepmud_blend_10"
+149/texture = ExtResource( 145 )
 149/tex_offset = Vector2( 0, 0 )
 149/modulate = Color( 1, 1, 1, 1 )
 149/region = Rect2( 0, 0, 16, 16 )
@@ -2276,8 +2264,8 @@
 149/shape_one_way_margin = 0.0
 149/shapes = [  ]
 149/z_index = 0
-150/name = "acid_mud_blend_7"
-150/texture = ExtResource( 156 )
+150/name = "water_mud_blend_1"
+150/texture = ExtResource( 144 )
 150/tex_offset = Vector2( 0, 0 )
 150/modulate = Color( 1, 1, 1, 1 )
 150/region = Rect2( 0, 0, 16, 16 )
@@ -2290,7 +2278,7 @@
 150/shape_one_way_margin = 0.0
 150/shapes = [  ]
 150/z_index = 0
-151/name = "acid_mud_blend_8"
+151/name = "water_mud_blend_2"
 151/texture = ExtResource( 149 )
 151/tex_offset = Vector2( 0, 0 )
 151/modulate = Color( 1, 1, 1, 1 )
@@ -2304,8 +2292,8 @@
 151/shape_one_way_margin = 0.0
 151/shapes = [  ]
 151/z_index = 0
-152/name = "acid_mud_blend_9"
-152/texture = ExtResource( 146 )
+152/name = "water_mud_blend_3"
+152/texture = ExtResource( 153 )
 152/tex_offset = Vector2( 0, 0 )
 152/modulate = Color( 1, 1, 1, 1 )
 152/region = Rect2( 0, 0, 16, 16 )
@@ -2318,8 +2306,8 @@
 152/shape_one_way_margin = 0.0
 152/shapes = [  ]
 152/z_index = 0
-153/name = "acid_mud_blend_10"
-153/texture = ExtResource( 158 )
+153/name = "water_mud_blend_4"
+153/texture = ExtResource( 159 )
 153/tex_offset = Vector2( 0, 0 )
 153/modulate = Color( 1, 1, 1, 1 )
 153/region = Rect2( 0, 0, 16, 16 )
@@ -2332,8 +2320,8 @@
 153/shape_one_way_margin = 0.0
 153/shapes = [  ]
 153/z_index = 0
-154/name = "acid_deepmud_blend_1"
-154/texture = ExtResource( 151 )
+154/name = "water_mud_blend_5"
+154/texture = ExtResource( 150 )
 154/tex_offset = Vector2( 0, 0 )
 154/modulate = Color( 1, 1, 1, 1 )
 154/region = Rect2( 0, 0, 16, 16 )
@@ -2346,8 +2334,8 @@
 154/shape_one_way_margin = 0.0
 154/shapes = [  ]
 154/z_index = 0
-155/name = "acid_deepmud_blend_2"
-155/texture = ExtResource( 163 )
+155/name = "water_mud_blend_6"
+155/texture = ExtResource( 156 )
 155/tex_offset = Vector2( 0, 0 )
 155/modulate = Color( 1, 1, 1, 1 )
 155/region = Rect2( 0, 0, 16, 16 )
@@ -2360,8 +2348,8 @@
 155/shape_one_way_margin = 0.0
 155/shapes = [  ]
 155/z_index = 0
-156/name = "acid_deepmud_blend_3"
-156/texture = ExtResource( 171 )
+156/name = "water_mud_blend_7"
+156/texture = ExtResource( 157 )
 156/tex_offset = Vector2( 0, 0 )
 156/modulate = Color( 1, 1, 1, 1 )
 156/region = Rect2( 0, 0, 16, 16 )
@@ -2374,8 +2362,8 @@
 156/shape_one_way_margin = 0.0
 156/shapes = [  ]
 156/z_index = 0
-157/name = "acid_deepmud_blend_4"
-157/texture = ExtResource( 167 )
+157/name = "water_mud_blend_8"
+157/texture = ExtResource( 154 )
 157/tex_offset = Vector2( 0, 0 )
 157/modulate = Color( 1, 1, 1, 1 )
 157/region = Rect2( 0, 0, 16, 16 )
@@ -2388,8 +2376,8 @@
 157/shape_one_way_margin = 0.0
 157/shapes = [  ]
 157/z_index = 0
-158/name = "acid_deepmud_blend_5"
-158/texture = ExtResource( 169 )
+158/name = "water_mud_blend_9"
+158/texture = ExtResource( 148 )
 158/tex_offset = Vector2( 0, 0 )
 158/modulate = Color( 1, 1, 1, 1 )
 158/region = Rect2( 0, 0, 16, 16 )
@@ -2402,8 +2390,8 @@
 158/shape_one_way_margin = 0.0
 158/shapes = [  ]
 158/z_index = 0
-159/name = "acid_deepmud_blend_6"
-159/texture = ExtResource( 153 )
+159/name = "water_mud_blend_10"
+159/texture = ExtResource( 160 )
 159/tex_offset = Vector2( 0, 0 )
 159/modulate = Color( 1, 1, 1, 1 )
 159/region = Rect2( 0, 0, 16, 16 )
@@ -2416,8 +2404,8 @@
 159/shape_one_way_margin = 0.0
 159/shapes = [  ]
 159/z_index = 0
-160/name = "acid_deepmud_blend_7"
-160/texture = ExtResource( 147 )
+160/name = "start"
+160/texture = ExtResource( 161 )
 160/tex_offset = Vector2( 0, 0 )
 160/modulate = Color( 1, 1, 1, 1 )
 160/region = Rect2( 0, 0, 16, 16 )
@@ -2430,8 +2418,8 @@
 160/shape_one_way_margin = 0.0
 160/shapes = [  ]
 160/z_index = 0
-161/name = "acid_deepmud_blend_8"
-161/texture = ExtResource( 145 )
+161/name = "hole"
+161/texture = ExtResource( 162 )
 161/tex_offset = Vector2( 0, 0 )
 161/modulate = Color( 1, 1, 1, 1 )
 161/region = Rect2( 0, 0, 16, 16 )
@@ -2444,171 +2432,3 @@
 161/shape_one_way_margin = 0.0
 161/shapes = [  ]
 161/z_index = 0
-162/name = "acid_deepmud_blend_9"
-162/texture = ExtResource( 160 )
-162/tex_offset = Vector2( 0, 0 )
-162/modulate = Color( 1, 1, 1, 1 )
-162/region = Rect2( 0, 0, 16, 16 )
-162/tile_mode = 0
-162/occluder_offset = Vector2( 0, 0 )
-162/navigation_offset = Vector2( 0, 0 )
-162/shape_offset = Vector2( 0, 0 )
-162/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
-162/shape_one_way = false
-162/shape_one_way_margin = 0.0
-162/shapes = [  ]
-162/z_index = 0
-163/name = "acid_deepmud_blend_10"
-163/texture = ExtResource( 162 )
-163/tex_offset = Vector2( 0, 0 )
-163/modulate = Color( 1, 1, 1, 1 )
-163/region = Rect2( 0, 0, 16, 16 )
-163/tile_mode = 0
-163/occluder_offset = Vector2( 0, 0 )
-163/navigation_offset = Vector2( 0, 0 )
-163/shape_offset = Vector2( 0, 0 )
-163/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
-163/shape_one_way = false
-163/shape_one_way_margin = 0.0
-163/shapes = [  ]
-163/z_index = 0
-164/name = "mud_deepmud_blend_1"
-164/texture = ExtResource( 152 )
-164/tex_offset = Vector2( 0, 0 )
-164/modulate = Color( 1, 1, 1, 1 )
-164/region = Rect2( 0, 0, 16, 16 )
-164/tile_mode = 0
-164/occluder_offset = Vector2( 0, 0 )
-164/navigation_offset = Vector2( 0, 0 )
-164/shape_offset = Vector2( 0, 0 )
-164/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
-164/shape_one_way = false
-164/shape_one_way_margin = 0.0
-164/shapes = [  ]
-164/z_index = 0
-165/name = "mud_deepmud_blend_2"
-165/texture = ExtResource( 154 )
-165/tex_offset = Vector2( 0, 0 )
-165/modulate = Color( 1, 1, 1, 1 )
-165/region = Rect2( 0, 0, 16, 16 )
-165/tile_mode = 0
-165/occluder_offset = Vector2( 0, 0 )
-165/navigation_offset = Vector2( 0, 0 )
-165/shape_offset = Vector2( 0, 0 )
-165/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
-165/shape_one_way = false
-165/shape_one_way_margin = 0.0
-165/shapes = [  ]
-165/z_index = 0
-166/name = "mud_deepmud_blend_3"
-166/texture = ExtResource( 165 )
-166/tex_offset = Vector2( 0, 0 )
-166/modulate = Color( 1, 1, 1, 1 )
-166/region = Rect2( 0, 0, 16, 16 )
-166/tile_mode = 0
-166/occluder_offset = Vector2( 0, 0 )
-166/navigation_offset = Vector2( 0, 0 )
-166/shape_offset = Vector2( 0, 0 )
-166/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
-166/shape_one_way = false
-166/shape_one_way_margin = 0.0
-166/shapes = [  ]
-166/z_index = 0
-167/name = "mud_deepmud_blend_4"
-167/texture = ExtResource( 164 )
-167/tex_offset = Vector2( 0, 0 )
-167/modulate = Color( 1, 1, 1, 1 )
-167/region = Rect2( 0, 0, 16, 16 )
-167/tile_mode = 0
-167/occluder_offset = Vector2( 0, 0 )
-167/navigation_offset = Vector2( 0, 0 )
-167/shape_offset = Vector2( 0, 0 )
-167/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
-167/shape_one_way = false
-167/shape_one_way_margin = 0.0
-167/shapes = [  ]
-167/z_index = 0
-168/name = "mud_deepmud_blend_5"
-168/texture = ExtResource( 148 )
-168/tex_offset = Vector2( 0, 0 )
-168/modulate = Color( 1, 1, 1, 1 )
-168/region = Rect2( 0, 0, 16, 16 )
-168/tile_mode = 0
-168/occluder_offset = Vector2( 0, 0 )
-168/navigation_offset = Vector2( 0, 0 )
-168/shape_offset = Vector2( 0, 0 )
-168/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
-168/shape_one_way = false
-168/shape_one_way_margin = 0.0
-168/shapes = [  ]
-168/z_index = 0
-169/name = "mud_deepmud_blend_6"
-169/texture = ExtResource( 168 )
-169/tex_offset = Vector2( 0, 0 )
-169/modulate = Color( 1, 1, 1, 1 )
-169/region = Rect2( 0, 0, 16, 16 )
-169/tile_mode = 0
-169/occluder_offset = Vector2( 0, 0 )
-169/navigation_offset = Vector2( 0, 0 )
-169/shape_offset = Vector2( 0, 0 )
-169/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
-169/shape_one_way = false
-169/shape_one_way_margin = 0.0
-169/shapes = [  ]
-169/z_index = 0
-170/name = "mud_deepmud_blend_7"
-170/texture = ExtResource( 155 )
-170/tex_offset = Vector2( 0, 0 )
-170/modulate = Color( 1, 1, 1, 1 )
-170/region = Rect2( 0, 0, 16, 16 )
-170/tile_mode = 0
-170/occluder_offset = Vector2( 0, 0 )
-170/navigation_offset = Vector2( 0, 0 )
-170/shape_offset = Vector2( 0, 0 )
-170/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
-170/shape_one_way = false
-170/shape_one_way_margin = 0.0
-170/shapes = [  ]
-170/z_index = 0
-171/name = "mud_deepmud_blend_8"
-171/texture = ExtResource( 166 )
-171/tex_offset = Vector2( 0, 0 )
-171/modulate = Color( 1, 1, 1, 1 )
-171/region = Rect2( 0, 0, 16, 16 )
-171/tile_mode = 0
-171/occluder_offset = Vector2( 0, 0 )
-171/navigation_offset = Vector2( 0, 0 )
-171/shape_offset = Vector2( 0, 0 )
-171/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
-171/shape_one_way = false
-171/shape_one_way_margin = 0.0
-171/shapes = [  ]
-171/z_index = 0
-172/name = "mud_deepmud_blend_9"
-172/texture = ExtResource( 159 )
-172/tex_offset = Vector2( 0, 0 )
-172/modulate = Color( 1, 1, 1, 1 )
-172/region = Rect2( 0, 0, 16, 16 )
-172/tile_mode = 0
-172/occluder_offset = Vector2( 0, 0 )
-172/navigation_offset = Vector2( 0, 0 )
-172/shape_offset = Vector2( 0, 0 )
-172/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
-172/shape_one_way = false
-172/shape_one_way_margin = 0.0
-172/shapes = [  ]
-172/z_index = 0
-173/name = "mud_deepmud_blend_10"
-173/texture = ExtResource( 157 )
-173/tex_offset = Vector2( 0, 0 )
-173/modulate = Color( 1, 1, 1, 1 )
-173/region = Rect2( 0, 0, 16, 16 )
-173/tile_mode = 0
-173/occluder_offset = Vector2( 0, 0 )
-173/navigation_offset = Vector2( 0, 0 )
-173/shape_offset = Vector2( 0, 0 )
-173/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
-173/shape_one_way = false
-173/shape_one_way_margin = 0.0
-173/shapes = [  ]
-173/z_index = 0
