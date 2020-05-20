@@ -15,39 +15,50 @@ signal level_loaded
 func _ready():
 # warning-ignore:return_value_discarded
 	connect("level_loaded", self, "spawn_players")
+	# Setup entity tilemap
 	var tileMap = get_node("Entities")
 	var size_x = tileMap.get_cell_size().x
 	var size_y = tileMap.get_cell_size().y
 	var tileSet = tileMap.get_tileset()
 	var usedCells = tileMap.get_used_cells()
-	#Setup ground tilemap
+	for pos in usedCells:
+		var id = tileMap.get_cell(pos.x, pos.y)
+		var name = tileSet.tile_get_name(id)
+		if name == "water_square":
+			var water = WaterSpawn.instance()
+			water.position = Vector2( pos.x * size_x + (0.5*size_x), pos.y * size_y + (0.5*size_y))
+			add_child(water)
+			tileMap.set_cell(pos.x, pos.y, -1)
+		if name == "acid_square":
+			var yellow = YellowSpawn.instance()
+			yellow.position = Vector2( pos.x * size_x + (0.5*size_x), pos.y * size_y + (0.5*size_y))
+			add_child(yellow)
+			tileMap.set_cell(pos.x, pos.y, -1)
+		if name == "mud_square":
+			tileMap.set_cell(pos.x, pos.y, -1)
+		if name == "deep_mud_square":
+			tileMap.set_cell(pos.x, pos.y, -1)
+	
+	# Setup ground tilemap
+	tileMap = get_node("Ground")
+	size_x = tileMap.get_cell_size().x
+	size_y = tileMap.get_cell_size().y
+	tileSet = tileMap.get_tileset()
+	usedCells = tileMap.get_used_cells()
 	for pos in usedCells:
 		var id = tileMap.get_cell(pos.x, pos.y)
 		var name = tileSet.tile_get_name(id)
 		if name == "start":
 			var spawn_point = Node2D.new()
-			spawn_point.position = Vector2( pos.x * size_x + (size_x), pos.y * size_y + (size_y))
+			spawn_point.position = Vector2( pos.x * size_x + (0.5 * size_x), pos.y * size_y + (0.5 * size_y))
 			spawn_point.set_name("SpawnPoint")
 			add_child(spawn_point)
 		if name == "hole":
 			print("Spawning Hole")
 			var hole = HoleSpawn.instance()
-			hole.position = Vector2( pos.x * size_x + (size_x), pos.y * size_y + (size_y))
+			hole.position = Vector2( pos.x * size_x + (0.5 * size_x), pos.y * size_y + (0.5 * size_y))
 			add_child(hole)
-		if name == "water_entity":
-			var water = WaterSpawn.instance()
-			water.position = Vector2( pos.x * size_x + (0.5*size_x), pos.y * size_y + (0.5*size_y))
-			add_child(water)
-			tileMap.set_cell(pos.x, pos.y, -1)
-		if name == "acid_entity":
-			var yellow = YellowSpawn.instance()
-			yellow.position = Vector2( pos.x * size_x + (0.5*size_x), pos.y * size_y + (0.5*size_y))
-			add_child(yellow)
-			tileMap.set_cell(pos.x, pos.y, -1)
-		if name == "mud_entity":
-			tileMap.set_cell(pos.x, pos.y, -1)
-		if name == "deep_mud_entity":
-			tileMap.set_cell(pos.x, pos.y, -1)
+	
 	emit_signal("level_loaded")
 
 func _process(_delta: float) -> void:
