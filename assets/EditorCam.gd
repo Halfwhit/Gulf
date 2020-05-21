@@ -9,8 +9,7 @@ var last_mouse_pos: Vector2
 var dragging: bool = false
 
 func _ready() -> void:
-	if get_parent().name == str(Steamworks.STEAM_ID):
-		make_current()
+	make_current()
 
 func _process(_delta: float) -> void:
 	if Input.is_mouse_button_pressed(BUTTON_MIDDLE):
@@ -24,8 +23,8 @@ func _process(_delta: float) -> void:
 
 func move():
 	var current_mouse_pos = get_viewport().get_mouse_position()
-	self.position.x -= (current_mouse_pos.x - last_mouse_pos.x)
-	self.position.y -= (current_mouse_pos.y - last_mouse_pos.y)
+	position.x -= (current_mouse_pos.x - last_mouse_pos.x)
+	position.y -= (current_mouse_pos.y - last_mouse_pos.y)
 	last_mouse_pos = current_mouse_pos
 
 func _input(event):

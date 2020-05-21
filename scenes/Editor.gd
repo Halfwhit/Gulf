@@ -132,3 +132,11 @@ func _on_TileSelector_tile_selected(layer, id: int) -> void:
 
 func _on_TabContainer_tab_changed(tab: int) -> void:
 	selected_layer = tab
+	selected_tile = 0
+	match tab:
+		Layer.GROUND:
+			mouse.texture = ground.tile_set.tile_get_texture(selected_tile)
+		Layer.WALLS:
+			mouse.texture = walls.tile_set.tile_get_texture(selected_tile)
+		Layer.ENTITIES:
+			mouse.texture = entities.tile_set.tile_get_texture(selected_tile)
