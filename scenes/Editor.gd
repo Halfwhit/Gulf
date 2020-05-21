@@ -1,5 +1,7 @@
 extends Control
 
+onready var basic_wall = preload("res://resources/sprites/wall_basic.png")
+
 onready var mouse = $Mouse
 var mouse_rot: float = 0
 var mouse_editor: bool = false
@@ -94,6 +96,7 @@ func place_walls():
 		walls.set_cellv(cell_pos, selected_tile, true, true, false) # 180 degrees / 1 radian
 	elif is_equal_approx(PI * 1.5, mouse_rot):
 		walls.set_cellv(cell_pos, selected_tile, false, true, true) # 270 degrees / 1.5 radians
+	walls.update_bitmask_area(cell_pos)
 func place_entities():
 	var mouse_pos = entities.get_local_mouse_position()
 	var cell_pos = entities.world_to_map(mouse_pos)
@@ -114,6 +117,7 @@ func remove_walls():
 	var mouse_pos = walls.get_local_mouse_position()
 	var cell_pos = walls.world_to_map(mouse_pos)
 	walls.set_cellv(cell_pos, -1)
+	walls.update_bitmask_area(cell_pos)
 func remove_entities():
 	var mouse_pos = entities.get_local_mouse_position()
 	var cell_pos = entities.world_to_map(mouse_pos)
@@ -126,7 +130,7 @@ func _on_TileSelector_tile_selected(layer, id: int) -> void:
 		Layer.GROUND:
 			mouse.texture = ground.tile_set.tile_get_texture(id)
 		Layer.WALLS:
-			mouse.texture = walls.tile_set.tile_get_texture(id)
+			mouse.texture = basic_wall
 		Layer.ENTITIES:
 			mouse.texture = entities.tile_set.tile_get_texture(id)
 
@@ -137,6 +141,6 @@ func _on_TabContainer_tab_changed(tab: int) -> void:
 		Layer.GROUND:
 			mouse.texture = ground.tile_set.tile_get_texture(selected_tile)
 		Layer.WALLS:
-			mouse.texture = walls.tile_set.tile_get_texture(selected_tile)
+			mouse.texture = basic_wall
 		Layer.ENTITIES:
 			mouse.texture = entities.tile_set.tile_get_texture(selected_tile)

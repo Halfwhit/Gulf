@@ -123,11 +123,17 @@ func _on_TileVariant_item_selected(index: int) -> void:
 script/source = "extends ItemList
 
 var walls = preload(\"res://resources/tiles/wall.tres\")
+var basic_icon = preload(\"res://resources/sprites/wall_basic.png\")
 
 func _ready() -> void:
 	for id in walls.get_tiles_ids():
-		var tile_texture = walls.tile_get_texture(id)
-		add_icon_item(tile_texture)
+		var tile_name = walls.tile_get_name(id)
+		var tile_texture
+		if tile_name == \"wall_basic\":
+			tile_texture = basic_icon
+		else:
+			tile_texture = walls.tile_get_texture(id)
+		add_item(walls.tile_get_name(id).capitalize(), tile_texture)
 "
 
 [sub_resource type="GDScript" id=4]
@@ -172,7 +178,7 @@ func save():
 	var save_dict = {
 	\"wall_cells_used\" : get_used_cells(),
 	\"wall_cells_ids\" : [],
-	\"wall_cells_rotation\" : []
+	\"wall_cells_rotation\" : [],
 	}
 	# Save tile id's
 	for key in save_dict:
@@ -309,7 +315,6 @@ custom_constants/line_separation = 10
 custom_constants/icon_margin = 10
 custom_constants/hseparation = 10
 allow_reselect = true
-max_columns = 4
 same_column_width = true
 icon_scale = 3.0
 script = SubResource( 3 )

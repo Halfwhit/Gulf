@@ -61,6 +61,7 @@ func load_scene():
 				var y_flip : bool = node_data.get("wall_cells_rotation")[wall][1]
 				var x_flip : bool = node_data.get("wall_cells_rotation")[wall][2]
 				wall_map.set_cellv(location_vector, cell_id, x_flip, y_flip, transpose)
+				wall_map.update_bitmask_area(location_vector)
 		# Read entity data
 		if node_data.has("entity_cells_used"):
 			var entity_map = get_parent().get_node("Level/Entities")
