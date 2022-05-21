@@ -68,5 +68,6 @@ __meta__ = {
 
 [node name="Lobby" parent="GUI" instance=ExtResource( 3 )]
 visible = false
+
 [connection signal="pressed" from="GUI/TitleScreen/VBoxContainer/Start" to="GUI/TitleScreen" method="start"]
 [connection signal="pressed" from="GUI/TitleScreen/VBoxContainer/Editor" to="GUI/TitleScreen" method="_on_Editor_pressed"]
