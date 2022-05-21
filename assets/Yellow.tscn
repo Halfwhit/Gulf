@@ -1,0 +1,12 @@
+[gd_scene load_steps=2 format=2]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 8, 8 )
+
+[node name="Yellow" type="Node2D"]
+
+[node name="YellowArea2D" type="Area2D" parent="."]
+collision_layer = 8
+
+[node name="WaterCollisionShape" type="CollisionShape2D" parent="YellowArea2D"]
+shape = SubResource( 1 )

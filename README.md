@@ -1,14 +1,20 @@
 # Gulf
-Minigolf meets esports.
 
-DONE:
+A retro-inspired, multiplayer minigolf game utilising tilesets.
+
+Currently implementing networking.
+
+Currently 'done':
+- Lobby
+
+Currently 'working':
 - Collision physics
 - Ball control
-- Tileset
 
-TODO:
-- GUI
-- Menu
+To do soon:
+- Tileset art
 - Scoring
-- Multiplayer
+
+To do later:
 - Level editor
+- Gulps mode
