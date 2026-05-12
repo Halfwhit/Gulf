@@ -1,0 +1,23 @@
+[gd_scene format=3 uid="uid://dege5bqq51kjx"]
+
+[ext_resource type="Script" uid="uid://5dtutyoskoup" path="res://scripts/player.gd" id="1_1ocwk"]
+[ext_resource type="Texture2D" uid="uid://4lxtybner1mw" path="res://assets/ball.png" id="2_y3n3n"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_x8cll"]
+radius = 8.0
+
+[node name="Player" type="RigidBody2D" unique_id=472450867 groups=["balls"]]
+freeze_mode = 1
+script = ExtResource("1_1ocwk")
+FRICTION = 0.99
+
+[node name="Ball" type="Sprite2D" parent="." unique_id=1394613723]
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("2_y3n3n")
+
+[node name="HitLine" type="Line2D" parent="." unique_id=1867382816]
+points = PackedVector2Array(0, 0, 0, 0)
+width = 1.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=878205218]
+shape = SubResource("CircleShape2D_x8cll")

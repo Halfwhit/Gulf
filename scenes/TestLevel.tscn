@@ -1,0 +1,24 @@
+[gd_scene format=3 uid="uid://bofnpxvr5bqax"]
+
+[ext_resource type="PackedScene" uid="uid://dege5bqq51kjx" path="res://scenes/player.tscn" id="1_1fpmp"]
+[ext_resource type="Script" uid="uid://q8hcso8gsqwv" path="res://scenes/TurnController.gd" id="1_df0lk"]
+[ext_resource type="Script" uid="uid://b31i1e8oejxlg" path="res://scenes/test_level.gd" id="1_i6x8u"]
+
+[node name="Default" type="Node2D" unique_id=640836279]
+script = ExtResource("1_i6x8u")
+
+[node name="StaticBody2D" type="StaticBody2D" parent="." unique_id=1645787661]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="StaticBody2D" unique_id=440966025]
+position = Vector2(320, 180)
+build_mode = 1
+polygon = PackedVector2Array(-320, -180, 320, -180, 320, 180, -320, 180)
+
+[node name="Players" type="Node2D" parent="." unique_id=1961022747]
+script = ExtResource("1_df0lk")
+
+[node name="Player" parent="Players" unique_id=1514380544 instance=ExtResource("1_1fpmp")]
+position = Vector2(322, 207)
+
+[node name="Player2" parent="Players" unique_id=472450867 instance=ExtResource("1_1fpmp")]
+position = Vector2(145, 152)
