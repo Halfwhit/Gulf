@@ -38,6 +38,7 @@ touch_main={
 
 [physics]
 
+2d/run_on_separate_thread=true
 2d/default_gravity=0.0
 2d/default_gravity_vector=Vector2(0, 0)
 2d/default_linear_damp=1.0
@@ -46,4 +47,5 @@ touch_main={
 [rendering]
 
 textures/canvas_textures/default_texture_filter=0
+anti_aliasing/quality/use_taa=true
 2d/snap/snap_2d_transforms_to_pixel=true
