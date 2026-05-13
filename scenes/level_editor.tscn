@@ -1,0 +1,15 @@
+[gd_scene format=3 uid="uid://dwi2j3ulk5npk"]
+
+[ext_resource type="Script" uid="uid://ccrp3evafq6uc" path="res://scenes/level_editor.gd" id="1_1mfi1"]
+[ext_resource type="PackedScene" uid="uid://bq1ph0bk13w05" path="res://scenes/editor_ui.tscn" id="1_ci1mn"]
+[ext_resource type="TileSet" uid="uid://cfiust4nsjpbw" path="res://resources/tile_set.tres" id="2_5u7ie"]
+
+[node name="LevelEditor" type="Node2D" unique_id=777819846]
+script = ExtResource("1_1mfi1")
+
+[node name="Level" type="Node2D" parent="." unique_id=955348916]
+
+[node name="TileMap" type="TileMapLayer" parent="Level" unique_id=1449792930]
+tile_set = ExtResource("2_5u7ie")
+
+[node name="EditorUI" parent="." unique_id=455182424 instance=ExtResource("1_ci1mn")]

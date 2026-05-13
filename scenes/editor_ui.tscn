@@ -1,0 +1,66 @@
+[gd_scene format=3 uid="uid://bq1ph0bk13w05"]
+
+[ext_resource type="Script" uid="uid://c18wnouq7hvd1" path="res://scenes/editor_ui.gd" id="1_7k3nc"]
+
+[node name="EditorUI" type="CanvasLayer" unique_id=455182424]
+script = ExtResource("1_7k3nc")
+
+[node name="Sidebar" type="PanelContainer" parent="." unique_id=1720450318]
+custom_minimum_size = Vector2(160, 0)
+anchors_preset = 11
+anchor_left = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -70.0
+grow_horizontal = 0
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Sidebar" unique_id=367782020]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="Sidebar/VBoxContainer" unique_id=1593934473]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
+
+[node name="VSplitContainer" type="VSplitContainer" parent="Sidebar/VBoxContainer/MarginContainer" unique_id=790827152]
+layout_mode = 2
+drag_area_highlight_in_editor = true
+
+[node name="TabContainer" type="TabContainer" parent="Sidebar/VBoxContainer/MarginContainer/VSplitContainer" unique_id=1592831795]
+layout_mode = 2
+size_flags_vertical = 3
+tab_alignment = 1
+current_tab = 0
+
+[node name="Tiles" type="ScrollContainer" parent="Sidebar/VBoxContainer/MarginContainer/VSplitContainer/TabContainer" unique_id=827002513]
+layout_mode = 2
+metadata/_tab_index = 0
+
+[node name="TileContainer" type="GridContainer" parent="Sidebar/VBoxContainer/MarginContainer/VSplitContainer/TabContainer/Tiles" unique_id=213630189]
+z_index = 1
+custom_minimum_size = Vector2(144, 0)
+layout_mode = 2
+columns = 4
+
+[node name="PanelContainer" type="PanelContainer" parent="Sidebar/VBoxContainer/MarginContainer/VSplitContainer" unique_id=1699093272]
+layout_mode = 2
+size_flags_vertical = 8
+
+[node name="PanelButton" type="Button" parent="." unique_id=1894928663]
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -31.0
+offset_right = 106.0
+grow_vertical = 0
+size_flags_horizontal = 0
+size_flags_vertical = 8
+toggle_mode = true
+button_pressed = true
+text = "Show panel"
+
+[connection signal="toggled" from="PanelButton" to="." method="_on_panel_button_toggled"]
