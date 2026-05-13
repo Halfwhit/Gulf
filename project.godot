@@ -28,10 +28,6 @@ window/size/window_height_override=800
 window/stretch/mode="canvas_items"
 window/stretch/scale_mode="integer"
 
-[gui]
-
-common/show_focus_state_on_pointer_event=2
-
 [input]
 
 touch_main={
