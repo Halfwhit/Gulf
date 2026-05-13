@@ -42,6 +42,7 @@ metadata/_tab_index = 0
 
 [node name="TileContainer" type="GridContainer" parent="Sidebar/VBoxContainer/MarginContainer/VSplitContainer/TabContainer/Tiles" unique_id=213630189]
 z_index = 1
+y_sort_enabled = true
 custom_minimum_size = Vector2(144, 0)
 layout_mode = 2
 columns = 4

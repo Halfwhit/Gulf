@@ -15,15 +15,17 @@ func _ready() -> void:
 		var img = texture_source.texture.get_image().get_region(texture_region)
 		var tile_texture = ImageTexture.create_from_image(img)
 		
-		var icon = TextureButton.new()
-		icon.texture_normal = tile_texture
-		icon.texture_focused = select_texture
-		icon.focus_mode = Control.FOCUS_ALL
-		icon.connect("pressed", _debug)
+		var pressed_image = img.duplicate()
+		pressed_image.blend_rect(select_texture, pressed_image.get_used_rect(), Vector2i.ZERO)
+		var pressed_texture = ImageTexture.create_from_image(pressed_image)
+		
+		var icon = TileButton.new(tile_texture, pressed_texture, coords)
+		icon.connect("tile_selected", _select_tile)
 		tile_container.add_child(icon)
+		tile_container.sort_children.emit()
 
-func _debug():
-	print("Debugging")
+func _select_tile(atlas_coords: Vector2i):
+	print(atlas_coords)
 
 func _on_panel_button_toggled(toggled_on: bool) -> void:
 	sidebar.visible = toggled_on
