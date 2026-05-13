@@ -26,6 +26,7 @@ window/size/viewport_height=360
 window/size/window_width_override=1280
 window/size/window_height_override=800
 window/stretch/mode="canvas_items"
+window/stretch/aspect="expand"
 window/stretch/scale_mode="integer"
 
 [input]
@@ -55,5 +56,6 @@ touch_main={
 [rendering]
 
 textures/canvas_textures/default_texture_filter=0
+environment/defaults/default_clear_color=Color(0.15657014, 0.350885, 0.19959497, 1)
 anti_aliasing/quality/use_taa=true
 2d/snap/snap_2d_transforms_to_pixel=true

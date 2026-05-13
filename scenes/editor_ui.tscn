@@ -65,9 +65,14 @@ button_pressed = true
 text = "Show panel"
 
 [node name="Display" type="TextureRect" parent="." unique_id=2078630372]
+anchors_preset = -1
+anchor_top = 1.0
+anchor_bottom = 1.0
 offset_left = 4.0
-offset_top = 295.0
+offset_top = -68.0
 offset_right = 36.0
-offset_bottom = 327.0
+offset_bottom = -36.0
+grow_vertical = 0
+stretch_mode = 2
 
 [connection signal="toggled" from="PanelButton" to="." method="_on_panel_button_toggled"]

@@ -2,7 +2,8 @@ extends Node2D
 
 @onready var cursor: Sprite2D = $Cursor
 @onready var tile_map: TileMapLayer = $Level/TileMap
-const SELECT = preload("uid://c7b24ju1owk1o")
+const SELECT = preload("uid://cibhu1schuopa")
+
 
 var selected_source_id
 var selected_atlas_coords
