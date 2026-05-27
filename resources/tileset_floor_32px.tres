@@ -3,7 +3,7 @@
 [ext_resource type="Texture2D" uid="uid://n7fe6fubcisu" path="res://assets/walls_fairway_diag_32px.png" id="1_fd"]
 [ext_resource type="Texture2D" uid="uid://cpkxfk7hxuunu" path="res://assets/walls_fairway_straight_32px.png" id="2_fs"]
 [ext_resource type="Texture2D" uid="uid://pv6phuc41o8t" path="res://assets/walls_fairway_curve_32px.png" id="3_fc"]
-[ext_resource type="Texture2D" uid="uid://8pkuyzg26onbg" path="res://assets/walls_fairway_curve_inverted_32px.png" id="4_fci"]
+[ext_resource type="Texture2D" uid="uid://csbwaj32n2m8c" path="res://assets/walls_fairway_curve_inverted_32px.png" id="4_fci"]
 [ext_resource type="Texture2D" uid="uid://c6of01t7vveet" path="res://assets/walls_green_diag_32px.png" id="5_gd"]
 [ext_resource type="Texture2D" uid="uid://c5l7g7x8yw00x" path="res://assets/walls_green_straight_32px.png" id="6_gs"]
 [ext_resource type="Texture2D" uid="uid://kh4xf0r2pi45" path="res://assets/walls_green_curve_32px.png" id="7_gc"]

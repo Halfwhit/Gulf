@@ -2,6 +2,7 @@ extends CanvasLayer
 
 @onready var sidebar: PanelContainer = $Sidebar
 @onready var tile_container: GridContainer = $Sidebar/VBoxContainer/MarginContainer/VSplitContainer/TabContainer/Tiles/TileContainer
+@onready var wall_container: GridContainer = $Sidebar/VBoxContainer/MarginContainer/VSplitContainer/TabContainer/Walls/WallContainer
 const FLOOR_SET = preload("res://resources/tileset_floor_32px.tres")
 const WALL_SET  = preload("res://resources/tileset_walls_32px.tres")
 const FLOOR_GROUP = preload("uid://we1f0yrbgg53")
@@ -12,15 +13,6 @@ signal tile_selected(layer: StringName, source_id: int, atlas_coords: Vector2i, 
 signal tile_cleared(layer: StringName, source_id: int, atlas_coords: Vector2i, image: Texture2D)
 
 func _ready() -> void:
-	var tab_container: TabContainer = $Sidebar/VBoxContainer/MarginContainer/VSplitContainer/TabContainer
-
-	var wall_tab := VBoxContainer.new()
-	wall_tab.name = "Walls"
-	var wall_container := GridContainer.new()
-	wall_container.columns = tile_container.columns
-	wall_tab.add_child(wall_container)
-	tab_container.add_child(wall_tab)
-
 	_populate(FLOOR_SET, tile_container, FLOOR_GROUP, &"floor")
 	_populate(WALL_SET,  wall_container, WALL_GROUP,  &"wall")
 

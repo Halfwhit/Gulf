@@ -35,14 +35,26 @@ layout_mode = 2
 size_flags_vertical = 3
 tab_alignment = 1
 current_tab = 0
+tab_0/title = "Floor"
 
 [node name="Tiles" type="ScrollContainer" parent="Sidebar/VBoxContainer/MarginContainer/VSplitContainer/TabContainer" unique_id=827002513]
 layout_mode = 2
 metadata/_tab_index = 0
+metadata/_tab_name = "Floor"
 
 [node name="TileContainer" type="GridContainer" parent="Sidebar/VBoxContainer/MarginContainer/VSplitContainer/TabContainer/Tiles" unique_id=213630189]
 z_index = 1
 y_sort_enabled = true
+custom_minimum_size = Vector2(144, 0)
+layout_mode = 2
+columns = 4
+
+[node name="Walls" type="ScrollContainer" parent="Sidebar/VBoxContainer/MarginContainer/VSplitContainer/TabContainer" unique_id=227808471]
+visible = false
+layout_mode = 2
+metadata/_tab_index = 1
+
+[node name="WallContainer" type="GridContainer" parent="Sidebar/VBoxContainer/MarginContainer/VSplitContainer/TabContainer/Walls" unique_id=1197497507]
 custom_minimum_size = Vector2(144, 0)
 layout_mode = 2
 columns = 4
