@@ -3,7 +3,7 @@ extends CanvasLayer
 @onready var sidebar: PanelContainer = $Sidebar
 const TILE_SET = preload("res://resources/tileset_32px.tres")
 @onready var tile_container: GridContainer = $Sidebar/VBoxContainer/MarginContainer/VSplitContainer/TabContainer/Tiles/TileContainer
-var _select_image: Image = (preload("uid://cibhu1schuopa") as Texture2D).get_image()
+var _select_image: Image = preload("uid://cibhu1schuopa")
 const TILE_BUTTON_GROUP = preload("uid://we1f0yrbgg53")
 
 signal tile_selected(source_id: int, atlas_coords: Vector2i, image: Texture2D)
