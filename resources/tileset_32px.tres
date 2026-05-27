@@ -4,11 +4,11 @@
 [ext_resource type="Texture2D" uid="uid://cpkxfk7hxuunu" path="res://assets/walls_fairway_straight_32px.png" id="2_dpjgk"]
 [ext_resource type="Texture2D" uid="uid://pv6phuc41o8t" path="res://assets/walls_fairway_curve_32px.png" id="3_thgl7"]
 
-[ext_resource type="Texture2D" uid="uid://tjfaj47qsbv7"  path="res://assets/walls_fairway_curve_inverted_32px.png" id="4_fci"]
-[ext_resource type="Texture2D" uid="uid://c5l7g7x8yw00x" path="res://assets/walls_green_straight_32px.png"          id="5_gstr"]
-[ext_resource type="Texture2D" uid="uid://kh4xf0r2pi45"  path="res://assets/walls_green_curve_32px.png"             id="6_gcur"]
-[ext_resource type="Texture2D" uid="uid://c6of01t7vveet" path="res://assets/walls_green_diag_32px.png"              id="7_gdig"]
-[ext_resource type="Texture2D" uid="uid://c5yoq2ohiqqal" path="res://assets/walls_green_curve_inverted_32px.png"    id="8_gci"]
+[ext_resource type="Texture2D" uid="uid://8pkuyzg26onbg" path="res://assets/walls_fairway_curve_inverted_32px.png" id="4_fci"]
+[ext_resource type="Texture2D" uid="uid://c5l7g7x8yw00x" path="res://assets/walls_green_straight_32px.png" id="5_gstr"]
+[ext_resource type="Texture2D" uid="uid://kh4xf0r2pi45" path="res://assets/walls_green_curve_32px.png" id="6_gcur"]
+[ext_resource type="Texture2D" uid="uid://c6of01t7vveet" path="res://assets/walls_green_diag_32px.png" id="7_gdig"]
+[ext_resource type="Texture2D" uid="uid://c5yoq2ohiqqal" path="res://assets/walls_green_curve_inverted_32px.png" id="8_gci"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_51i6s"]
 texture = ExtResource("1_kyjfr")
