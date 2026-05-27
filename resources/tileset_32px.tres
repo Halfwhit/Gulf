@@ -1,4 +1,4 @@
-[gd_resource type="TileSet" format=3 uid="uid://cfiust4nsjpbw"]
+[gd_resource type="TileSet" format=3 uid="uid://siyq21z7hi72v"]
 
 [ext_resource type="Texture2D" uid="uid://n7fe6fubcisu" path="res://assets/walls_fairway_diag_32px.png" id="1_kyjfr"]
 [ext_resource type="Texture2D" uid="uid://cpkxfk7hxuunu" path="res://assets/walls_fairway_straight_32px.png" id="2_dpjgk"]
