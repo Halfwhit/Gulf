@@ -1,37 +1,37 @@
 [gd_resource type="TileSet" format=3 uid="uid://dt0jiqhc5kd18"]
 
-[ext_resource type="Texture2D" uid="uid://cpkxfk7hxuunu" path="res://assets/walls_fairway_straight_32px.png" id="1_f"]
-[ext_resource type="Texture2D" uid="uid://c5l7g7x8yw00x" path="res://assets/walls_green_straight_32px.png" id="2_g"]
+[ext_resource type="Texture2D" uid="uid://csgsfbbgkw2nh" path="res://assets/floor_fairway.png" id="1_f"]
+[ext_resource type="Texture2D" uid="uid://bxe2h0fuwa84q" path="res://assets/floor_green.png" id="2_g"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_f"]
 texture = ExtResource("1_f")
 texture_region_size = Vector2i(32, 32)
-2:0/0 = 0
-2:0/0/terrain_set = 0
-2:0/0/terrain = 0
-2:0/0/terrains_peering_bit/right_side = 0
-2:0/0/terrains_peering_bit/bottom_right_corner = 0
-2:0/0/terrains_peering_bit/bottom_side = 0
-2:0/0/terrains_peering_bit/bottom_left_corner = 0
-2:0/0/terrains_peering_bit/left_side = 0
-2:0/0/terrains_peering_bit/top_left_corner = 0
-2:0/0/terrains_peering_bit/top_side = 0
-2:0/0/terrains_peering_bit/top_right_corner = 0
+0:0/0 = 0
+0:0/0/terrain_set = 0
+0:0/0/terrain = 0
+0:0/0/terrains_peering_bit/right_side = 0
+0:0/0/terrains_peering_bit/bottom_right_corner = 0
+0:0/0/terrains_peering_bit/bottom_side = 0
+0:0/0/terrains_peering_bit/bottom_left_corner = 0
+0:0/0/terrains_peering_bit/left_side = 0
+0:0/0/terrains_peering_bit/top_left_corner = 0
+0:0/0/terrains_peering_bit/top_side = 0
+0:0/0/terrains_peering_bit/top_right_corner = 0
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_g"]
 texture = ExtResource("2_g")
 texture_region_size = Vector2i(32, 32)
-2:0/0 = 0
-2:0/0/terrain_set = 0
-2:0/0/terrain = 1
-2:0/0/terrains_peering_bit/right_side = 1
-2:0/0/terrains_peering_bit/bottom_right_corner = 1
-2:0/0/terrains_peering_bit/bottom_side = 1
-2:0/0/terrains_peering_bit/bottom_left_corner = 1
-2:0/0/terrains_peering_bit/left_side = 1
-2:0/0/terrains_peering_bit/top_left_corner = 1
-2:0/0/terrains_peering_bit/top_side = 1
-2:0/0/terrains_peering_bit/top_right_corner = 1
+0:0/0 = 0
+0:0/0/terrain_set = 0
+0:0/0/terrain = 1
+0:0/0/terrains_peering_bit/right_side = 1
+0:0/0/terrains_peering_bit/bottom_right_corner = 1
+0:0/0/terrains_peering_bit/bottom_side = 1
+0:0/0/terrains_peering_bit/bottom_left_corner = 1
+0:0/0/terrains_peering_bit/left_side = 1
+0:0/0/terrains_peering_bit/top_left_corner = 1
+0:0/0/terrains_peering_bit/top_side = 1
+0:0/0/terrains_peering_bit/top_right_corner = 1
 
 [resource]
 tile_size = Vector2i(32, 32)

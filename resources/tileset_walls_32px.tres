@@ -1,9 +1,9 @@
 [gd_resource type="TileSet" format=3 uid="uid://djwhfrmwppgbk"]
 
-[ext_resource type="Texture2D" uid="uid://bl7qyw783mvpd" path="res://assets/walls_diag_32px.png" id="1_wd"]
-[ext_resource type="Texture2D" uid="uid://bxi32ujvoo26o" path="res://assets/walls_straight_32px.png" id="2_ws"]
-[ext_resource type="Texture2D" uid="uid://e6fcdk5bbg52" path="res://assets/walls_curve_32px.png" id="3_wc"]
-[ext_resource type="Texture2D" uid="uid://i4l5jlvawcr3" path="res://assets/walls_curve_inverted_32px.png" id="4_wci"]
+[ext_resource type="Texture2D" uid="uid://bl7qyw783mvpd" path="res://assets/wall_diag_32px.png" id="1_wd"]
+[ext_resource type="Texture2D" uid="uid://bxi32ujvoo26o" path="res://assets/wall_straight_32px.png" id="2_ws"]
+[ext_resource type="Texture2D" uid="uid://e6fcdk5bbg52" path="res://assets/wall_curve_32px.png" id="3_wc"]
+[ext_resource type="Texture2D" uid="uid://i4l5jlvawcr3" path="res://assets/wall_curve_inverted_32px.png" id="4_wci"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_wd"]
 texture = ExtResource("1_wd")
