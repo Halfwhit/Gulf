@@ -3,7 +3,7 @@ extends CanvasLayer
 @onready var sidebar: PanelContainer = $Sidebar
 const TILE_SET = preload("uid://cfiust4nsjpbw")
 @onready var tile_container: GridContainer = $Sidebar/VBoxContainer/MarginContainer/VSplitContainer/TabContainer/Tiles/TileContainer
-const select_texture = preload("uid://cibhu1schuopa")
+var _select_image: Image = (preload("uid://cibhu1schuopa") as Texture2D).get_image()
 const TILE_BUTTON_GROUP = preload("uid://we1f0yrbgg53")
 
 signal tile_selected(source_id: int, atlas_coords: Vector2i, image: Texture2D)
@@ -21,7 +21,7 @@ func _ready() -> void:
 		var tile_texture := ImageTexture.create_from_image(img)
 
 		var pressed_image := img.duplicate()
-		pressed_image.blend_rect(select_texture, pressed_image.get_used_rect(), Vector2i.ZERO)
+		pressed_image.blend_rect(_select_image, _select_image.get_used_rect(), Vector2i.ZERO)
 		var pressed_texture := ImageTexture.create_from_image(pressed_image)
 
 		var icon := TileButton.new(tile_texture, pressed_texture, source_id, coords)
