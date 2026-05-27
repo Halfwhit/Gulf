@@ -15,7 +15,7 @@ const _ROT_ALT := [0, 20480, 12288, 24576]  # 0°, 90° CW, 180°, 270° CW
 func _ready() -> void:
 	_select_texture = ImageTexture.create_from_image(SELECT)
 
-func _input(event: InputEvent) -> void:
+func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventKey and event.pressed and event.keycode == KEY_R:
 		_rotation = (_rotation + 1) % 4
 		cursor.rotation_degrees = _rotation * 90.0
