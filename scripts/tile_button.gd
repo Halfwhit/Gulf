@@ -8,13 +8,13 @@ const TILE_BUTTON_GROUP = preload("uid://we1f0yrbgg53")
 signal tile_selected(source_id: int, atlas_coords: Vector2i, image: Texture2D)
 signal tile_cleared(source_id: int, atlas_coords: Vector2i, image: Texture2D)
 
-func _init(normal_texture: Texture2D, pressed_texture: Texture2D, _source_id: int, _atlas_coords: Vector2i) -> void:
+func _init(normal_texture: Texture2D, pressed_texture: Texture2D, _source_id: int, _atlas_coords: Vector2i, _group: ButtonGroup = TILE_BUTTON_GROUP) -> void:
 	toggle_mode = true
 	texture_normal = normal_texture
 	texture_pressed = pressed_texture
 	source_id = _source_id
 	atlas_coords = _atlas_coords
-	button_group = TILE_BUTTON_GROUP
+	button_group = _group
 	connect("toggled", _on_toggled)
 
 func _on_toggled(toggled_on: bool) -> void:
