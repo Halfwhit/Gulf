@@ -3,8 +3,8 @@
 [ext_resource type="Script" uid="uid://ccrp3evafq6uc" path="res://scenes/level_editor.gd" id="1_1mfi1"]
 [ext_resource type="PackedScene" uid="uid://bq1ph0bk13w05" path="res://scenes/editor_ui.tscn" id="1_ci1mn"]
 [ext_resource type="Script" uid="uid://j5k08go51pnp" path="res://scenes/cursor.gd" id="2_nh68x"]
-[ext_resource type="TileSet" uid="uid://dt0jiqhc5kd18" path="res://resources/tileset_floor_32px.tres" id="4_floor"]
-[ext_resource type="TileSet" uid="uid://djwhfrmwppgbk" path="res://resources/tileset_walls_32px.tres" id="5_walls"]
+[ext_resource type="TileSet" uid="uid://dt0jiqhc5kd18" path="res://resources/tileset_floor.tres" id="4_floor"]
+[ext_resource type="TileSet" uid="uid://djwhfrmwppgbk" path="res://resources/tileset_walls.tres" id="5_walls"]
 
 [sub_resource type="Image" id="Image_eovuc"]
 data = {
