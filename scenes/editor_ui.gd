@@ -20,19 +20,21 @@ func _populate(tileset: TileSet, container: GridContainer, group: ButtonGroup, l
 	for i in tileset.get_source_count():
 		var source_id := tileset.get_source_id(i)
 		var source: TileSetAtlasSource = tileset.get_source(source_id)
-		var coords := source.get_tile_id(0)
+		var base_image := source.texture.get_image()
 
-		var img := source.texture.get_image().get_region(source.get_tile_texture_region(coords))
-		var tile_texture := ImageTexture.create_from_image(img)
+		for j in source.get_tiles_count():
+			var coords := source.get_tile_id(j)
+			var img := base_image.get_region(source.get_tile_texture_region(coords))
+			var tile_texture := ImageTexture.create_from_image(img)
 
-		var pressed_image := img.duplicate()
-		pressed_image.blend_rect(_select_image, _select_image.get_used_rect(), Vector2i.ZERO)
-		var pressed_texture := ImageTexture.create_from_image(pressed_image)
+			var pressed_image := img.duplicate()
+			pressed_image.blend_rect(_select_image, _select_image.get_used_rect(), Vector2i.ZERO)
+			var pressed_texture := ImageTexture.create_from_image(pressed_image)
 
-		var icon := TileButton.new(tile_texture, pressed_texture, source_id, coords, group)
-		icon.tile_selected.connect(_on_tile_button_selected.bind(layer))
-		icon.tile_cleared.connect(_on_tile_button_cleared.bind(layer))
-		container.add_child(icon)
+			var icon := TileButton.new(tile_texture, pressed_texture, source_id, coords, group)
+			icon.tile_selected.connect(_on_tile_button_selected.bind(layer))
+			icon.tile_cleared.connect(_on_tile_button_cleared.bind(layer))
+			container.add_child(icon)
 
 func _on_tile_button_selected(source_id: int, atlas_coords: Vector2i, image: Texture2D, layer: StringName) -> void:
 	tile_selected.emit(layer, source_id, atlas_coords, image)
