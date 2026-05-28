@@ -75,11 +75,11 @@ int lookup(ivec2 cell) {
 // all other terrains draw their border on themselves.
 //
 //   void  (id = -1) → never draws, never receives a band
-//   me > nb          → draw nb's fill (2 px) + my outline (1 px) near that edge
+//   me > nb          → draw nb's fill (1 px) + my outline (1 px) near that edge
 //   me <= nb         → nothing (the other tile handles it, or same terrain)
 void blend_edge(inout vec3 col, float d, int nb, int me, vec3 my_outline) {
-    if (nb < 0 || nb >= me || d >= 3.0) return;
-    col = (d < 2.0) ? get_fill(nb) : my_outline;
+    if (nb < 0 || nb >= me || d >= 2.0) return;
+    col = (d < 1.0) ? get_fill(nb) : my_outline;
 }
 
 // ── Fragment ──────────────────────────────────────────────────────────────────
@@ -127,12 +127,17 @@ void fragment() {
     if (min_nb >= 1) blend_edge(col, min_d, min_nb, me, my_outline);
 
     // ── Diagonal corners ──────────────────────────────────────────────────────
-    // Draw when the diagonal neighbour has a lower ID (and is not void).
-    // Runs after cardinals so it fills in the 2×2 corner zone.
-    if (d_r < 2.0 && d_t < 2.0 && n_tr >= 1 && n_tr < me) col = get_fill(n_tr);
-    if (d_l < 2.0 && d_t < 2.0 && n_tl >= 1 && n_tl < me) col = get_fill(n_tl);
-    if (d_r < 2.0 && d_b < 2.0 && n_br >= 1 && n_br < me) col = get_fill(n_br);
-    if (d_l < 2.0 && d_b < 2.0 && n_bl >= 1 && n_bl < me) col = get_fill(n_bl);
+    // Fill the 1×1 corner pixel only when BOTH adjacent cardinals are also
+    // drawing (both are lower-ID tiles).  This completes the outline at true
+    // convex corners and prevents isolated corner pixels in all other cases.
+    if (d_r < 1.0 && d_t < 1.0 && n_tr >= 1 && n_tr < me
+            && (n_r >= 1 && n_r < me) && (n_t >= 1 && n_t < me)) col = get_fill(n_tr);
+    if (d_l < 1.0 && d_t < 1.0 && n_tl >= 1 && n_tl < me
+            && (n_l >= 1 && n_l < me) && (n_t >= 1 && n_t < me)) col = get_fill(n_tl);
+    if (d_r < 1.0 && d_b < 1.0 && n_br >= 1 && n_br < me
+            && (n_r >= 1 && n_r < me) && (n_b >= 1 && n_b < me)) col = get_fill(n_br);
+    if (d_l < 1.0 && d_b < 1.0 && n_bl >= 1 && n_bl < me
+            && (n_l >= 1 && n_l < me) && (n_b >= 1 && n_b < me)) col = get_fill(n_bl);
 
     COLOR = vec4(col, 1.0);
 }
