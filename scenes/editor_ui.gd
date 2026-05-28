@@ -66,6 +66,7 @@ const _PEERING_BITS := [
 ]
 
 func _get_full_tile_image(tileset: TileSet, terrain_set: int, terrain: int) -> Image:
+	var fallback: Image = null
 	for i in tileset.get_source_count():
 		var source := tileset.get_source(tileset.get_source_id(i)) as TileSetAtlasSource
 		if not source:
@@ -75,9 +76,12 @@ func _get_full_tile_image(tileset: TileSet, terrain_set: int, terrain: int) -> I
 			var data := source.get_tile_data(coords, 0)
 			if data.terrain_set != terrain_set or data.terrain != terrain:
 				continue
+			var img := source.texture.get_image().get_region(source.get_tile_texture_region(coords))
+			if fallback == null:
+				fallback = img
 			if _PEERING_BITS.all(func(b: int) -> bool: return data.get_terrain_peering_bit(b) == terrain):
-				return source.texture.get_image().get_region(source.get_tile_texture_region(coords))
-	return null
+				return img
+	return fallback
 
 func _populate_terrains(tileset: TileSet, container: GridContainer, layer: StringName) -> void:
 	for ts in tileset.get_terrain_sets_count():
