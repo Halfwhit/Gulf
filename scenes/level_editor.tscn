@@ -39,6 +39,7 @@ tile_set = ExtResource("4_floor")
 tile_set = ExtResource("5_walls")
 
 [node name="EntityMap" type="TileMapLayer" parent="Level" unique_id=1449792932]
+position = Vector2(8, 8)
 z_index = 5
 tile_set = ExtResource("6_entities")
 

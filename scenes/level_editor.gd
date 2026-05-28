@@ -59,7 +59,8 @@ func _unhandled_input(event: InputEvent) -> void:
 
 	if event is InputEventMouseMotion:
 		var snap_map := entity_map if _active_map == entity_map else floor_map
-		cursor.position = snap_map.map_to_local(snap_map.local_to_map(snap_map.get_local_mouse_position()))
+		var snapped := snap_map.map_to_local(snap_map.local_to_map(snap_map.get_local_mouse_position()))
+		cursor.global_position = snap_map.to_global(snapped)
 		if _painting:
 			_paint()
 		elif _erasing:
