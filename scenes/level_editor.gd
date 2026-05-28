@@ -58,13 +58,21 @@ func _unhandled_input(event: InputEvent) -> void:
 			_erasing = false
 
 	if event is InputEventMouseMotion:
-		cursor.position = floor_map.map_to_local(floor_map.local_to_map(floor_map.get_local_mouse_position()))
+		var snap_map := entity_map if _active_map == entity_map else floor_map
+		cursor.position = snap_map.map_to_local(snap_map.local_to_map(snap_map.get_local_mouse_position()))
 		if _painting:
 			_paint()
 		elif _erasing:
 			_erase()
 
 func _erase() -> void:
+	if _active_map == entity_map:
+		var cell := entity_map.local_to_map(entity_map.get_local_mouse_position())
+		if cell == _last_erased_cell:
+			return
+		_last_erased_cell = cell
+		entity_map.erase_cell(cell)
+		return
 	var cell := floor_map.local_to_map(floor_map.get_local_mouse_position())
 	if cell == _last_erased_cell:
 		return
@@ -76,7 +84,7 @@ func _erase() -> void:
 	else:
 		floor_map.erase_cell(cell)
 		wall_map.erase_cell(cell)
-		entity_map.erase_cell(cell)
+		entity_map.erase_cell(entity_map.local_to_map(entity_map.get_local_mouse_position()))
 
 func _paint() -> void:
 	if _selected_terrain != -1:
