@@ -5,26 +5,26 @@ shader_type canvas_item;
 // r = terrain_id (1-based, 1-6). a > 0.5 means tile exists.
 // Empty / out-of-bounds cells return -1 (no border drawn towards void).
 //
-// Terrain IDs: 1=Green  2=Fairway  3=Water  4=Acid  5=LightMud  6=DarkMud
+// Terrain IDs: 1=Fairway  2=Green  3=Water  4=Acid  5=LightMud  6=DarkMud
 uniform sampler2D terrain_map : filter_nearest, repeat_disable;
 uniform vec2  map_origin = vec2(-128.0, -128.0);
 uniform vec2  map_dims   = vec2(256.0, 256.0);
 uniform float tile_px    = 32.0;
 
 // ── Fill / outline colours (1-based) ─────────────────────────────────────────
-uniform vec3 fill_1    = vec3(0.655, 0.941, 0.439);   // Green
-uniform vec3 fill_2    = vec3(0.220, 0.718, 0.392);   // Fairway
+uniform vec3 fill_1    = vec3(0.220, 0.718, 0.392);   // Fairway
+uniform vec3 fill_2    = vec3(0.655, 0.941, 0.439);   // Green
 uniform vec3 fill_3    = vec3(0.439, 0.702, 0.941);   // Water
 uniform vec3 fill_4    = vec3(0.941, 0.922, 0.439);   // Acid
 uniform vec3 fill_5    = vec3(0.706, 0.549, 0.314);   // LightMud
 uniform vec3 fill_6    = vec3(0.471, 0.353, 0.196);   // DarkMud
 
-uniform vec3 outline_1 = vec3(0.145, 0.443, 0.475);
-uniform vec3 outline_2 = vec3(0.145, 0.443, 0.475);
-uniform vec3 outline_3 = vec3(0.145, 0.318, 0.475);
-uniform vec3 outline_4 = vec3(0.475, 0.463, 0.145);
-uniform vec3 outline_5 = vec3(0.310, 0.235, 0.118);
-uniform vec3 outline_6 = vec3(0.200, 0.157, 0.078);
+uniform vec3 outline_1 = vec3(0.145, 0.443, 0.475);   // Fairway
+uniform vec3 outline_2 = vec3(0.145, 0.443, 0.475);   // Green
+uniform vec3 outline_3 = vec3(0.145, 0.318, 0.475);   // Water
+uniform vec3 outline_4 = vec3(0.475, 0.463, 0.145);   // Acid
+uniform vec3 outline_5 = vec3(0.310, 0.235, 0.118);   // LightMud
+uniform vec3 outline_6 = vec3(0.200, 0.157, 0.078);   // DarkMud
 
 // ── World-position varying ────────────────────────────────────────────────────
 // Passed directly as VERTEX (local/world space for a TileMapLayer at origin).
@@ -70,15 +70,15 @@ int lookup(ivec2 cell) {
 }
 
 // ── Edge blending rule ────────────────────────────────────────────────────────
-// Only the LOWER-ID terrain draws a transition band toward its higher-ID
-// neighbour.  This gives exactly one set of transition pixels per boundary
-// and leaves tiles completely filled when adjacent to void.
+// Only the HIGHER-ID terrain draws a transition band toward its lower-ID
+// neighbour.  Fairway (ID 1) is the base terrain and never draws borders;
+// all other terrains draw their border on themselves.
 //
 //   void  (id = -1) → never draws, never receives a band
-//   me < nb          → draw nb's fill (2 px) + my outline (1 px) near that edge
-//   me >= nb         → nothing (the other tile handles it, or same terrain)
+//   me > nb          → draw nb's fill (2 px) + my outline (1 px) near that edge
+//   me <= nb         → nothing (the other tile handles it, or same terrain)
 void blend_edge(inout vec3 col, float d, int nb, int me, vec3 my_outline) {
-    if (nb < 0 || nb <= me || d >= 3.0) return;
+    if (nb < 0 || nb >= me || d >= 3.0) return;
     col = (d < 2.0) ? get_fill(nb) : my_outline;
 }
 
@@ -120,19 +120,19 @@ void fragment() {
 
     float min_d  = 999.0;
     int   min_nb = -1;
-    if (n_r > me && d_r < min_d) { min_d = d_r; min_nb = n_r; }
-    if (n_l > me && d_l < min_d) { min_d = d_l; min_nb = n_l; }
-    if (n_b > me && d_b < min_d) { min_d = d_b; min_nb = n_b; }
-    if (n_t > me && d_t < min_d) { min_d = d_t; min_nb = n_t; }
-    if (min_nb > 0) blend_edge(col, min_d, min_nb, me, my_outline);
+    if (n_r >= 1 && n_r < me && d_r < min_d) { min_d = d_r; min_nb = n_r; }
+    if (n_l >= 1 && n_l < me && d_l < min_d) { min_d = d_l; min_nb = n_l; }
+    if (n_b >= 1 && n_b < me && d_b < min_d) { min_d = d_b; min_nb = n_b; }
+    if (n_t >= 1 && n_t < me && d_t < min_d) { min_d = d_t; min_nb = n_t; }
+    if (min_nb >= 1) blend_edge(col, min_d, min_nb, me, my_outline);
 
     // ── Diagonal corners ──────────────────────────────────────────────────────
-    // Always draw when the diagonal neighbour has a higher ID.
-    // Runs after cardinals so it overrides in the 2×2 corner zone.
-    if (d_r < 2.0 && d_t < 2.0 && n_tr > me) col = get_fill(n_tr);
-    if (d_l < 2.0 && d_t < 2.0 && n_tl > me) col = get_fill(n_tl);
-    if (d_r < 2.0 && d_b < 2.0 && n_br > me) col = get_fill(n_br);
-    if (d_l < 2.0 && d_b < 2.0 && n_bl > me) col = get_fill(n_bl);
+    // Draw when the diagonal neighbour has a lower ID (and is not void).
+    // Runs after cardinals so it fills in the 2×2 corner zone.
+    if (d_r < 2.0 && d_t < 2.0 && n_tr >= 1 && n_tr < me) col = get_fill(n_tr);
+    if (d_l < 2.0 && d_t < 2.0 && n_tl >= 1 && n_tl < me) col = get_fill(n_tl);
+    if (d_r < 2.0 && d_b < 2.0 && n_br >= 1 && n_br < me) col = get_fill(n_br);
+    if (d_l < 2.0 && d_b < 2.0 && n_bl >= 1 && n_bl < me) col = get_fill(n_bl);
 
     COLOR = vec4(col, 1.0);
 }

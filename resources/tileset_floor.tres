@@ -8,14 +8,14 @@
 [ext_resource type="Texture2D" path="res://assets/terrain_darkmud.png"   id="t5"]
 
 [sub_resource type="TileSetAtlasSource" id="src0"]
-resource_name = "Green"
-texture = ExtResource("t0")
+resource_name = "Fairway"
+texture = ExtResource("t1")
 texture_region_size = Vector2i(32, 32)
 0:0/0 = 0
 
 [sub_resource type="TileSetAtlasSource" id="src1"]
-resource_name = "Fairway"
-texture = ExtResource("t1")
+resource_name = "Green"
+texture = ExtResource("t0")
 texture_region_size = Vector2i(32, 32)
 0:0/0 = 0
 

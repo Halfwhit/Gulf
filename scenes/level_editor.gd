@@ -115,7 +115,7 @@ func _paint() -> void:
 
 	# For walls, auto-place Fairway floor underneath if empty
 	if map == wall_map and floor_map.get_cell_source_id(pcell) == -1:
-		_set_floor(pcell, 1)
+		_set_floor(pcell, 0)
 
 	if map == floor_map:
 		_set_floor(pcell, selected_source_id)
@@ -123,11 +123,11 @@ func _paint() -> void:
 
 func _erase() -> void:
 	if _active_map == entity_map:
-		var cell := entity_map.local_to_map(entity_map.get_local_mouse_position())
-		if cell == _last_erased_cell:
+		var ecell := entity_map.local_to_map(entity_map.get_local_mouse_position())
+		if ecell == _last_erased_cell:
 			return
-		_last_erased_cell = cell
-		entity_map.erase_cell(cell)
+		_last_erased_cell = ecell
+		entity_map.erase_cell(ecell)
 		return
 
 	var cell := floor_map.local_to_map(floor_map.get_local_mouse_position())
