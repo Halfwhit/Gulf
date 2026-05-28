@@ -82,6 +82,8 @@ func _paint() -> void:
 			return
 		_last_painted_cell = cell
 		_active_map.set_cell(cell, selected_source_id, selected_atlas_coords, _ROT_ALT[_rotation])
+		if _active_map == wall_map and floor_map.get_cell_source_id(cell) == -1:
+			_place_solid_terrain(cell, 0)
 
 func _place_solid_terrain(cell: Vector2i, terrain: int) -> void:
 	# Find the tile with the most peering bits == 1 (solid-fairway interior tile).
