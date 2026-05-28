@@ -86,9 +86,11 @@ func _refresh_terrain_tile(cell: Vector2i) -> void:
 			for k in 8:
 				var required: int = neighbor_t[k]
 				var tile_bit: int = d.get_terrain_peering_bit(_NEIGHBOR_BITS[k])
-				if required == -1:
+				if tile_bit == -1:
+					pass  # tile has no opinion on this neighbour (e.g. solid green tile)
+				elif required == -1:
 					if tile_bit == t:
-						score += 1
+						score += 1  # prefer same-terrain bits when neighbour is empty
 				elif tile_bit == required:
 					score += 1
 				else:
