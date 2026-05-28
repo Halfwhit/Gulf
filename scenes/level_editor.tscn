@@ -24,6 +24,7 @@ script = ExtResource("1_1mfi1")
 [node name="EditorUI" parent="." unique_id=455182424 instance=ExtResource("1_ci1mn")]
 
 [node name="Cursor" type="Sprite2D" parent="." unique_id=1896669118]
+z_index = 10
 self_modulate = Color(1, 1, 1, 0.5)
 texture = SubResource("ImageTexture_eovuc")
 script = ExtResource("2_nh68x")
