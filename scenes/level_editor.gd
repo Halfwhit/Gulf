@@ -111,6 +111,17 @@ func _paint() -> void:
 
 		if floor_map.get_cell_source_id(cell) == -1:
 			_place_solid_terrain(cell, _selected_terrain)
+
+		# Re-evaluate neighbours of different terrain types so they pick
+		# the correct cross-terrain transition tile.
+		for off in _NEIGHBOUR_OFFSETS:
+			var n := cell + off
+			if floor_map.get_cell_source_id(n) == -1:
+				continue
+			var d := floor_map.get_cell_tile_data(n)
+			if d == null or d.terrain_set != _selected_terrain_set or d.terrain == _selected_terrain:
+				continue
+			floor_map.set_cells_terrain_connect([n], d.terrain_set, d.terrain)
 	elif selected_source_id != -1 and _active_map != null:
 		var cell := _active_map.local_to_map(_active_map.get_local_mouse_position())
 		if cell == _last_painted_cell:
