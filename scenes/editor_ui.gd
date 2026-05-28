@@ -34,8 +34,12 @@ func _populate(tileset: TileSet, container: GridContainer, group: ButtonGroup, l
 			var img := base_image.get_region(source.get_tile_texture_region(coords))
 			var tile_texture := ImageTexture.create_from_image(img)
 
+			var select := _select_image
+			if img.get_size() != _select_image.get_size():
+				select = _select_image.duplicate()
+				select.resize(img.get_width(), img.get_height())
 			var pressed_image := img.duplicate()
-			pressed_image.blend_rect(_select_image, _select_image.get_used_rect(), Vector2i.ZERO)
+			pressed_image.blend_rect(select, select.get_used_rect(), Vector2i.ZERO)
 			var pressed_texture := ImageTexture.create_from_image(pressed_image)
 
 			var icon := TileButton.new(tile_texture, pressed_texture, source_id, coords, group)
