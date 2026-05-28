@@ -43,7 +43,5 @@ position = Vector2(8, 8)
 z_index = 5
 tile_set = ExtResource("6_entities")
 
-[connection signal="terrain_cleared" from="EditorUI" to="." method="_on_editor_ui_terrain_cleared"]
-[connection signal="terrain_selected" from="EditorUI" to="." method="_on_editor_ui_terrain_selected"]
 [connection signal="tile_cleared" from="EditorUI" to="." method="_on_editor_ui_tile_cleared"]
 [connection signal="tile_selected" from="EditorUI" to="." method="_on_editor_ui_tile_selected"]

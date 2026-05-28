@@ -1,40 +1,69 @@
 extends Node2D
 
-@onready var cursor: Sprite2D = $Cursor
-@onready var floor_map: TileMapLayer   = $Level/FloorMap
-@onready var wall_map: TileMapLayer    = $Level/WallMap
-@onready var entity_map: TileMapLayer  = $Level/EntityMap
-@onready var _editor_ui = $EditorUI
+@onready var cursor: Sprite2D        = $Cursor
+@onready var floor_map: TileMapLayer  = $Level/FloorMap
+@onready var wall_map: TileMapLayer   = $Level/WallMap
+@onready var entity_map: TileMapLayer = $Level/EntityMap
+@onready var _editor_ui               = $EditorUI
+
 const SELECT = preload("uid://cibhu1schuopa")
+const TERRAIN_SHADER = preload("res://shaders/terrain_blend.gdshader")
+
 var _select_texture: ImageTexture
 
-var selected_source_id: int = -1
+var selected_source_id: int    = -1
 var selected_atlas_coords: Vector2i
 var _active_map: TileMapLayer
-var _rotation: int = 0
-var _selected_terrain_set: int = -1
-var _selected_terrain: int = -1
-var _painting: bool = false
-var _erasing: bool = false
-var _last_painted_cell: Vector2i = Vector2i(-32768, -32768)
-var _last_erased_cell: Vector2i = Vector2i(-32768, -32768)
+var _rotation: int             = 0
 
-# Transform bit flags: TRANSPOSE=16384, FLIP_H=4096, FLIP_V=8192
+var _painting: bool  = false
+var _erasing: bool   = false
+var _last_painted_cell: Vector2i = Vector2i(-32768, -32768)
+var _last_erased_cell: Vector2i  = Vector2i(-32768, -32768)
+
+# Transform bit flags for rotated wall/entity tiles
 const _ROT_ALT := [0, 20480, 12288, 24576]  # 0°, 90° CW, 180°, 270° CW
 
-const _NEIGHBOUR_OFFSETS: Array[Vector2i] = [
-	Vector2i( 1,  0), Vector2i( 1,  1), Vector2i( 0,  1), Vector2i(-1,  1),
-	Vector2i(-1,  0), Vector2i(-1, -1), Vector2i( 0, -1), Vector2i( 1, -1),
-]
-const _PEERING_BITS: Array[int] = [
-	TileSet.CELL_NEIGHBOR_RIGHT_SIDE,        TileSet.CELL_NEIGHBOR_BOTTOM_RIGHT_CORNER,
-	TileSet.CELL_NEIGHBOR_BOTTOM_SIDE,       TileSet.CELL_NEIGHBOR_BOTTOM_LEFT_CORNER,
-	TileSet.CELL_NEIGHBOR_LEFT_SIDE,         TileSet.CELL_NEIGHBOR_TOP_LEFT_CORNER,
-	TileSet.CELL_NEIGHBOR_TOP_SIDE,          TileSet.CELL_NEIGHBOR_TOP_RIGHT_CORNER,
-]
+# ── Terrain map ───────────────────────────────────────────────────────────────
+# One pixel per cell; r-channel = terrain_id (source_id + 1), a = 1 if occupied.
+const MAP_SIZE   := 256
+const MAP_ORIGIN := Vector2i(-128, -128)  # cell coord of terrain_map pixel (0, 0)
+
+var _terrain_image:   Image
+var _terrain_texture: ImageTexture
+var _terrain_dirty:   bool = false
+var _shader_mat:      ShaderMaterial
+
+# ─────────────────────────────────────────────────────────────────────────────
 
 func _ready() -> void:
 	_select_texture = ImageTexture.create_from_image(SELECT)
+
+	# Build the terrain map texture
+	_terrain_image = Image.create(MAP_SIZE, MAP_SIZE, false, Image.FORMAT_RGBA8)
+	_terrain_texture = ImageTexture.create_from_image(_terrain_image)
+
+	# Create and attach the shader material to FloorMap.
+	# Use Vector2 (float) for map_origin/map_dims — vec2 uniforms, not ivec2.
+	_shader_mat = ShaderMaterial.new()
+	_shader_mat.shader = TERRAIN_SHADER
+	_shader_mat.set_shader_parameter("terrain_map", _terrain_texture)
+	_shader_mat.set_shader_parameter("map_origin",  Vector2(MAP_ORIGIN))
+	_shader_mat.set_shader_parameter("map_dims",    Vector2(MAP_SIZE, MAP_SIZE))
+	_shader_mat.set_shader_parameter("tile_px",     float(floor_map.tile_set.tile_size.x))
+	floor_map.material = _shader_mat
+
+	# Populate the terrain map from any tiles already in the tilemap
+	_rebuild_terrain_map()
+
+
+func _process(_delta: float) -> void:
+	if _terrain_dirty:
+		_terrain_texture.update(_terrain_image)
+		_terrain_dirty = false
+
+
+# ── Input ─────────────────────────────────────────────────────────────────────
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventKey and event.pressed and event.keycode == KEY_R:
@@ -58,13 +87,39 @@ func _unhandled_input(event: InputEvent) -> void:
 			_erasing = false
 
 	if event is InputEventMouseMotion:
-		var snap_map := entity_map if _active_map == entity_map else floor_map
-		var snapped := snap_map.map_to_local(snap_map.local_to_map(snap_map.get_local_mouse_position()))
-		cursor.global_position = snap_map.to_global(snapped)
+		var snap_map  := entity_map if _active_map == entity_map else floor_map
+		var snap_pos  := snap_map.map_to_local(snap_map.local_to_map(snap_map.get_local_mouse_position()))
+		cursor.global_position = snap_map.to_global(snap_pos)
 		if _painting:
 			_paint()
 		elif _erasing:
 			_erase()
+
+
+# ── Paint / erase ─────────────────────────────────────────────────────────────
+
+func _paint() -> void:
+	if selected_source_id == -1 or _active_map == null:
+		return
+
+	# Resolve the cell position using the active map's coordinate space
+	var map    := _active_map
+	var pcell  := map.local_to_map(map.get_local_mouse_position())
+	if pcell == _last_painted_cell:
+		return
+	_last_painted_cell = pcell
+
+	# Floor tiles never rotate; wall and entity tiles respect the rotation dial.
+	map.set_cell(pcell, selected_source_id, selected_atlas_coords,
+			0 if map == floor_map else _ROT_ALT[_rotation])
+
+	# For walls, auto-place Fairway floor underneath if empty
+	if map == wall_map and floor_map.get_cell_source_id(pcell) == -1:
+		_set_floor(pcell, 1)
+
+	if map == floor_map:
+		_set_floor(pcell, selected_source_id)
+
 
 func _erase() -> void:
 	if _active_map == entity_map:
@@ -74,150 +129,76 @@ func _erase() -> void:
 		_last_erased_cell = cell
 		entity_map.erase_cell(cell)
 		return
+
 	var cell := floor_map.local_to_map(floor_map.get_local_mouse_position())
 	if cell == _last_erased_cell:
 		return
 	_last_erased_cell = cell
-	if _selected_terrain != -1:
+
+	if _active_map == floor_map:
 		floor_map.erase_cell(cell)
+		_clear_terrain_pixel(cell)
 	elif _active_map != null:
 		_active_map.erase_cell(cell)
 	else:
+		# No layer selected — erase everything at this cell
 		floor_map.erase_cell(cell)
 		wall_map.erase_cell(cell)
 		entity_map.erase_cell(entity_map.local_to_map(entity_map.get_local_mouse_position()))
+		_clear_terrain_pixel(cell)
 
-func _paint() -> void:
-	if _selected_terrain != -1:
-		var cell := floor_map.local_to_map(floor_map.get_local_mouse_position())
-		if cell == _last_painted_cell:
-			return
-		_last_painted_cell = cell
 
-		# Ghost-fill empty neighbours with the solid interior tile so Godot's
-		# terrain algorithm treats them as "solid fairway" context.
-		var ghosts: Array[Vector2i] = []
-		for off in _NEIGHBOUR_OFFSETS:
-			var n := cell + off
-			if floor_map.get_cell_source_id(n) == -1:
-				_place_solid_terrain(n, 1)  # empty cells assumed solid Fairway
-				ghosts.append(n)
+# ── Terrain map helpers ───────────────────────────────────────────────────────
 
-		var cells: Array[Vector2i] = [cell]
-		floor_map.set_cells_terrain_connect(cells, _selected_terrain_set, _selected_terrain)
+func _set_floor(cell: Vector2i, source_id: int) -> void:
+	var terrain_id := source_id + 1  # terrain_id is 1-based (0 = empty)
+	floor_map.set_cell(cell, source_id, Vector2i.ZERO)
+	_write_terrain_pixel(cell, terrain_id)
 
-		for n in ghosts:
-			floor_map.erase_cell(n)
 
-		if floor_map.get_cell_source_id(cell) == -1:
-			_place_solid_terrain(cell, _selected_terrain)
-
-		# Cascade cross-terrain re-evaluation: re-tile any neighbour of a
-		# different terrain type, and keep propagating while tiles change.
-		_cascade_cross_terrain(cell, _selected_terrain_set, _selected_terrain)
-	elif selected_source_id != -1 and _active_map != null:
-		var cell := _active_map.local_to_map(_active_map.get_local_mouse_position())
-		if cell == _last_painted_cell:
-			return
-		_last_painted_cell = cell
-		_active_map.set_cell(cell, selected_source_id, selected_atlas_coords, _ROT_ALT[_rotation])
-		if _active_map == wall_map and floor_map.get_cell_source_id(cell) == -1:
-			_place_solid_terrain(cell, 1)
-
-func _cascade_cross_terrain(origin: Vector2i, terrain_set: int, terrain: int) -> void:
-	var pending: Array[Vector2i] = []
-	var visited: Dictionary = {origin: true}
-	for off in _NEIGHBOUR_OFFSETS:
-		var n := origin + off
-		if floor_map.get_cell_source_id(n) != -1:
-			var d := floor_map.get_cell_tile_data(n)
-			if d and d.terrain_set == terrain_set and d.terrain != terrain:
-				pending.append(n)
-
-	while not pending.is_empty():
-		var n: Vector2i = pending.pop_front()
-		if visited.has(n):
-			continue
-		visited[n] = true
-		var d := floor_map.get_cell_tile_data(n)
-		if d == null:
-			continue
-		# Ghost-fill empty neighbours with solid Fairway for context
-		var ghosts: Array[Vector2i] = []
-		for off in _NEIGHBOUR_OFFSETS:
-			var nb := n + off
-			if floor_map.get_cell_source_id(nb) == -1:
-				_place_solid_terrain(nb, 1)
-				ghosts.append(nb)
-		var old_coords := floor_map.get_cell_atlas_coords(n)
-		floor_map.set_cells_terrain_connect([n], d.terrain_set, d.terrain)
-		for nb in ghosts:
-			floor_map.erase_cell(nb)
-		# If the tile changed, cascade to its different-terrain neighbours
-		if floor_map.get_cell_atlas_coords(n) != old_coords:
-			for off in _NEIGHBOUR_OFFSETS:
-				var nb := n + off
-				if visited.has(nb) or floor_map.get_cell_source_id(nb) == -1:
-					continue
-				var nd := floor_map.get_cell_tile_data(nb)
-				if nd and nd.terrain_set == terrain_set and nd.terrain != d.terrain:
-					pending.append(nb)
-
-func _place_solid_terrain(cell: Vector2i, terrain: int) -> void:
-	# Find the tile with the most peering bits == 1 (solid-fairway interior tile).
-	var ts := floor_map.tile_set
-	if not ts:
+func _write_terrain_pixel(cell: Vector2i, terrain_id: int) -> void:
+	var px := cell - MAP_ORIGIN
+	if px.x < 0 or px.y < 0 or px.x >= MAP_SIZE or px.y >= MAP_SIZE:
 		return
-	var best_sid := -1
-	var best_coords := Vector2i.ZERO
-	var best_score := -1
-	for i in ts.get_source_count():
-		var sid := ts.get_source_id(i)
-		var src := ts.get_source(sid) as TileSetAtlasSource
-		if not src:
-			continue
-		for j in src.get_tiles_count():
-			var coords := src.get_tile_id(j)
-			var d := src.get_tile_data(coords, 0)
-			if not d or d.terrain_set != 0 or d.terrain != terrain:
-				continue
-			var score := 0
-			for bit in _PEERING_BITS:
-				if d.get_terrain_peering_bit(bit) == 1:
-					score += 1
-			if score > best_score:
-				best_score = score
-				best_sid = sid
-				best_coords = coords
-	if best_sid != -1:
-		floor_map.set_cell(cell, best_sid, best_coords)
+	_terrain_image.set_pixel(px.x, px.y,
+			Color(float(terrain_id) / 255.0, 0.0, 0.0, 1.0))
+	_terrain_dirty = true
 
-func _on_editor_ui_terrain_selected(_layer: StringName, terrain_set: int, terrain: int, image: Texture2D) -> void:
-	cursor.texture = image
-	_selected_terrain_set = terrain_set
-	_selected_terrain = terrain
-	selected_source_id = -1
 
-func _on_editor_ui_terrain_cleared(_layer: StringName) -> void:
-	_selected_terrain = -1
-	_selected_terrain_set = -1
-	cursor.texture = _select_texture
+func _clear_terrain_pixel(cell: Vector2i) -> void:
+	var px := cell - MAP_ORIGIN
+	if px.x < 0 or px.y < 0 or px.x >= MAP_SIZE or px.y >= MAP_SIZE:
+		return
+	_terrain_image.set_pixel(px.x, px.y, Color(0.0, 0.0, 0.0, 0.0))
+	_terrain_dirty = true
+
+
+func _rebuild_terrain_map() -> void:
+	_terrain_image.fill(Color(0, 0, 0, 0))
+	for cell in floor_map.get_used_cells():
+		var src := floor_map.get_cell_source_id(cell)
+		if src >= 0:
+			_write_terrain_pixel(cell, src + 1)
+	_terrain_texture.update(_terrain_image)
+	_terrain_dirty = false
+
+
+# ── Editor UI signal handlers ─────────────────────────────────────────────────
 
 func _on_editor_ui_tile_selected(layer: StringName, source_id: int, atlas_coords: Vector2i, image: Texture2D) -> void:
 	cursor.texture = image
 	selected_source_id = source_id
 	selected_atlas_coords = atlas_coords
-	_active_map = entity_map if layer == &"entity" else wall_map
-	_selected_terrain = -1
-	_editor_ui.set_tile_rotation(_rotation)
-
-func _on_editor_ui_tile_cleared(layer: StringName, source_id: int, atlas_coords: Vector2i, _image: Texture2D) -> void:
-	var cleared_map: TileMapLayer
 	match layer:
-		&"wall":   cleared_map = wall_map
-		&"entity": cleared_map = entity_map
-		_:         return
-	if cleared_map == _active_map and source_id == selected_source_id and atlas_coords == selected_atlas_coords:
+		&"floor":   _active_map = floor_map
+		&"wall":    _active_map = wall_map
+		&"entity":  _active_map = entity_map
+	if layer != &"entity":
+		_editor_ui.set_tile_rotation(_rotation)
+
+
+func _on_editor_ui_tile_cleared(_layer: StringName, source_id: int, atlas_coords: Vector2i, _image: Texture2D) -> void:
+	if source_id == selected_source_id and atlas_coords == selected_atlas_coords:
 		cursor.texture = _select_texture
 		_active_map = null
 		selected_source_id = -1
