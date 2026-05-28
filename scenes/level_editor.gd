@@ -112,16 +112,9 @@ func _paint() -> void:
 		if floor_map.get_cell_source_id(cell) == -1:
 			_place_solid_terrain(cell, _selected_terrain)
 
-		# Re-evaluate neighbours of different terrain types so they pick
-		# the correct cross-terrain transition tile.
-		for off in _NEIGHBOUR_OFFSETS:
-			var n := cell + off
-			if floor_map.get_cell_source_id(n) == -1:
-				continue
-			var d := floor_map.get_cell_tile_data(n)
-			if d == null or d.terrain_set != _selected_terrain_set or d.terrain == _selected_terrain:
-				continue
-			floor_map.set_cells_terrain_connect([n], d.terrain_set, d.terrain)
+		# Cascade cross-terrain re-evaluation: re-tile any neighbour of a
+		# different terrain type, and keep propagating while tiles change.
+		_cascade_cross_terrain(cell, _selected_terrain_set, _selected_terrain)
 	elif selected_source_id != -1 and _active_map != null:
 		var cell := _active_map.local_to_map(_active_map.get_local_mouse_position())
 		if cell == _last_painted_cell:
@@ -130,6 +123,45 @@ func _paint() -> void:
 		_active_map.set_cell(cell, selected_source_id, selected_atlas_coords, _ROT_ALT[_rotation])
 		if _active_map == wall_map and floor_map.get_cell_source_id(cell) == -1:
 			_place_solid_terrain(cell, 1)
+
+func _cascade_cross_terrain(origin: Vector2i, terrain_set: int, terrain: int) -> void:
+	var pending: Array[Vector2i] = []
+	var visited: Dictionary = {origin: true}
+	for off in _NEIGHBOUR_OFFSETS:
+		var n := origin + off
+		if floor_map.get_cell_source_id(n) != -1:
+			var d := floor_map.get_cell_tile_data(n)
+			if d and d.terrain_set == terrain_set and d.terrain != terrain:
+				pending.append(n)
+
+	while not pending.is_empty():
+		var n: Vector2i = pending.pop_front()
+		if visited.has(n):
+			continue
+		visited[n] = true
+		var d := floor_map.get_cell_tile_data(n)
+		if d == null:
+			continue
+		# Ghost-fill empty neighbours with solid Fairway for context
+		var ghosts: Array[Vector2i] = []
+		for off in _NEIGHBOUR_OFFSETS:
+			var nb := n + off
+			if floor_map.get_cell_source_id(nb) == -1:
+				_place_solid_terrain(nb, 1)
+				ghosts.append(nb)
+		var old_coords := floor_map.get_cell_atlas_coords(n)
+		floor_map.set_cells_terrain_connect([n], d.terrain_set, d.terrain)
+		for nb in ghosts:
+			floor_map.erase_cell(nb)
+		# If the tile changed, cascade to its different-terrain neighbours
+		if floor_map.get_cell_atlas_coords(n) != old_coords:
+			for off in _NEIGHBOUR_OFFSETS:
+				var nb := n + off
+				if visited.has(nb) or floor_map.get_cell_source_id(nb) == -1:
+					continue
+				var nd := floor_map.get_cell_tile_data(nb)
+				if nd and nd.terrain_set == terrain_set and nd.terrain != d.terrain:
+					pending.append(nb)
 
 func _place_solid_terrain(cell: Vector2i, terrain: int) -> void:
 	# Find the tile with the most peering bits == 1 (solid-fairway interior tile).
