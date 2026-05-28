@@ -13,18 +13,8 @@ var _active_map: TileMapLayer
 var _rotation: int = 0
 var _selected_terrain_set: int = -1
 var _selected_terrain: int = -1
-var _floor_terrain: Dictionary = {}  # Vector2i → int
-
-const _NEIGHBOR_OFFSETS: Array[Vector2i] = [
-	Vector2i( 0, -1), Vector2i( 1, -1), Vector2i( 1,  0), Vector2i( 1,  1),
-	Vector2i( 0,  1), Vector2i(-1,  1), Vector2i(-1,  0), Vector2i(-1, -1),
-]
-const _NEIGHBOR_BITS: Array[int] = [
-	TileSet.CELL_NEIGHBOR_TOP_SIDE,          TileSet.CELL_NEIGHBOR_TOP_RIGHT_CORNER,
-	TileSet.CELL_NEIGHBOR_RIGHT_SIDE,        TileSet.CELL_NEIGHBOR_BOTTOM_RIGHT_CORNER,
-	TileSet.CELL_NEIGHBOR_BOTTOM_SIDE,       TileSet.CELL_NEIGHBOR_BOTTOM_LEFT_CORNER,
-	TileSet.CELL_NEIGHBOR_LEFT_SIDE,         TileSet.CELL_NEIGHBOR_TOP_LEFT_CORNER,
-]
+var _painting: bool = false
+var _last_painted_cell: Vector2i = Vector2i(-32768, -32768)
 
 # Transform bit flags: TRANSPOSE=16384, FLIP_H=4096, FLIP_V=8192
 const _ROT_ALT := [0, 20480, 12288, 24576]  # 0°, 90° CW, 180°, 270° CW
@@ -39,39 +29,40 @@ func _unhandled_input(event: InputEvent) -> void:
 		_editor_ui.set_tile_rotation(_rotation)
 
 	if event.is_action_pressed("touch_main"):
-		if _selected_terrain != -1:
-			var cell := floor_map.local_to_map(floor_map.get_local_mouse_position())
-			_paint_terrain(cell, _selected_terrain)
-		elif selected_source_id != -1 and _active_map != null:
-			_active_map.set_cell(
-				_active_map.local_to_map(_active_map.get_local_mouse_position()),
-				selected_source_id, selected_atlas_coords, _ROT_ALT[_rotation]
-			)
+		_painting = true
+		_last_painted_cell = Vector2i(-32768, -32768)
+		_paint()
+	elif event.is_action_released("touch_main"):
+		_painting = false
 
 	if event is InputEventMouseMotion:
 		cursor.position = floor_map.map_to_local(floor_map.local_to_map(floor_map.get_local_mouse_position()))
+		if _painting:
+			_paint()
 
-func _paint_terrain(cell: Vector2i, terrain: int) -> void:
-	_floor_terrain[cell] = terrain
-	_refresh_terrain_tile(cell)
-	for offset in _NEIGHBOR_OFFSETS:
-		var n := cell + offset
-		if _floor_terrain.has(n):
-			_refresh_terrain_tile(n)
+func _paint() -> void:
+	if _selected_terrain != -1:
+		var cell := floor_map.local_to_map(floor_map.get_local_mouse_position())
+		if cell == _last_painted_cell:
+			return
+		_last_painted_cell = cell
+		var cells: Array[Vector2i] = [cell]
+		floor_map.set_cells_terrain_connect(cells, _selected_terrain_set, _selected_terrain)
+		if floor_map.get_cell_source_id(cell) == -1:
+			_place_fallback_terrain(cell, _selected_terrain)
+	elif selected_source_id != -1 and _active_map != null:
+		var cell := _active_map.local_to_map(_active_map.get_local_mouse_position())
+		if cell == _last_painted_cell:
+			return
+		_last_painted_cell = cell
+		_active_map.set_cell(cell, selected_source_id, selected_atlas_coords, _ROT_ALT[_rotation])
 
-func _refresh_terrain_tile(cell: Vector2i) -> void:
-	var t: int = _floor_terrain.get(cell, -1)
-	if t == -1:
-		return
+func _place_fallback_terrain(cell: Vector2i, terrain: int) -> void:
+	# Godot can't place a tile when all 8 neighbours are empty — find the solid
+	# interior tile (all peering bits == terrain, or no peering bits for terrain=1)
 	var ts := floor_map.tile_set
 	if not ts:
 		return
-	var neighbor_t: Array[int] = []
-	for offset in _NEIGHBOR_OFFSETS:
-		neighbor_t.append(_floor_terrain.get(cell + offset, -1))
-	var best_src := -1
-	var best_coords := Vector2i.ZERO
-	var best_score := -9999
 	for i in ts.get_source_count():
 		var sid := ts.get_source_id(i)
 		var src := ts.get_source(sid) as TileSetAtlasSource
@@ -80,27 +71,10 @@ func _refresh_terrain_tile(cell: Vector2i) -> void:
 		for j in src.get_tiles_count():
 			var coords := src.get_tile_id(j)
 			var d := src.get_tile_data(coords, 0)
-			if not d or d.terrain_set != 0 or d.terrain != t:
+			if not d or d.terrain_set != 0 or d.terrain != terrain:
 				continue
-			var score := 0
-			for k in 8:
-				var required: int = neighbor_t[k]
-				var tile_bit: int = d.get_terrain_peering_bit(_NEIGHBOR_BITS[k])
-				if tile_bit == -1:
-					pass  # tile has no opinion on this neighbour (e.g. solid green tile)
-				elif required == -1:
-					if tile_bit == t:
-						score += 1  # prefer same-terrain bits when neighbour is empty
-				elif tile_bit == required:
-					score += 1
-				else:
-					score -= 1
-			if score > best_score:
-				best_score = score
-				best_src = sid
-				best_coords = coords
-	if best_src != -1:
-		floor_map.set_cell(cell, best_src, best_coords)
+			floor_map.set_cell(cell, sid, coords)
+			return
 
 func _on_editor_ui_terrain_selected(_layer: StringName, terrain_set: int, terrain: int, image: Texture2D) -> void:
 	cursor.texture = image
