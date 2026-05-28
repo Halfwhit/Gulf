@@ -3,9 +3,12 @@ extends CanvasLayer
 @onready var sidebar: PanelContainer = $Sidebar
 @onready var tile_container: GridContainer = $Sidebar/VBoxContainer/MarginContainer/VSplitContainer/TabContainer/Tiles/TileContainer
 @onready var wall_container: GridContainer = $Sidebar/VBoxContainer/MarginContainer/VSplitContainer/TabContainer/Walls/WallContainer
-const FLOOR_SET = preload("res://resources/tileset_floor.tres")
-const WALL_SET  = preload("res://resources/tileset_walls.tres")
-const WALL_GROUP  = preload("uid://6bgai7xud4jid")
+@onready var entity_container: GridContainer = $Sidebar/VBoxContainer/MarginContainer/VSplitContainer/TabContainer/Entities/EntityContainer
+const FLOOR_SET    = preload("res://resources/tileset_floor.tres")
+const WALL_SET     = preload("res://resources/tileset_walls.tres")
+const ENTITY_SET   = preload("res://resources/tileset_entities.tres")
+const WALL_GROUP   = preload("uid://6bgai7xud4jid")
+const ENTITY_GROUP = preload("uid://bm4e9x7ckqvfn")
 var _select_image: Image = preload("uid://cibhu1schuopa")
 var _selected_image: Image = null
 var _floor_group: ButtonGroup = ButtonGroup.new()
@@ -18,6 +21,7 @@ signal terrain_cleared(layer: StringName)
 func _ready() -> void:
 	_populate_terrains(FLOOR_SET, tile_container, &"floor")
 	_populate(WALL_SET, wall_container, WALL_GROUP, &"wall")
+	_populate(ENTITY_SET, entity_container, ENTITY_GROUP, &"entity")
 
 func _populate(tileset: TileSet, container: GridContainer, group: ButtonGroup, layer: StringName) -> void:
 	for i in tileset.get_source_count():
@@ -115,7 +119,7 @@ func _on_terrain_btn_toggled(on: bool, layer: StringName, terrain_set: int, terr
 
 func _on_tile_button_cleared(source_id: int, atlas_coords: Vector2i, image: Texture2D, layer: StringName) -> void:
 	tile_cleared.emit(layer, source_id, atlas_coords, image)
-	if not _floor_group.get_pressed_button() and not WALL_GROUP.get_pressed_button():
+	if not _floor_group.get_pressed_button() and not WALL_GROUP.get_pressed_button() and not ENTITY_GROUP.get_pressed_button():
 		$Display.texture = null
 		_selected_image = null
 

@@ -5,6 +5,7 @@
 [ext_resource type="Script" uid="uid://j5k08go51pnp" path="res://scenes/cursor.gd" id="2_nh68x"]
 [ext_resource type="TileSet" uid="uid://dt0jiqhc5kd18" path="res://resources/tileset_floor.tres" id="4_floor"]
 [ext_resource type="TileSet" uid="uid://djwhfrmwppgbk" path="res://resources/tileset_walls.tres" id="5_walls"]
+[ext_resource type="TileSet" uid="uid://c7fq3p8xwn2ma" path="res://resources/tileset_entities.tres" id="6_entities"]
 
 [sub_resource type="Image" id="Image_eovuc"]
 data = {
@@ -36,6 +37,10 @@ tile_set = ExtResource("4_floor")
 
 [node name="WallMap" type="TileMapLayer" parent="Level" unique_id=1449792930]
 tile_set = ExtResource("5_walls")
+
+[node name="EntityMap" type="TileMapLayer" parent="Level" unique_id=1449792932]
+z_index = 5
+tile_set = ExtResource("6_entities")
 
 [connection signal="terrain_cleared" from="EditorUI" to="." method="_on_editor_ui_terrain_cleared"]
 [connection signal="terrain_selected" from="EditorUI" to="." method="_on_editor_ui_terrain_selected"]

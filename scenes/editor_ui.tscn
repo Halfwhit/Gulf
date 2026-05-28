@@ -59,6 +59,16 @@ custom_minimum_size = Vector2(144, 0)
 layout_mode = 2
 columns = 4
 
+[node name="Entities" type="ScrollContainer" parent="Sidebar/VBoxContainer/MarginContainer/VSplitContainer/TabContainer" unique_id=312994701]
+visible = false
+layout_mode = 2
+metadata/_tab_index = 2
+
+[node name="EntityContainer" type="GridContainer" parent="Sidebar/VBoxContainer/MarginContainer/VSplitContainer/TabContainer/Entities" unique_id=312994702]
+custom_minimum_size = Vector2(144, 0)
+layout_mode = 2
+columns = 4
+
 [node name="PanelContainer" type="PanelContainer" parent="Sidebar/VBoxContainer/MarginContainer/VSplitContainer" unique_id=1699093272]
 layout_mode = 2
 size_flags_vertical = 8

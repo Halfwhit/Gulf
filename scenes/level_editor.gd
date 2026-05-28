@@ -1,8 +1,9 @@
 extends Node2D
 
 @onready var cursor: Sprite2D = $Cursor
-@onready var floor_map: TileMapLayer = $Level/FloorMap
-@onready var wall_map: TileMapLayer  = $Level/WallMap
+@onready var floor_map: TileMapLayer   = $Level/FloorMap
+@onready var wall_map: TileMapLayer    = $Level/WallMap
+@onready var entity_map: TileMapLayer  = $Level/EntityMap
 @onready var _editor_ui = $EditorUI
 const SELECT = preload("uid://cibhu1schuopa")
 var _select_texture: ImageTexture
@@ -126,12 +127,16 @@ func _on_editor_ui_tile_selected(layer: StringName, source_id: int, atlas_coords
 	cursor.texture = image
 	selected_source_id = source_id
 	selected_atlas_coords = atlas_coords
-	_active_map = wall_map
+	_active_map = entity_map if layer == &"entity" else wall_map
 	_selected_terrain = -1
 	_editor_ui.set_tile_rotation(_rotation)
 
 func _on_editor_ui_tile_cleared(layer: StringName, source_id: int, atlas_coords: Vector2i, _image: Texture2D) -> void:
-	var cleared_map := floor_map if layer == &"floor" else wall_map
+	var cleared_map: TileMapLayer
+	match layer:
+		&"wall":   cleared_map = wall_map
+		&"entity": cleared_map = entity_map
+		_:         return
 	if cleared_map == _active_map and source_id == selected_source_id and atlas_coords == selected_atlas_coords:
 		cursor.texture = _select_texture
 		_active_map = null
