@@ -20,26 +20,26 @@ texture_region_size = Vector2i(32, 32)
 0:0/0 = 0
 
 [sub_resource type="TileSetAtlasSource" id="src2"]
-resource_name = "Water"
-texture = ExtResource("t2")
-texture_region_size = Vector2i(32, 32)
-0:0/0 = 0
-
-[sub_resource type="TileSetAtlasSource" id="src3"]
-resource_name = "Acid"
-texture = ExtResource("t3")
-texture_region_size = Vector2i(32, 32)
-0:0/0 = 0
-
-[sub_resource type="TileSetAtlasSource" id="src4"]
 resource_name = "LightMud"
 texture = ExtResource("t4")
 texture_region_size = Vector2i(32, 32)
 0:0/0 = 0
 
-[sub_resource type="TileSetAtlasSource" id="src5"]
+[sub_resource type="TileSetAtlasSource" id="src3"]
 resource_name = "DarkMud"
 texture = ExtResource("t5")
+texture_region_size = Vector2i(32, 32)
+0:0/0 = 0
+
+[sub_resource type="TileSetAtlasSource" id="src4"]
+resource_name = "Water"
+texture = ExtResource("t2")
+texture_region_size = Vector2i(32, 32)
+0:0/0 = 0
+
+[sub_resource type="TileSetAtlasSource" id="src5"]
+resource_name = "Acid"
+texture = ExtResource("t3")
 texture_region_size = Vector2i(32, 32)
 0:0/0 = 0
 
@@ -47,7 +47,7 @@ texture_region_size = Vector2i(32, 32)
 tile_size = Vector2i(32, 32)
 sources/0 = SubResource("src0")
 sources/1 = SubResource("src1")
-sources/2 = SubResource("src4")
-sources/3 = SubResource("src5")
-sources/4 = SubResource("src2")
-sources/5 = SubResource("src3")
+sources/2 = SubResource("src2")
+sources/3 = SubResource("src3")
+sources/4 = SubResource("src4")
+sources/5 = SubResource("src5")
