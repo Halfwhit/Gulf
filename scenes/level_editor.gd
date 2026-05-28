@@ -65,7 +65,7 @@ func _paint() -> void:
 		for off in _NEIGHBOUR_OFFSETS:
 			var n := cell + off
 			if floor_map.get_cell_source_id(n) == -1:
-				_place_solid_terrain(n, _selected_terrain)
+				_place_solid_terrain(n, 1)  # empty cells assumed solid Fairway
 				ghosts.append(n)
 
 		var cells: Array[Vector2i] = [cell]
@@ -83,7 +83,7 @@ func _paint() -> void:
 		_last_painted_cell = cell
 		_active_map.set_cell(cell, selected_source_id, selected_atlas_coords, _ROT_ALT[_rotation])
 		if _active_map == wall_map and floor_map.get_cell_source_id(cell) == -1:
-			_place_solid_terrain(cell, 0)
+			_place_solid_terrain(cell, 1)
 
 func _place_solid_terrain(cell: Vector2i, terrain: int) -> void:
 	# Find the tile with the most peering bits == 1 (solid-fairway interior tile).
