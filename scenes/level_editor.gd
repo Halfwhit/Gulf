@@ -15,7 +15,9 @@ var _rotation: int = 0
 var _selected_terrain_set: int = -1
 var _selected_terrain: int = -1
 var _painting: bool = false
+var _erasing: bool = false
 var _last_painted_cell: Vector2i = Vector2i(-32768, -32768)
+var _last_erased_cell: Vector2i = Vector2i(-32768, -32768)
 
 # Transform bit flags: TRANSPOSE=16384, FLIP_H=4096, FLIP_V=8192
 const _ROT_ALT := [0, 20480, 12288, 24576]  # 0°, 90° CW, 180°, 270° CW
@@ -47,10 +49,34 @@ func _unhandled_input(event: InputEvent) -> void:
 	elif event.is_action_released("touch_main"):
 		_painting = false
 
+	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_RIGHT:
+		if event.pressed:
+			_erasing = true
+			_last_erased_cell = Vector2i(-32768, -32768)
+			_erase()
+		else:
+			_erasing = false
+
 	if event is InputEventMouseMotion:
 		cursor.position = floor_map.map_to_local(floor_map.local_to_map(floor_map.get_local_mouse_position()))
 		if _painting:
 			_paint()
+		elif _erasing:
+			_erase()
+
+func _erase() -> void:
+	var cell := floor_map.local_to_map(floor_map.get_local_mouse_position())
+	if cell == _last_erased_cell:
+		return
+	_last_erased_cell = cell
+	if _selected_terrain != -1:
+		floor_map.erase_cell(cell)
+	elif _active_map != null:
+		_active_map.erase_cell(cell)
+	else:
+		floor_map.erase_cell(cell)
+		wall_map.erase_cell(cell)
+		entity_map.erase_cell(cell)
 
 func _paint() -> void:
 	if _selected_terrain != -1:
