@@ -19,6 +19,17 @@ var _last_painted_cell: Vector2i = Vector2i(-32768, -32768)
 # Transform bit flags: TRANSPOSE=16384, FLIP_H=4096, FLIP_V=8192
 const _ROT_ALT := [0, 20480, 12288, 24576]  # 0°, 90° CW, 180°, 270° CW
 
+const _NEIGHBOUR_OFFSETS: Array[Vector2i] = [
+	Vector2i( 1,  0), Vector2i( 1,  1), Vector2i( 0,  1), Vector2i(-1,  1),
+	Vector2i(-1,  0), Vector2i(-1, -1), Vector2i( 0, -1), Vector2i( 1, -1),
+]
+const _PEERING_BITS: Array[int] = [
+	TileSet.CELL_NEIGHBOR_RIGHT_SIDE,        TileSet.CELL_NEIGHBOR_BOTTOM_RIGHT_CORNER,
+	TileSet.CELL_NEIGHBOR_BOTTOM_SIDE,       TileSet.CELL_NEIGHBOR_BOTTOM_LEFT_CORNER,
+	TileSet.CELL_NEIGHBOR_LEFT_SIDE,         TileSet.CELL_NEIGHBOR_TOP_LEFT_CORNER,
+	TileSet.CELL_NEIGHBOR_TOP_SIDE,          TileSet.CELL_NEIGHBOR_TOP_RIGHT_CORNER,
+]
+
 func _ready() -> void:
 	_select_texture = ImageTexture.create_from_image(SELECT)
 
@@ -46,10 +57,24 @@ func _paint() -> void:
 		if cell == _last_painted_cell:
 			return
 		_last_painted_cell = cell
+
+		# Ghost-fill empty neighbours with the solid interior tile so Godot's
+		# terrain algorithm treats them as "solid fairway" context.
+		var ghosts: Array[Vector2i] = []
+		for off in _NEIGHBOUR_OFFSETS:
+			var n := cell + off
+			if floor_map.get_cell_source_id(n) == -1:
+				_place_solid_terrain(n, _selected_terrain)
+				ghosts.append(n)
+
 		var cells: Array[Vector2i] = [cell]
 		floor_map.set_cells_terrain_connect(cells, _selected_terrain_set, _selected_terrain)
+
+		for n in ghosts:
+			floor_map.erase_cell(n)
+
 		if floor_map.get_cell_source_id(cell) == -1:
-			_place_fallback_terrain(cell, _selected_terrain)
+			_place_solid_terrain(cell, _selected_terrain)
 	elif selected_source_id != -1 and _active_map != null:
 		var cell := _active_map.local_to_map(_active_map.get_local_mouse_position())
 		if cell == _last_painted_cell:
@@ -57,12 +82,14 @@ func _paint() -> void:
 		_last_painted_cell = cell
 		_active_map.set_cell(cell, selected_source_id, selected_atlas_coords, _ROT_ALT[_rotation])
 
-func _place_fallback_terrain(cell: Vector2i, terrain: int) -> void:
-	# Godot can't place a tile when all 8 neighbours are empty — find the solid
-	# interior tile (all peering bits == terrain, or no peering bits for terrain=1)
+func _place_solid_terrain(cell: Vector2i, terrain: int) -> void:
+	# Find the tile with the most peering bits == 1 (solid-fairway interior tile).
 	var ts := floor_map.tile_set
 	if not ts:
 		return
+	var best_sid := -1
+	var best_coords := Vector2i.ZERO
+	var best_score := -1
 	for i in ts.get_source_count():
 		var sid := ts.get_source_id(i)
 		var src := ts.get_source(sid) as TileSetAtlasSource
@@ -73,8 +100,16 @@ func _place_fallback_terrain(cell: Vector2i, terrain: int) -> void:
 			var d := src.get_tile_data(coords, 0)
 			if not d or d.terrain_set != 0 or d.terrain != terrain:
 				continue
-			floor_map.set_cell(cell, sid, coords)
-			return
+			var score := 0
+			for bit in _PEERING_BITS:
+				if d.get_terrain_peering_bit(bit) == 1:
+					score += 1
+			if score > best_score:
+				best_score = score
+				best_sid = sid
+				best_coords = coords
+	if best_sid != -1:
+		floor_map.set_cell(cell, best_sid, best_coords)
 
 func _on_editor_ui_terrain_selected(_layer: StringName, terrain_set: int, terrain: int, image: Texture2D) -> void:
 	cursor.texture = image
