@@ -6,7 +6,7 @@ extends Node2D
 @onready var entity_map: TileMapLayer = $Level/EntityMap
 @onready var _editor_ui               = $EditorUI
 
-const SELECT = preload("uid://cibhu1schuopa")
+const SELECT         = preload("uid://cibhu1schuopa")
 const TERRAIN_SHADER = preload("res://shaders/terrain_blend.gdshader")
 
 var _select_texture: ImageTexture
@@ -16,18 +16,27 @@ var selected_atlas_coords: Vector2i
 var _active_map: TileMapLayer
 var _rotation: int             = 0
 
-var _painting: bool  = false
-var _erasing: bool   = false
-var _last_painted_cell: Vector2i = Vector2i(-32768, -32768)
-var _last_erased_cell: Vector2i  = Vector2i(-32768, -32768)
+var _painting: bool = false
+var _erasing: bool  = false
 
-# Transform bit flags for rotated wall/entity tiles
-const _ROT_ALT := [0, 20480, 12288, 24576]  # 0°, 90° CW, 180°, 270° CW
+# Sentinel for "no cell touched yet this stroke" — outside any valid map.
+const _NO_CELL := Vector2i(-32768, -32768)
+var _last_painted_cell: Vector2i = _NO_CELL
+var _last_erased_cell: Vector2i  = _NO_CELL
+
+# Rotation alternative-tile flags for wall/entity tiles (0°, 90°CW, 180°, 270°CW).
+const _ROT_ALT := [
+	0,
+	TileSetAtlasSource.TRANSFORM_TRANSPOSE | TileSetAtlasSource.TRANSFORM_FLIP_H,
+	TileSetAtlasSource.TRANSFORM_FLIP_H    | TileSetAtlasSource.TRANSFORM_FLIP_V,
+	TileSetAtlasSource.TRANSFORM_TRANSPOSE | TileSetAtlasSource.TRANSFORM_FLIP_V,
+]
 
 # ── Terrain map ───────────────────────────────────────────────────────────────
 # One pixel per cell; r-channel = terrain_id (source_id + 1), a = 1 if occupied.
+# terrain_id 0 written as transparent black = empty cell.
 const MAP_SIZE   := 256
-const MAP_ORIGIN := Vector2i(-128, -128)  # cell coord of terrain_map pixel (0, 0)
+const MAP_ORIGIN := Vector2i(-128, -128)  # cell coord of terrain_map pixel (0,0)
 
 var _terrain_image:   Image
 var _terrain_texture: ImageTexture
@@ -39,12 +48,10 @@ var _shader_mat:      ShaderMaterial
 func _ready() -> void:
 	_select_texture = ImageTexture.create_from_image(SELECT)
 
-	# Build the terrain map texture
-	_terrain_image = Image.create(MAP_SIZE, MAP_SIZE, false, Image.FORMAT_RGBA8)
+	_terrain_image   = Image.create(MAP_SIZE, MAP_SIZE, false, Image.FORMAT_RGBA8)
 	_terrain_texture = ImageTexture.create_from_image(_terrain_image)
 
-	# Create and attach the shader material to FloorMap.
-	# Use Vector2 (float) for map_origin/map_dims — vec2 uniforms, not ivec2.
+	# vec2 uniforms — passing Vector2i would silently mis-convert.
 	_shader_mat = ShaderMaterial.new()
 	_shader_mat.shader = TERRAIN_SHADER
 	_shader_mat.set_shader_parameter("terrain_map", _terrain_texture)
@@ -53,14 +60,12 @@ func _ready() -> void:
 	_shader_mat.set_shader_parameter("tile_px",     float(floor_map.tile_set.tile_size.x))
 	floor_map.material = _shader_mat
 
-	# Populate the terrain map from any tiles already in the tilemap
 	_rebuild_terrain_map()
 
 
 func _process(_delta: float) -> void:
 	if _terrain_dirty:
-		_terrain_texture.update(_terrain_image)
-		_terrain_dirty = false
+		_flush_terrain()
 
 
 # ── Input ─────────────────────────────────────────────────────────────────────
@@ -73,7 +78,7 @@ func _unhandled_input(event: InputEvent) -> void:
 
 	if event.is_action_pressed("touch_main"):
 		_painting = true
-		_last_painted_cell = Vector2i(-32768, -32768)
+		_last_painted_cell = _NO_CELL
 		_paint()
 	elif event.is_action_released("touch_main"):
 		_painting = false
@@ -81,14 +86,14 @@ func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_RIGHT:
 		if event.pressed:
 			_erasing = true
-			_last_erased_cell = Vector2i(-32768, -32768)
+			_last_erased_cell = _NO_CELL
 			_erase()
 		else:
 			_erasing = false
 
 	if event is InputEventMouseMotion:
-		var snap_map  := entity_map if _active_map == entity_map else floor_map
-		var snap_pos  := snap_map.map_to_local(snap_map.local_to_map(snap_map.get_local_mouse_position()))
+		var snap_map := entity_map if _active_map == entity_map else floor_map
+		var snap_pos := snap_map.map_to_local(snap_map.local_to_map(snap_map.get_local_mouse_position()))
 		cursor.global_position = snap_map.to_global(snap_pos)
 		if _painting:
 			_paint()
@@ -102,23 +107,20 @@ func _paint() -> void:
 	if selected_source_id == -1 or _active_map == null:
 		return
 
-	# Resolve the cell position using the active map's coordinate space
-	var map    := _active_map
-	var pcell  := map.local_to_map(map.get_local_mouse_position())
+	var map   := _active_map
+	var pcell := map.local_to_map(map.get_local_mouse_position())
 	if pcell == _last_painted_cell:
 		return
 	_last_painted_cell = pcell
 
-	# Floor tiles never rotate; wall and entity tiles respect the rotation dial.
-	map.set_cell(pcell, selected_source_id, selected_atlas_coords,
-			0 if map == floor_map else _ROT_ALT[_rotation])
-
-	# For walls, auto-place Fairway floor underneath if empty
-	if map == wall_map and floor_map.get_cell_source_id(pcell) == -1:
-		_set_floor(pcell, 0)
-
 	if map == floor_map:
 		_set_floor(pcell, selected_source_id)
+		return
+
+	map.set_cell(pcell, selected_source_id, selected_atlas_coords, _ROT_ALT[_rotation])
+	# Auto-place Fairway floor underneath walls when the cell is empty.
+	if map == wall_map and floor_map.get_cell_source_id(pcell) == -1:
+		_set_floor(pcell, 0)
 
 
 func _erase() -> void:
@@ -137,40 +139,38 @@ func _erase() -> void:
 
 	if _active_map == floor_map:
 		floor_map.erase_cell(cell)
-		_clear_terrain_pixel(cell)
+		_write_terrain_pixel(cell, 0)
 	elif _active_map != null:
 		_active_map.erase_cell(cell)
 	else:
-		# No layer selected — erase everything at this cell
+		# No layer selected — erase everything at this cell.
 		floor_map.erase_cell(cell)
 		wall_map.erase_cell(cell)
-		entity_map.erase_cell(entity_map.local_to_map(entity_map.get_local_mouse_position()))
-		_clear_terrain_pixel(cell)
+		entity_map.erase_cell(cell)
+		_write_terrain_pixel(cell, 0)
 
 
 # ── Terrain map helpers ───────────────────────────────────────────────────────
 
 func _set_floor(cell: Vector2i, source_id: int) -> void:
-	var terrain_id := source_id + 1  # terrain_id is 1-based (0 = empty)
 	floor_map.set_cell(cell, source_id, Vector2i.ZERO)
-	_write_terrain_pixel(cell, terrain_id)
+	_write_terrain_pixel(cell, source_id + 1)
 
 
+# Writes terrain_id into the terrain map. terrain_id 0 clears the cell
+# (alpha = 0); any other value marks it occupied (alpha = 1).
 func _write_terrain_pixel(cell: Vector2i, terrain_id: int) -> void:
 	var px := cell - MAP_ORIGIN
 	if px.x < 0 or px.y < 0 or px.x >= MAP_SIZE or px.y >= MAP_SIZE:
 		return
 	_terrain_image.set_pixel(px.x, px.y,
-			Color(float(terrain_id) / 255.0, 0.0, 0.0, 1.0))
+			Color(float(terrain_id) / 255.0, 0.0, 0.0, float(terrain_id > 0)))
 	_terrain_dirty = true
 
 
-func _clear_terrain_pixel(cell: Vector2i) -> void:
-	var px := cell - MAP_ORIGIN
-	if px.x < 0 or px.y < 0 or px.x >= MAP_SIZE or px.y >= MAP_SIZE:
-		return
-	_terrain_image.set_pixel(px.x, px.y, Color(0.0, 0.0, 0.0, 0.0))
-	_terrain_dirty = true
+func _flush_terrain() -> void:
+	_terrain_texture.update(_terrain_image)
+	_terrain_dirty = false
 
 
 func _rebuild_terrain_map() -> void:
@@ -179,8 +179,7 @@ func _rebuild_terrain_map() -> void:
 		var src := floor_map.get_cell_source_id(cell)
 		if src >= 0:
 			_write_terrain_pixel(cell, src + 1)
-	_terrain_texture.update(_terrain_image)
-	_terrain_dirty = false
+	_flush_terrain()
 
 
 # ── Editor UI signal handlers ─────────────────────────────────────────────────

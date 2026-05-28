@@ -55,7 +55,7 @@ func _populate(tileset: TileSet, container: GridContainer, group: ButtonGroup, t
 
 			var overlay      := _make_select_overlay(img.get_width(), img.get_height())
 			var pressed_img  := img.duplicate()
-			pressed_img.blend_rect(overlay, overlay.get_used_rect(), Vector2i.ZERO)
+			pressed_img.blend_rect(overlay, Rect2i(0, 0, img.get_width(), img.get_height()), Vector2i.ZERO)
 			var pressed_tex  := ImageTexture.create_from_image(pressed_img)
 
 			var btn := TileButton.new(texture, pressed_tex, source_id, coords, group)
@@ -69,7 +69,7 @@ func set_tile_rotation(steps: int) -> void:
 		return
 	var img := _selected_image.duplicate()
 	for _i in steps:
-		img.rotate_90(false)
+		img.rotate_90(CLOCKWISE)
 	$Display.texture = ImageTexture.create_from_image(img)
 
 
