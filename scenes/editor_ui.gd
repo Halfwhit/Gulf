@@ -9,7 +9,6 @@ const WALL_SET     = preload("res://resources/tileset_walls.tres")
 const ENTITY_SET   = preload("res://resources/tileset_entities.tres")
 const WALL_GROUP   = preload("uid://6bgai7xud4jid")
 const ENTITY_GROUP = preload("uid://bm4e9x7ckqvfn")
-var _select_image: Image = preload("uid://cibhu1schuopa")
 var _selected_image: Image = null
 var _floor_group: ButtonGroup = ButtonGroup.new()
 
@@ -23,6 +22,20 @@ func _ready() -> void:
 	_populate(WALL_SET, wall_container, WALL_GROUP, &"wall")
 	_populate(ENTITY_SET, entity_container, ENTITY_GROUP, &"entity")
 
+static func _make_select_overlay(width: int, height: int) -> Image:
+	var img := Image.create(width, height, false, Image.FORMAT_RGBA8)
+	const ARM := 2
+	for i in ARM:
+		img.set_pixel(i, 0, Color.WHITE)
+		img.set_pixel(0, i, Color.WHITE)
+		img.set_pixel(width - 1 - i, 0, Color.WHITE)
+		img.set_pixel(width - 1, i, Color.WHITE)
+		img.set_pixel(i, height - 1, Color.WHITE)
+		img.set_pixel(0, height - 1 - i, Color.WHITE)
+		img.set_pixel(width - 1 - i, height - 1, Color.WHITE)
+		img.set_pixel(width - 1, height - 1 - i, Color.WHITE)
+	return img
+
 func _populate(tileset: TileSet, container: GridContainer, group: ButtonGroup, layer: StringName) -> void:
 	for i in tileset.get_source_count():
 		var source_id := tileset.get_source_id(i)
@@ -34,10 +47,7 @@ func _populate(tileset: TileSet, container: GridContainer, group: ButtonGroup, l
 			var img := base_image.get_region(source.get_tile_texture_region(coords))
 			var tile_texture := ImageTexture.create_from_image(img)
 
-			var select := _select_image
-			if img.get_size() != _select_image.get_size():
-				select = _select_image.duplicate()
-				select.resize(img.get_width(), img.get_height())
+			var select := _make_select_overlay(img.get_width(), img.get_height())
 			var pressed_image := img.duplicate()
 			pressed_image.blend_rect(select, select.get_used_rect(), Vector2i.ZERO)
 			var pressed_texture := ImageTexture.create_from_image(pressed_image)
@@ -100,7 +110,7 @@ func _populate_terrains(tileset: TileSet, container: GridContainer, layer: Strin
 				img.fill(tileset.get_terrain_color(ts, t))
 			var texture := ImageTexture.create_from_image(img)
 			var pressed_img := img.duplicate()
-			pressed_img.blend_rect(_select_image, _select_image.get_used_rect(), Vector2i.ZERO)
+			pressed_img.blend_rect(_make_select_overlay(img.get_width(), img.get_height()), Rect2i(0, 0, img.get_width(), img.get_height()), Vector2i.ZERO)
 			var pressed_texture := ImageTexture.create_from_image(pressed_img)
 			var btn := TextureButton.new()
 			btn.toggle_mode = true
