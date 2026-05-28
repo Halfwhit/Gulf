@@ -1,4 +1,19 @@
 [gd_resource type="TileSet" format=3 uid="uid://c7fq3p8xwn2ma"]
 
+[ext_resource type="Texture2D" uid="uid://bqdxjhio5hknu" path="res://assets/hole.png" id="1_jodrt"]
+[ext_resource type="Texture2D" uid="uid://4hcnrd37dovg" path="res://assets/start.png" id="2_dh4fa"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_vaq2n"]
+texture = ExtResource("1_jodrt")
+texture_region_size = Vector2i(16, 16)
+0:0/0 = 0
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_v5nl0"]
+texture = ExtResource("2_dh4fa")
+texture_region_size = Vector2i(16, 16)
+0:0/0 = 0
+
 [resource]
-tile_size = Vector2i(32, 32)
+tile_size = Vector2i(16, 16)
+sources/0 = SubResource("TileSetAtlasSource_vaq2n")
+sources/1 = SubResource("TileSetAtlasSource_v5nl0")
