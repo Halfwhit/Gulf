@@ -5,7 +5,7 @@ shader_type canvas_item;
 // r = terrain_id (1-based, 1-6). a > 0.5 means tile exists.
 // Empty / out-of-bounds cells return -1 (no border drawn towards void).
 //
-// Terrain IDs: 1=Fairway  2=Green  3=Water  4=Acid  5=LightMud  6=DarkMud
+// Terrain IDs: 1=Fairway  2=Green  3=LightMud  4=DarkMud  5=Water  6=Acid
 uniform sampler2D terrain_map : filter_nearest, repeat_disable;
 uniform vec2  map_origin = vec2(-128.0, -128.0);
 uniform vec2  map_dims   = vec2(256.0, 256.0);
@@ -14,17 +14,17 @@ uniform float tile_px    = 32.0;
 // ── Fill / outline colours (1-based) ─────────────────────────────────────────
 uniform vec3 fill_1    = vec3(0.220, 0.718, 0.392);   // Fairway
 uniform vec3 fill_2    = vec3(0.655, 0.941, 0.439);   // Green
-uniform vec3 fill_3    = vec3(0.439, 0.702, 0.941);   // Water
-uniform vec3 fill_4    = vec3(0.941, 0.922, 0.439);   // Acid
-uniform vec3 fill_5    = vec3(0.706, 0.549, 0.314);   // LightMud
-uniform vec3 fill_6    = vec3(0.471, 0.353, 0.196);   // DarkMud
+uniform vec3 fill_3    = vec3(0.706, 0.549, 0.314);   // LightMud
+uniform vec3 fill_4    = vec3(0.471, 0.353, 0.196);   // DarkMud
+uniform vec3 fill_5    = vec3(0.439, 0.702, 0.941);   // Water
+uniform vec3 fill_6    = vec3(0.941, 0.922, 0.439);   // Acid
 
 uniform vec3 outline_1 = vec3(0.145, 0.443, 0.475);   // Fairway
 uniform vec3 outline_2 = vec3(0.145, 0.443, 0.475);   // Green
-uniform vec3 outline_3 = vec3(0.145, 0.318, 0.475);   // Water
-uniform vec3 outline_4 = vec3(0.475, 0.463, 0.145);   // Acid
-uniform vec3 outline_5 = vec3(0.310, 0.235, 0.118);   // LightMud
-uniform vec3 outline_6 = vec3(0.200, 0.157, 0.078);   // DarkMud
+uniform vec3 outline_3 = vec3(0.310, 0.235, 0.118);   // LightMud
+uniform vec3 outline_4 = vec3(0.200, 0.157, 0.078);   // DarkMud
+uniform vec3 outline_5 = vec3(0.145, 0.318, 0.475);   // Water
+uniform vec3 outline_6 = vec3(0.475, 0.463, 0.145);   // Acid
 
 // ── World-position varying ────────────────────────────────────────────────────
 // Passed directly as VERTEX (local/world space for a TileMapLayer at origin).
