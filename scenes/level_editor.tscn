@@ -36,5 +36,7 @@ tile_set = ExtResource("4_floor")
 [node name="WallMap" type="TileMapLayer" parent="Level" unique_id=1449792930]
 tile_set = ExtResource("5_walls")
 
+[connection signal="terrain_cleared" from="EditorUI" to="." method="_on_editor_ui_terrain_cleared"]
+[connection signal="terrain_selected" from="EditorUI" to="." method="_on_editor_ui_terrain_selected"]
 [connection signal="tile_cleared" from="EditorUI" to="." method="_on_editor_ui_tile_cleared"]
 [connection signal="tile_selected" from="EditorUI" to="." method="_on_editor_ui_tile_selected"]
