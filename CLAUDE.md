@@ -10,7 +10,35 @@ canvas_items.  2D physics runs on a separate thread; gravity is zero.
 
 ## Critical invariants — do not break these
 
-### 1. Terrain ID ordering
+### 1. Floor tile shape encoding
+
+Each floor tile's atlas row encodes its shape (`atlas_coords.y`), stored
+in the **G channel** of the terrain map alongside the terrain_id in R:
+
+| atlas row | shape_id | Name | UV condition |
+|-----------|----------|------|------|
+| 0 | 0 | rect | always inside |
+| 1 | 1 | diagonal | `UV.x + UV.y > 1` |
+| 2 | 2 | curve | `(UV.x−1)² + (UV.y−1)² < 1` |
+| 3 | 3 | curve_inv | complement of curve |
+
+Shapes 1–3 share arc endpoints at the two opposite tile corners, so they
+tile cleanly together. Godot's alternative_tile transform (TRANSPOSE /
+FLIP flags) pre-rotates the UV before the fragment shader runs — the
+shader formula works for all four orientations without any UV remapping.
+
+`_write_terrain_pixel(cell, terrain_id, shape_id)` encodes:
+- R = terrain_id / 255.0 (1–6 or 0=empty)
+- G = shape_id  / 255.0 (0–3)
+- A = 1.0 if occupied, 0.0 if empty
+
+**Never store rotation in the G channel.** The tile's alternative_tile
+already encodes it. `_rebuild_terrain_map()` reads `atlas_coords.y` for
+the shape and ignores the alternative.
+
+---
+
+### 2. Terrain ID ordering
 
 `terrain_id = source_id + 1`.  IDs are assigned in this exact order:
 

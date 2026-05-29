@@ -114,7 +114,10 @@ func _paint() -> void:
 	_last_painted_cell = pcell
 
 	if map == floor_map:
-		_set_floor(pcell, selected_source_id)
+		# Shaped tiles (atlas row > 0) respect the rotation dial; rect tiles don't.
+		var alt := _ROT_ALT[_rotation] if selected_atlas_coords.y > 0 else 0
+		floor_map.set_cell(pcell, selected_source_id, selected_atlas_coords, alt)
+		_write_terrain_pixel(pcell, selected_source_id + 1, selected_atlas_coords.y)
 		return
 
 	map.set_cell(pcell, selected_source_id, selected_atlas_coords, _ROT_ALT[_rotation])
@@ -153,18 +156,19 @@ func _erase() -> void:
 # ── Terrain map helpers ───────────────────────────────────────────────────────
 
 func _set_floor(cell: Vector2i, source_id: int) -> void:
-	floor_map.set_cell(cell, source_id, Vector2i.ZERO)
-	_write_terrain_pixel(cell, source_id + 1)
+	floor_map.set_cell(cell, source_id, Vector2i.ZERO, 0)
+	_write_terrain_pixel(cell, source_id + 1, 0)  # always rect under walls
 
 
-# Writes terrain_id into the terrain map. terrain_id 0 clears the cell
-# (alpha = 0); any other value marks it occupied (alpha = 1).
-func _write_terrain_pixel(cell: Vector2i, terrain_id: int) -> void:
+# Writes terrain_id and shape_id into the terrain map.
+# terrain_id 0 clears the cell (alpha 0); any other value marks it occupied.
+# shape_id: 0=rect 1=diagonal 2=curve 3=curve_inv — stored in G channel.
+func _write_terrain_pixel(cell: Vector2i, terrain_id: int, shape_id: int = 0) -> void:
 	var px := cell - MAP_ORIGIN
 	if px.x < 0 or px.y < 0 or px.x >= MAP_SIZE or px.y >= MAP_SIZE:
 		return
 	_terrain_image.set_pixel(px.x, px.y,
-			Color(float(terrain_id) / 255.0, 0.0, 0.0, float(terrain_id > 0)))
+			Color(float(terrain_id) / 255.0, float(shape_id) / 255.0, 0.0, float(terrain_id > 0)))
 	_terrain_dirty = true
 
 
@@ -178,7 +182,8 @@ func _rebuild_terrain_map() -> void:
 	for cell in floor_map.get_used_cells():
 		var src := floor_map.get_cell_source_id(cell)
 		if src >= 0:
-			_write_terrain_pixel(cell, src + 1)
+			var shape := floor_map.get_cell_atlas_coords(cell).y
+			_write_terrain_pixel(cell, src + 1, shape)
 	_flush_terrain()
 
 

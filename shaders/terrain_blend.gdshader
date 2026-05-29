@@ -69,6 +69,29 @@ int lookup(ivec2 cell) {
     return (s.a > 0.5 && raw > 0) ? raw : -1;
 }
 
+// ── Shape clipping ────────────────────────────────────────────────────────────
+// Tile shape is stored in the G channel of terrain_map (shape_id 0-3).
+// Rotated tiles have their UV already pre-transformed by Godot's
+// alternative_tile flags, so one formula covers all four orientations.
+//
+//   0 = rect          full tile, no clipping
+//   1 = diagonal      bottom-right triangle: UV.x + UV.y > 1
+//   2 = curve         large arc (fills ~78%) centred at bottom-right corner
+//   3 = curve_inv     small arc (fills ~22%), complement of shape 2
+//
+// Shapes 2 and 3 share the same arc boundary as shape 1 (endpoints at the
+// two opposite corners of the tile) but with a convex / concave curve.
+bool shape_inside(vec2 uv, int shape) {
+    if (shape == 0) return true;
+    if (shape == 1) return uv.x + uv.y > 1.0;
+    float dx = uv.x - 1.0;
+    float dy = uv.y - 1.0;
+    float d2 = dx * dx + dy * dy;
+    if (shape == 2) return d2 < 1.0;
+    if (shape == 3) return d2 >= 1.0;
+    return true;
+}
+
 // ── Edge blending rule ────────────────────────────────────────────────────────
 // Only the HIGHER-ID terrain draws a transition band toward its lower-ID
 // neighbour.  Fairway (ID 1) is the base terrain and never draws borders;
@@ -90,8 +113,14 @@ void fragment() {
     // The matching inverse is floor(v_world/tile + 0.5) — same as local_to_map.
     ivec2 cell = ivec2(floor(v_world / tile_px + 0.5));
 
-    int me = lookup(cell);
+    // One texture fetch for the current cell — reads terrain_id (R) and shape (G).
+    vec2 me_uv  = (vec2(cell) - map_origin + 0.5) / map_dims;
+    vec4 me_raw = texture(terrain_map, me_uv);
+    int  me     = (me_raw.a > 0.5) ? int(round(me_raw.r * 255.0)) : 0;
     if (me <= 0) { discard; }
+
+    int shape = int(round(me_raw.g * 255.0));
+    if (!shape_inside(UV, shape)) { discard; }
 
     float d_l = UV.x * tile_px;
     float d_r = (1.0 - UV.x) * tile_px;

@@ -12,36 +12,54 @@ resource_name = "Fairway"
 texture = ExtResource("t1")
 texture_region_size = Vector2i(32, 32)
 0:0/0 = 0
+0:1/0 = 0
+0:2/0 = 0
+0:3/0 = 0
 
 [sub_resource type="TileSetAtlasSource" id="src1"]
 resource_name = "Green"
 texture = ExtResource("t0")
 texture_region_size = Vector2i(32, 32)
 0:0/0 = 0
+0:1/0 = 0
+0:2/0 = 0
+0:3/0 = 0
 
 [sub_resource type="TileSetAtlasSource" id="src2"]
 resource_name = "LightMud"
 texture = ExtResource("t4")
 texture_region_size = Vector2i(32, 32)
 0:0/0 = 0
+0:1/0 = 0
+0:2/0 = 0
+0:3/0 = 0
 
 [sub_resource type="TileSetAtlasSource" id="src3"]
 resource_name = "DarkMud"
 texture = ExtResource("t5")
 texture_region_size = Vector2i(32, 32)
 0:0/0 = 0
+0:1/0 = 0
+0:2/0 = 0
+0:3/0 = 0
 
 [sub_resource type="TileSetAtlasSource" id="src4"]
 resource_name = "Water"
 texture = ExtResource("t2")
 texture_region_size = Vector2i(32, 32)
 0:0/0 = 0
+0:1/0 = 0
+0:2/0 = 0
+0:3/0 = 0
 
 [sub_resource type="TileSetAtlasSource" id="src5"]
 resource_name = "Acid"
 texture = ExtResource("t3")
 texture_region_size = Vector2i(32, 32)
 0:0/0 = 0
+0:1/0 = 0
+0:2/0 = 0
+0:3/0 = 0
 
 [resource]
 tile_size = Vector2i(32, 32)
