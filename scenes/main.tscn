@@ -16,6 +16,7 @@ grow_vertical = 2
 layout_mode = 2
 
 [node name="Physics" type="Button" parent="UI/VBoxContainer" unique_id=2030093928]
+visible = false
 layout_mode = 2
 text = "Test physics"
 

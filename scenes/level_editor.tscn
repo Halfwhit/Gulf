@@ -43,5 +43,4 @@ position = Vector2(8, 8)
 z_index = 5
 tile_set = ExtResource("6_entities")
 
-[connection signal="tile_cleared" from="EditorUI" to="." method="_on_editor_ui_tile_cleared"]
-[connection signal="tile_selected" from="EditorUI" to="." method="_on_editor_ui_tile_selected"]
+[connection signal="selection_changed" from="EditorUI" to="." method="_on_selection_changed"]

@@ -2,14 +2,26 @@ shader_type canvas_item;
 
 // ── Terrain map ───────────────────────────────────────────────────────────────
 // 256×256 RGBA8 texture, one pixel per cell.
-// r = terrain_id (1-based, 1-6). a > 0.5 means tile exists.
+// R = terrain_id (1-7), G = shape_id (0-15), B = rot|(bg<<2), A = occupied.
+// terrain_id = atlas_coords.x + 1  (column in tileset_floor.png)
+// shape_id   = atlas_coords.y      (row    in tileset_floor.png)
 // Empty / out-of-bounds cells return -1 (no border drawn towards void).
 //
-// Terrain IDs: 1=Fairway  2=Green  3=LightMud  4=DarkMud  5=Water  6=Acid
+// Terrain IDs: 1=Fairway  2=Green  3=LightMud  4=DarkMud  5=Water  6=Acid  7=Wall
+//
+// Shape IDs:
+//  0=rect         1=diagonal     2=curve        3=curve_inv
+//  4=half         5=diamond      6=circle       7=half_diag
+//  8=half_curve   9=half_cinv   10=petal       11=quarter
+// 12=opp_quarters 13=quarter_diag 14=quarter_curve 15=quarter_cinv
 uniform sampler2D terrain_map : filter_nearest, repeat_disable;
 uniform vec2  map_origin = vec2(-128.0, -128.0);
 uniform vec2  map_dims   = vec2(256.0, 256.0);
 uniform float tile_px    = 32.0;
+// World units per canvas pixel = 1/camera_zoom.  Must be kept in sync by
+// level_editor.gd so borders land on exact canvas-pixel boundaries.
+// Default 2.0 matches the editor's initial zoom of 0.5 (32-px tiles at 16 px).
+uniform float pixel_size = 2.0;
 
 // ── Fill / outline colours (1-based) ─────────────────────────────────────────
 uniform vec3 fill_1    = vec3(0.220, 0.718, 0.392);   // Fairway
@@ -18,22 +30,26 @@ uniform vec3 fill_3    = vec3(0.706, 0.549, 0.314);   // LightMud
 uniform vec3 fill_4    = vec3(0.471, 0.353, 0.196);   // DarkMud
 uniform vec3 fill_5    = vec3(0.439, 0.702, 0.941);   // Water
 uniform vec3 fill_6    = vec3(0.941, 0.922, 0.439);   // Acid
+uniform vec3 fill_7    = vec3(0.353, 0.333, 0.314);   // Wall
 
 uniform vec3 outline_1 = vec3(0.145, 0.443, 0.475);   // Fairway
-uniform vec3 outline_2 = vec3(0.145, 0.443, 0.475);   // Green
+uniform vec3 outline_2 = vec3(0.145, 0.443, 0.475);   // Green  (intentionally same as Fairway)
 uniform vec3 outline_3 = vec3(0.310, 0.235, 0.118);   // LightMud
 uniform vec3 outline_4 = vec3(0.200, 0.157, 0.078);   // DarkMud
 uniform vec3 outline_5 = vec3(0.145, 0.318, 0.475);   // Water
 uniform vec3 outline_6 = vec3(0.475, 0.463, 0.145);   // Acid
+uniform vec3 outline_7 = vec3(0.118, 0.110, 0.102);   // Wall
 
 // ── World-position varying ────────────────────────────────────────────────────
-// Passed directly as VERTEX (local/world space for a TileMapLayer at origin).
-// floor(v_world / tile_px + 0.5) gives the integer cell coord, matching
-// Godot's map_to_local() centre convention.
+// TileMapLayer batches tiles into quadrant canvas items.  Each quadrant
+// canvas item has its own local transform (offset to the quadrant's world
+// origin), so VERTEX is in quadrant-local space, NOT world space.
+// MODEL_MATRIX is the canvas item's world transform, so multiplying gives
+// the true world position needed for the terrain_map cell lookup.
 varying vec2 v_world;
 
 void vertex() {
-    v_world = VERTEX;
+    v_world = (MODEL_MATRIX * vec4(VERTEX, 0.0, 1.0)).xy;
 }
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
@@ -45,6 +61,7 @@ vec3 get_fill(int id) {
     if (id == 4) return fill_4;
     if (id == 5) return fill_5;
     if (id == 6) return fill_6;
+    if (id == 7) return fill_7;
     return fill_1;
 }
 
@@ -55,118 +72,187 @@ vec3 get_outline(int id) {
     if (id == 4) return outline_4;
     if (id == 5) return outline_5;
     if (id == 6) return outline_6;
+    if (id == 7) return outline_7;
     return outline_1;
 }
 
-// Returns terrain_id (1-6) or -1 if empty / out of bounds.
-int lookup(ivec2 cell) {
-    vec2 tc = vec2(cell) - map_origin;
-    if (tc.x < 0.0 || tc.y < 0.0 || tc.x >= map_dims.x || tc.y >= map_dims.y)
-        return -1;
-    vec2 uv = (tc + 0.5) / map_dims;
-    vec4 s = texture(terrain_map, uv);
-    int raw = int(round(s.r * 255.0));
-    return (s.a > 0.5 && raw > 0) ? raw : -1;
+// Applies tile rotation to a UV in [0,1]².
+// Must stay in sync with _rotated_uv() in editor_ui.gd.
+vec2 rotate_uv(vec2 uv, int rot) {
+    if (rot == 1) return vec2(uv.y,       1.0 - uv.x);
+    if (rot == 2) return vec2(1.0 - uv.x, 1.0 - uv.y);
+    if (rot == 3) return vec2(1.0 - uv.y, uv.x);
+    return uv;
 }
 
 // ── Shape clipping ────────────────────────────────────────────────────────────
-// Tile shape is stored in the G channel of terrain_map (shape_id 0-3).
-// Rotated tiles have their UV already pre-transformed by Godot's
-// alternative_tile flags, so one formula covers all four orientations.
+// All shapes evaluated on shape_uv (rotation-adjusted UV, [0,1] per tile).
+// Corner-arc helpers use the bottom-right corner (1,1) as origin — shapes 0-3.
+// Compound shapes clip simple shapes with axis-aligned half-planes.
 //
-//   0 = rect          full tile, no clipping
-//   1 = diagonal      bottom-right triangle: UV.x + UV.y > 1
-//   2 = curve         large arc (fills ~78%) centred at bottom-right corner
-//   3 = curve_inv     small arc (fills ~22%), complement of shape 2
-//
-// Shapes 2 and 3 share the same arc boundary as shape 1 (endpoints at the
-// two opposite corners of the tile) but with a convex / concave curve.
+//  0 rect          always
+//  1 diagonal      ux+uy > 1
+//  2 curve         (ux-1)²+(uy-1)² < 1
+//  3 curve_inv     (ux-1)²+(uy-1)² >= 1
+//  4 half          uy > 0.5
+//  5 diamond       |ux-0.5|+|uy-0.5| < 0.5
+//  6 circle        (ux-0.5)²+(uy-0.5)² < 0.25
+//  7 half_diag     diag AND half
+//  8 half_curve    curve AND half
+//  9 half_cinv     cinv AND half
+// 10 petal         all 4 corner arcs (radius 1 each) intersected
+// 11 quarter       ux>0.5 AND uy>0.5
+// 12 opp_quarters  (ux>0.5) != (uy>0.5)
+// 13 quarter_diag  diag AND quarter
+// 14 quarter_curve curve AND quarter
+// 15 quarter_cinv  cinv AND quarter
+// Must stay in sync with _shape_inside() in editor_ui.gd.
 bool shape_inside(vec2 uv, int shape) {
     if (shape == 0) return true;
-    if (shape == 1) return uv.x + uv.y > 1.0;
-    float dx = uv.x - 1.0;
-    float dy = uv.y - 1.0;
-    float d2 = dx * dx + dy * dy;
-    if (shape == 2) return d2 < 1.0;
-    if (shape == 3) return d2 >= 1.0;
+    float cx = uv.x - 1.0;
+    float cy = uv.y - 1.0;
+    float d2 = cx * cx + cy * cy;
+    if (shape == 1)  return uv.x + uv.y >= 1.0;
+    if (shape == 2)  return d2 < 1.0;
+    if (shape == 3)  return d2 >= 1.0;
+    if (shape == 4)  return uv.y > 0.5;
+    if (shape == 5)  return abs(uv.x - 0.5) + abs(uv.y - 0.5) <= 0.5;
+    float mx = uv.x - 0.5; float my = uv.y - 0.5;
+    if (shape == 6)  return mx * mx + my * my < 0.25;
+    if (shape == 7)  return uv.x + uv.y >= 1.0 && uv.y > 0.5;
+    if (shape == 8)  return d2 < 1.0 && uv.y > 0.5;
+    if (shape == 9)  return d2 >= 1.0 && uv.y > 0.5;
+    if (shape == 10) {
+        float a = uv.x * uv.x + uv.y * uv.y;
+        float b = cx * cx + uv.y * uv.y;
+        float c = uv.x * uv.x + cy * cy;
+        return a < 1.0 && b < 1.0 && c < 1.0 && d2 < 1.0;
+    }
+    if (shape == 11) return uv.x > 0.5 && uv.y > 0.5;
+    if (shape == 12) return (uv.x > 0.5) != (uv.y > 0.5);
+    if (shape == 13) return uv.x + uv.y >= 1.0 && uv.x > 0.5 && uv.y > 0.5;
+    if (shape == 14) return d2 < 1.0 && uv.x > 0.5 && uv.y > 0.5;
+    if (shape == 15) return d2 >= 1.0 && uv.x > 0.5 && uv.y > 0.5;
     return true;
 }
 
-// ── Edge blending rule ────────────────────────────────────────────────────────
-// Only the HIGHER-ID terrain draws a transition band toward its lower-ID
-// neighbour.  Fairway (ID 1) is the base terrain and never draws borders;
-// all other terrains draw their border on themselves.
-//
-//   void  (id = -1) → never draws, never receives a band
-//   me > nb          → draw nb's fill (1 px) + my outline (1 px) near that edge
-//   me <= nb         → nothing (the other tile handles it, or same terrain)
-void blend_edge(inout vec3 col, float d, int nb, int me, vec3 my_outline) {
-    if (nb < 0 || nb >= me || d >= 2.0) return;
-    col = (d < 1.0) ? get_fill(nb) : my_outline;
+// Returns the raw fg terrain ID of cell c (ignores shape / bg).
+int cell_raw(ivec2 c) {
+    vec2 tc = vec2(c) - map_origin;
+    if (tc.x < 0.0 || tc.y < 0.0 || tc.x >= map_dims.x || tc.y >= map_dims.y) return -1;
+    vec4 s = texture(terrain_map, (tc + 0.5) / map_dims);
+    if (s.a <= 0.5) return -1;
+    return int(round(s.r * 255.0));
+}
+
+// ── Neighbour lookup ──────────────────────────────────────────────────────────
+// Returns the VISUAL terrain at position edge_uv of cell c.
+// For rect cells this is simply the fg terrain.  For shaped cells it returns fg
+// or bg depending on whether edge_uv lands inside the fill or void region,
+// accounting for the cell's rotation.  Returns -1 for empty / out-of-bounds.
+int edge_terrain(ivec2 c, vec2 edge_uv) {
+    vec2 tc = vec2(c) - map_origin;
+    if (tc.x < 0.0 || tc.y < 0.0 || tc.x >= map_dims.x || tc.y >= map_dims.y)
+        return -1;
+    vec4 s = texture(terrain_map, (tc + 0.5) / map_dims);
+    if (s.a <= 0.5) return -1;
+    int raw   = int(round(s.r * 255.0));
+    int shape = int(round(s.g * 255.0));
+    if (shape == 0) return raw;
+    int b_raw = int(round(s.b * 255.0));
+    int bg    = b_raw >> 2;
+    if (bg == raw) return raw;   // same fg/bg, no boundary
+    int rot   = b_raw & 3;
+    return shape_inside(rotate_uv(edge_uv, rot), shape) ? raw : (bg > 0 ? bg : -1);
 }
 
 // ── Fragment ──────────────────────────────────────────────────────────────────
 
 void fragment() {
-    // Godot 4 TileMapLayer: map_to_local returns the CENTRE of each cell,
-    // so cell (cx,cy) spans (cx*tile-half, cy*tile-half) to (cx*tile+half, ...).
-    // The matching inverse is floor(v_world/tile + 0.5) — same as local_to_map.
-    ivec2 cell = ivec2(floor(v_world / tile_px + 0.5));
+    vec2  cell_f  = v_world / tile_px;
+    ivec2 cell    = ivec2(floor(cell_f));
+    vec2  tile_uv = fract(cell_f);
 
-    // One texture fetch for the current cell — reads terrain_id (R) and shape (G).
-    vec2 me_uv  = (vec2(cell) - map_origin + 0.5) / map_dims;
-    vec4 me_raw = texture(terrain_map, me_uv);
-    int  me     = (me_raw.a > 0.5) ? int(round(me_raw.r * 255.0)) : 0;
+    vec2  me_uv  = (vec2(cell) - map_origin + 0.5) / map_dims;
+    vec4  me_raw = texture(terrain_map, me_uv);
+    int   me     = (me_raw.a > 0.5) ? int(round(me_raw.r * 255.0)) : 0;
     if (me <= 0) { discard; }
 
     int shape = int(round(me_raw.g * 255.0));
-    if (!shape_inside(UV, shape)) { discard; }
+    int b_raw = int(round(me_raw.b * 255.0));
+    int rot   = b_raw & 3;
+    int bg_me = b_raw >> 2;
+    if (bg_me == me) shape = 0;  // same fg/bg → no internal boundary
 
-    float d_l = UV.x * tile_px;
-    float d_r = (1.0 - UV.x) * tile_px;
-    float d_t = UV.y * tile_px;
-    float d_b = (1.0 - UV.y) * tile_px;
+    vec2 shape_uv = rotate_uv(tile_uv, rot);
 
-    int n_l  = lookup(cell + ivec2(-1,  0));
-    int n_r  = lookup(cell + ivec2( 1,  0));
-    int n_t  = lookup(cell + ivec2( 0, -1));
-    int n_b  = lookup(cell + ivec2( 0,  1));
-    int n_tl = lookup(cell + ivec2(-1, -1));
-    int n_tr = lookup(cell + ivec2( 1, -1));
-    int n_bl = lookup(cell + ivec2(-1,  1));
-    int n_br = lookup(cell + ivec2( 1,  1));
+    // Border width in world units: fixed fraction of tile size so it scales
+    // proportionally as you zoom in.  tile_px/16 = 2 wu = 1/16 of a 32-px tile.
+    // The max() keeps at least 1 canvas pixel at very small zoom levels.
+    float bw = max(tile_px / 16.0, pixel_size);
 
-    vec3 my_outline = get_outline(me);
-    vec3 col        = get_fill(me);
+    // Snap shape_uv to its canvas-pixel centre before the fill/void test.
+    // All fragments in the same canvas pixel then agree on fill vs void,
+    // so boundary pixels are fully filled rather than cut at the shape edge.
+    float ps  = bw / tile_px;
+    vec2  sn  = (floor(shape_uv / ps) + 0.5) * ps;
+    bool is_fill = shape_inside(sn, shape);
 
-    // ── Cardinal edges ────────────────────────────────────────────────────────
-    // Apply all four in order; then re-apply the closest eligible edge so it
-    // wins at pixels where two edges overlap (e.g. corner pixels).
-    blend_edge(col, d_r, n_r, me, my_outline);
-    blend_edge(col, d_l, n_l, me, my_outline);
-    blend_edge(col, d_b, n_b, me, my_outline);
-    blend_edge(col, d_t, n_t, me, my_outline);
+    // Cache per-fragment colour lookups used in multiple branches.
+    vec3 fill_me    = get_fill(me);
+    vec3 outline_me = get_outline(me);
 
-    float min_d  = 999.0;
-    int   min_nb = -1;
-    if (n_r >= 1 && n_r < me && d_r < min_d) { min_d = d_r; min_nb = n_r; }
-    if (n_l >= 1 && n_l < me && d_l < min_d) { min_d = d_l; min_nb = n_l; }
-    if (n_b >= 1 && n_b < me && d_b < min_d) { min_d = d_b; min_nb = n_b; }
-    if (n_t >= 1 && n_t < me && d_t < min_d) { min_d = d_t; min_nb = n_t; }
-    if (min_nb >= 1) blend_edge(col, min_d, min_nb, me, my_outline);
+    // Distances to each cell edge in world units — used for border width tests.
+    float d_l = tile_uv.x         * tile_px;
+    float d_r = (1.0 - tile_uv.x) * tile_px;
+    float d_t = tile_uv.y         * tile_px;
+    float d_b = (1.0 - tile_uv.y) * tile_px;
 
-    // ── Diagonal corners ──────────────────────────────────────────────────────
-    // Fill the 1×1 corner pixel only when BOTH adjacent cardinals are also
-    // drawing (both are lower-ID tiles).  This completes the outline at true
-    // convex corners and prevents isolated corner pixels in all other cases.
-    if (d_r < 1.0 && d_t < 1.0 && n_tr >= 1 && n_tr < me
-            && (n_r >= 1 && n_r < me) && (n_t >= 1 && n_t < me)) col = get_fill(n_tr);
-    if (d_l < 1.0 && d_t < 1.0 && n_tl >= 1 && n_tl < me
-            && (n_l >= 1 && n_l < me) && (n_t >= 1 && n_t < me)) col = get_fill(n_tl);
-    if (d_r < 1.0 && d_b < 1.0 && n_br >= 1 && n_br < me
-            && (n_r >= 1 && n_r < me) && (n_b >= 1 && n_b < me)) col = get_fill(n_br);
-    if (d_l < 1.0 && d_b < 1.0 && n_bl >= 1 && n_bl < me
-            && (n_l >= 1 && n_l < me) && (n_b >= 1 && n_b < me)) col = get_fill(n_bl);
+    int my_terrain = is_fill ? me : (bg_me > 0 ? bg_me : -1);
+
+    // Sample each neighbour half a canvas-pixel inward from the shared edge so
+    // the lookup lands on the rendered pixel centre, not the mathematical boundary.
+    // This prevents circles (whose arc touches x=0/1 at y=0.5) from returning
+    // "void" when the actual snapped pixel is clearly inside the fill region.
+    // Guards skip the texture fetch entirely for fragments far from each edge.
+    float hps = ps * 0.5;
+    int n_l = (d_l < bw) ? edge_terrain(cell + ivec2(-1,  0), vec2(1.0 - hps, tile_uv.y)) : -1;
+    int n_r = (d_r < bw) ? edge_terrain(cell + ivec2( 1,  0), vec2(hps,        tile_uv.y)) : -1;
+    int n_t = (d_t < bw) ? edge_terrain(cell + ivec2( 0, -1), vec2(tile_uv.x,  1.0 - hps)) : -1;
+    int n_b = (d_b < bw) ? edge_terrain(cell + ivec2( 0,  1), vec2(tile_uv.x,  hps      )) : -1;
+
+    // ── Pixel colour ──────────────────────────────────────────────────────────
+    vec3 col;
+    if (is_fill) {
+        col = fill_me;
+        // Shape boundary outline drawn from the fill side: a fill canvas pixel that
+        // has a void neighbour within the same tile is at the shape edge → outline.
+        // Drawing only from the fill side means each boundary position is covered
+        // exactly once, eliminating double outlines when two same-type tiles meet.
+        // Cross-tile neighbours (sn ± ps outside [0,1]) are skipped; the cell-edge
+        // border below handles those transitions.
+        if (shape != 0 && bg_me > 0) {
+            bool near_void =
+                (sn.x + ps <= 1.0 && !shape_inside(sn + vec2(ps,  0.0), shape)) ||
+                (sn.x - ps >= 0.0 && !shape_inside(sn - vec2(ps,  0.0), shape)) ||
+                (sn.y + ps <= 1.0 && !shape_inside(sn + vec2(0.0,  ps), shape)) ||
+                (sn.y - ps >= 0.0 && !shape_inside(sn - vec2(0.0,  ps), shape));
+            if (near_void) col = outline_me;
+        }
+    } else if (bg_me > 0) {
+        col = get_fill(bg_me);
+    } else {
+        discard;
+    }
+
+    // ── Cell-edge border (runs last — overrides shape boundary outline) ───────
+    if (my_terrain >= 0) {
+        vec3 ol = get_outline(my_terrain);
+        if (n_l >= 0 && n_l < my_terrain && d_l < bw && cell_raw(cell + ivec2(-1,  0)) != me) col = ol;
+        if (n_r >= 0 && n_r < my_terrain && d_r < bw && cell_raw(cell + ivec2( 1,  0)) != me) col = ol;
+        if (n_t >= 0 && n_t < my_terrain && d_t < bw && cell_raw(cell + ivec2( 0, -1)) != me) col = ol;
+        if (n_b >= 0 && n_b < my_terrain && d_b < bw && cell_raw(cell + ivec2( 0,  1)) != me) col = ol;
+    }
 
     COLOR = vec4(col, 1.0);
 }
